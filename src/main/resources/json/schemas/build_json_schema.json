@@ -1,0 +1,21 @@
+{
+    "type" : "object",
+    "properties" : {
+        "message" : {
+            "type" : "string",
+            "maxLength" : 40
+        },
+        "status" : {
+            "type" : "string",
+            "enum": [ "IN_PROGRESS" , "PASSED", "FAILED" ]
+        },
+        "number" : {
+            "type" : "integer"
+        },
+        "stage" : {
+            "type" : "string",
+            "enum": [ "BUILD", "DEVELOP", "AUTO_QA", "MANUAL_QA", "UAT, PROD" ]
+        }
+    },
+    "required": ["message", "status", "number", "stage"]
+}
