@@ -20,6 +20,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author samirarabbanian
@@ -42,7 +43,7 @@ public class RestAPIHandler extends SimpleChannelInboundHandler<FullHttpRequest>
             ProcessingReport validationReport = jsonValidator.validate(buildSchema, objectMapper.readTree(jsonRequest));
             if (validationReport.isSuccess()) {
                 Build build = objectMapper.readValue(jsonRequest, Build.class);
-                build.setId(1);
+                build.setId(UUID.randomUUID());
                 BuildManager.database.put(build.getId(), build);
                 responseBody = objectMapper.writeValueAsString(build);
                 responseStatus = HttpResponseStatus.ACCEPTED;
@@ -57,7 +58,7 @@ public class RestAPIHandler extends SimpleChannelInboundHandler<FullHttpRequest>
         } else if (httpMethod == HttpMethod.GET) {
             QueryStringDecoder queryStringDecoder = new QueryStringDecoder(httpRequest.getUri());
             try {
-                Integer buildId = Integer.parseInt(StringUtils.substringAfter(queryStringDecoder.path(), "/buildManager/build/"));
+                UUID buildId = UUID.fromString(StringUtils.substringAfter(queryStringDecoder.path(), "/buildManager/build/"));
                 Build retrievedBuild = BuildManager.database.get(buildId);
                 if (retrievedBuild != null) {
                     responseBody = objectMapper.writeValueAsString(retrievedBuild);
@@ -65,14 +66,14 @@ public class RestAPIHandler extends SimpleChannelInboundHandler<FullHttpRequest>
                 } else {
                     responseStatus = HttpResponseStatus.NOT_FOUND;
                 }
-            } catch (NumberFormatException nfe) {
-                responseBody = objectMapper.writeValueAsString(Arrays.asList("Invalid id " + nfe.getMessage()));
+            } catch (IllegalArgumentException iae) {
+                responseBody = objectMapper.writeValueAsString(Arrays.asList(iae.getMessage()));
                 responseStatus = HttpResponseStatus.BAD_REQUEST;
             }
         } else if (httpMethod == HttpMethod.DELETE) {
             QueryStringDecoder queryStringDecoder = new QueryStringDecoder(httpRequest.getUri());
             try {
-                Integer buildId = Integer.parseInt(StringUtils.substringAfter(queryStringDecoder.path(), "/buildManager/build/"));
+                UUID buildId = UUID.fromString(StringUtils.substringAfter(queryStringDecoder.path(), "/buildManager/build/"));
                 Build retrievedBuild = BuildManager.database.get(buildId);
                 if (retrievedBuild != null) {
                     BuildManager.database.remove(buildId);
@@ -80,8 +81,8 @@ public class RestAPIHandler extends SimpleChannelInboundHandler<FullHttpRequest>
                 } else {
                     responseStatus = HttpResponseStatus.NOT_FOUND;
                 }
-            } catch (NumberFormatException nfe) {
-                responseBody = objectMapper.writeValueAsString(Arrays.asList("Invalid id " + nfe.getMessage()));
+            } catch (IllegalArgumentException iae) {
+                responseBody = objectMapper.writeValueAsString(Arrays.asList(iae.getMessage()));
                 responseStatus = HttpResponseStatus.BAD_REQUEST;
             }
         } else {

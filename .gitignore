@@ -21,6 +21,11 @@
 ########
 *.log
 
+# MapDB #
+#########
+*.db
+*.db.*
+
 # OS generated files #
 ######################
 .DS_Store

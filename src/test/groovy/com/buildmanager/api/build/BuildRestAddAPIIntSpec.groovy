@@ -1,6 +1,8 @@
 package com.buildmanager.api.build
 
+import com.buildmanager.api.build.domain.Build
 import com.buildmanager.api.build.server.BuildManager
+import groovy.json.JsonSlurper
 import io.netty.handler.codec.http.HttpResponseStatus
 import spock.lang.Specification
 
@@ -35,13 +37,12 @@ class BuildRestAddAPIIntSpec extends Specification {
 
         then:
             response.status == HttpResponseStatus.ACCEPTED.code()
-            response.body == "{" +
-                    "\"id\":1," +
-                    "\"number\":1," +
-                    "\"status\":\"PASSED\"," +
-                    "\"message\":\"build completed\"," +
-                    "\"stage\":\"BUILD\"" +
-                    "}"
+            Map build = new JsonSlurper().parseText(response.body) as Map
+            build.id
+            build.number == 1
+            build.status == "PASSED"
+            build.message == "build completed"
+            build.stage == "BUILD"
     }
 
     void 'should validate adding new build'() {

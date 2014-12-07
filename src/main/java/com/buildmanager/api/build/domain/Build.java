@@ -1,20 +1,22 @@
 package com.buildmanager.api.build.domain;
 
+import java.util.UUID;
+
 /**
  * @author samirarabbanian
  */
-public class Build {
-    private Integer id;
+public class Build extends ObjectWithReflectiveEqualsHashCodeToString {
+    private UUID id;
     private Integer number;
-    private String status;
+    private BuildStatus status;
     private String message;
     private String stage;
 
-    public Integer getId() {
+    public UUID getId() {
         return id;
     }
 
-    public Build setId(Integer id) {
+    public Build setId(UUID id) {
         this.id = id;
         return this;
     }
@@ -28,11 +30,11 @@ public class Build {
         return this;
     }
 
-    public String getStatus() {
+    public BuildStatus getStatus() {
         return status;
     }
 
-    public Build setStatus(String status) {
+    public Build setStatus(BuildStatus status) {
         this.status = status;
         return this;
     }

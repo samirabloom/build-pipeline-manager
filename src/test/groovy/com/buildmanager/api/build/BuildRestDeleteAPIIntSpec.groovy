@@ -1,6 +1,7 @@
 package com.buildmanager.api.build
 
 import com.buildmanager.api.build.domain.Build
+import com.buildmanager.api.build.domain.BuildStatus
 import com.buildmanager.api.build.server.BuildManager
 import io.netty.handler.codec.http.HttpResponseStatus
 import spock.lang.Specification
@@ -23,19 +24,20 @@ class BuildRestDeleteAPIIntSpec extends Specification {
     void 'should delete build'() {
         given:
             RestClient client = new RestClient("localhost", port)
+            UUID uuid = UUID.randomUUID()
 
         and:
-            BuildManager.database.put(1,
+            BuildManager.database.put(uuid,
                     new Build()
-                            .setId(1)
+                            .setId(uuid)
                             .setNumber(1)
-                            .setStatus("PASSED")
+                            .setStatus(BuildStatus.PASSED)
                             .setStage("BUILD")
                             .setMessage("build completed")
             )
 
         when:
-            ClientResponse response = client.sendRequest("DELETE", "/buildManager/build/1", "")
+            ClientResponse response = client.sendRequest("DELETE", "/buildManager/build/" + uuid, "")
 
         then:
             response.status == HttpResponseStatus.OK.code()
@@ -48,7 +50,7 @@ class BuildRestDeleteAPIIntSpec extends Specification {
             RestClient client = new RestClient("localhost", port)
 
         when:
-            ClientResponse response = client.sendRequest("DELETE", "/buildManager/build/666", "")
+            ClientResponse response = client.sendRequest("DELETE", "/buildManager/build/" + UUID.randomUUID(), "")
 
         then:
             response.status == HttpResponseStatus.NOT_FOUND.code()

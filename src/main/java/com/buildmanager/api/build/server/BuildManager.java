@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
@@ -21,10 +22,10 @@ public class BuildManager {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final EventLoopGroup group = new NioEventLoopGroup();
-    public static Map<Integer, Build> database;
+    public static Map<UUID, Build> database;
 
     public BuildManager(final int port) {
-        database = new ConcurrentHashMap<Integer, Build>();
+        database = new ConcurrentHashMap<>();
         logger.debug("Starting server on port: " + port);
 
         new Thread(new Runnable() {

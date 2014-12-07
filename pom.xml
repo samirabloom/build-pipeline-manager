@@ -79,6 +79,13 @@
             <version>2.2.6</version>
         </dependency>
 
+        <!-- persistence -->
+        <dependency>
+            <groupId>org.mapdb</groupId>
+            <artifactId>mapdb</artifactId>
+            <version>1.0.6</version>
+        </dependency>
+
 
         <!-- Groovy and spock -->
         <dependency>
