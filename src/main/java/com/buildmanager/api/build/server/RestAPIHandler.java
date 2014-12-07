@@ -17,6 +17,8 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.*;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,11 +28,17 @@ import java.util.UUID;
 /**
  * @author samirarabbanian
  */
-
+@Component
 @ChannelHandler.Sharable
 public class RestAPIHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
     private final ObjectMapper objectMapper = ObjectMapperFactory.createObjectMapper();
-    private final BuildRepository buildRepository = new BuildRepository();
+
+    private final BuildRepository buildRepository;
+
+    @Autowired
+    public RestAPIHandler(BuildRepository buildRepository) {
+        this.buildRepository = buildRepository;
+    }
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, FullHttpRequest httpRequest) throws Exception {

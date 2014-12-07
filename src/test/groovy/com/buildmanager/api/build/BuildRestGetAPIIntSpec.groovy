@@ -12,11 +12,14 @@ import spock.lang.Specification
  * @author samirarabbanian
  */
 class BuildRestGetAPIIntSpec extends Specification {
-    static int port = 9090
     static BuildManager buildManager
+    static RestClient client
 
     void setupSpec() {
+        int port = 9090
+
         buildManager = new BuildManager(port)
+        client = new RestClient("localhost", port)
     }
 
     void cleanupSpec() {
@@ -25,36 +28,32 @@ class BuildRestGetAPIIntSpec extends Specification {
 
     void 'should return a build'() {
         given:
-            RestClient client = new RestClient("localhost", port)
-            UUID uuid = UUID.randomUUID()
+            String body = "{" +
+                    "number: 1, " +
+                    "status: \"PASSED\", " +
+                    "message: \"build completed\", " +
+                    "stage: \"BUILD\"" +
+                    "}"
 
         and:
-            new BuildRepository().save(
-                    new Build()
-                            .setId(uuid)
-                            .setNumber(1)
-                            .setStatus(BuildStatus.PASSED)
-                            .setStage("BUILD")
-                            .setMessage("build completed")
-            )
+            ClientResponse saveResponse = client.sendRequest("PUT", "/buildManager/build", body)
+            Map savedBuild = new JsonSlurper().parseText(saveResponse.body) as Map
+            UUID uuid = UUID.fromString(savedBuild.id)
 
         when:
-            ClientResponse response = client.sendRequest("GET", "/buildManager/build/" + uuid, "")
+            ClientResponse loadResponse = client.sendRequest("GET", "/buildManager/build/" + uuid, "")
 
         then:
-            response.status == HttpResponseStatus.OK.code()
-            Map build = new JsonSlurper().parseText(response.body) as Map
-            build.id == uuid.toString()
-            build.number == 1
-            build.status == "PASSED"
-            build.message == "build completed"
-            build.stage == "BUILD"
+            loadResponse.status == HttpResponseStatus.OK.code()
+            Map loadedBuild = new JsonSlurper().parseText(loadResponse.body) as Map
+            loadedBuild.id == uuid.toString()
+            loadedBuild.number == 1
+            loadedBuild.status == "PASSED"
+            loadedBuild.message == "build completed"
+            loadedBuild.stage == "BUILD"
     }
 
     void 'should return empty response if build does not exist' () {
-        given:
-            RestClient client = new RestClient("localhost", port)
-
         when:
             ClientResponse response = client.sendRequest("GET", "/buildManager/build/" + UUID.randomUUID(), "")
 
@@ -64,9 +63,6 @@ class BuildRestGetAPIIntSpec extends Specification {
     }
 
     void 'should return invalid Id response if build Id is not Integer' () {
-        given:
-            RestClient client = new RestClient("localhost", port)
-
         when:
             ClientResponse response = client.sendRequest("GET", "/buildManager/build/a", "")
 
@@ -74,7 +70,5 @@ class BuildRestGetAPIIntSpec extends Specification {
             response.status == HttpResponseStatus.BAD_REQUEST.code()
             response.body == "[\"Invalid UUID string: a\"]";
     }
-
-
 
 }

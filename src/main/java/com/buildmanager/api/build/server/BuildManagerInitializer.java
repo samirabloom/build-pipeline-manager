@@ -6,15 +6,18 @@ import io.netty.handler.codec.http.HttpContentCompressor;
 import io.netty.handler.codec.http.HttpContentDecompressor;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
 
 /**
  * @author samirarabbanian
  */
+@Component
 public class BuildManagerInitializer extends ChannelInitializer<SocketChannel> {
 
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    @Resource
+    private RestAPIHandler restAPIHandler;
 
     @Override
     protected void initChannel(SocketChannel channel) throws Exception {
@@ -27,7 +30,7 @@ public class BuildManagerInitializer extends ChannelInitializer<SocketChannel> {
                 .addLast(new HttpContentCompressor())
                 .addLast(new HttpObjectAggregator(Integer.MAX_VALUE))
                 .addLast(new LoggingHandler("<= HTTP-FULL"))
-                .addLast(new RestAPIHandler());
+                .addLast(restAPIHandler);
 
     }
 }

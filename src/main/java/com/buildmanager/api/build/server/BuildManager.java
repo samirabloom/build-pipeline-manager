@@ -1,18 +1,19 @@
 package com.buildmanager.api.build.server;
 
-import com.buildmanager.api.build.domain.Build;
+import com.buildmanager.api.build.configuration.RestAPIConfiguration;
+import com.google.common.util.concurrent.SettableFuture;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.PooledByteBufAllocator;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -21,38 +22,50 @@ import java.util.concurrent.TimeUnit;
 public class BuildManager {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     private final EventLoopGroup group = new NioEventLoopGroup();
 
     public BuildManager(final int port) {
-        logger.debug("Starting server on port: " + port);
+
+        final SettableFuture<String> hasStarted = SettableFuture.create();
 
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
+                    logger.debug("Starting server on port: " + port);
+
+                    ApplicationContext context = new AnnotationConfigApplicationContext(RestAPIConfiguration.class);
 
                     // make the connection attempt
-                    new ServerBootstrap()
+                    Channel channel = new ServerBootstrap()
                             .option(ChannelOption.SO_BACKLOG, 1024)
                             .childOption(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT)
                             .group(group)
                             .channel(NioServerSocketChannel.class)
-                            .childHandler(new BuildManagerInitializer())
+                            .childHandler(context.getBean(BuildManagerInitializer.class))
                             .bind(port)
                             .sync()
-                            .channel()
-                            .closeFuture()
-                            .sync();
+                            .channel();
 
+                    hasStarted.set("STARTED");
 
+                    channel.closeFuture().sync();
                 } catch (Exception e) {
-                    throw new RuntimeException("Exception while sending request", e);
+                    hasStarted.setException(e);
                 } finally {
                     // shut down executor threads to exit
                     group.shutdownGracefully(2, 15, TimeUnit.MILLISECONDS);
                 }
             }
         }).start();
+
+        try {
+            // wait for proxy to start all channels
+            hasStarted.get();
+        } catch (Exception e) {
+            logger.debug("Exception starting BuildManager", e);
+        }
     }
 
     public void stop() {

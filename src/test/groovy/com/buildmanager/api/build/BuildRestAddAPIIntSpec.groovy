@@ -1,6 +1,5 @@
 package com.buildmanager.api.build
 
-import com.buildmanager.api.build.domain.Build
 import com.buildmanager.api.build.server.BuildManager
 import groovy.json.JsonSlurper
 import io.netty.handler.codec.http.HttpResponseStatus
@@ -10,11 +9,14 @@ import spock.lang.Specification
  * @author samirarabbanian
  */
 class BuildRestAddAPIIntSpec extends Specification {
-    static int port = 9090
     static BuildManager buildManager
+    static RestClient client
 
     void setupSpec() {
+        int port = 9090
+
         buildManager = new BuildManager(port)
+        client = new RestClient("localhost", port)
     }
 
     void cleanupSpec() {
@@ -23,8 +25,6 @@ class BuildRestAddAPIIntSpec extends Specification {
 
     void 'should add new build'() {
         given:
-            RestClient client = new RestClient("localhost", port)
-        and:
             String body = "{" +
                     "number: 1, " +
                     "status: \"IN_PROGRESS\", " +
@@ -47,8 +47,6 @@ class BuildRestAddAPIIntSpec extends Specification {
 
     void 'should validate adding new build'() {
         given:
-            RestClient client = new RestClient("localhost", port)
-        and:
             String body = "{" +
                     "number: \"a\", " +
                     "status: \"IN_PROGRESS\", " +
@@ -67,8 +65,6 @@ class BuildRestAddAPIIntSpec extends Specification {
 
     void 'should validate build status'() {
         given:
-            RestClient client = new RestClient("localhost", port)
-        and:
             String body = "{" +
                     "number: \"a\", " +
                     "status: \"NOT VALID\", " +
@@ -88,8 +84,6 @@ class BuildRestAddAPIIntSpec extends Specification {
 
     void 'should validate build message length'() {
         given:
-            RestClient client = new RestClient("localhost", port)
-        and:
             String body = "{" +
                     "number: 1 , " +
                     "status: \"IN_PROGRESS\", " +
@@ -107,8 +101,6 @@ class BuildRestAddAPIIntSpec extends Specification {
 
     void 'should validate build stage'() {
         given:
-            RestClient client = new RestClient("localhost", port)
-        and:
             String body = "{" +
                     "number: 1, " +
                     "status: \"IN_PROGRESS\", " +
@@ -126,8 +118,6 @@ class BuildRestAddAPIIntSpec extends Specification {
 
     void 'should validate adding new build with 2 missing properties'() {
         given:
-            RestClient client = new RestClient("localhost", port)
-        and:
             String body = "{" +
                     "number: 1, " +
                     "stage: \"BUILD\"" +
@@ -144,8 +134,6 @@ class BuildRestAddAPIIntSpec extends Specification {
 
     void 'should validate adding new build with 2 in valid properties'() {
         given:
-            RestClient client = new RestClient("localhost", port)
-        and:
             String body = "{" +
                     "number: \"a\", " +
                     "status: \"IN VALID\", " +
