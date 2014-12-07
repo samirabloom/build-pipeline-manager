@@ -7,7 +7,7 @@ import spock.lang.Specification
 /**
  * @author samirarabbanian
  */
-class BuildRestUpdateAPISpec extends Specification {
+class BuildRestUpdateAPIIntSpec extends Specification {
     static int port = 9090
     static BuildManager buildManager
 
