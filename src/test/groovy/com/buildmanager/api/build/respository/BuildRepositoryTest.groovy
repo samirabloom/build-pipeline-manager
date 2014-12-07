@@ -20,9 +20,29 @@ class BuildRepositoryTest extends Specification {
                     .setStatus(BuildStatus.IN_PROGRESS);
 
         when:
-            buildRepository.saveBuild(build);
+            buildRepository.save(build);
 
         then:
-            buildRepository.loadBuild(build.id) == build
+            buildRepository.load(build.id) == build
+    }
+
+    void 'should delete build'() {
+        given:
+            BuildRepository buildRepository = new BuildRepository();
+            Build build = new Build()
+                    .setId(UUID.randomUUID())
+                    .setNumber(123)
+                    .setMessage("a message")
+                    .setStage("UAT")
+                    .setStatus(BuildStatus.IN_PROGRESS);
+
+        and:
+            buildRepository.save(build);
+
+        when:
+            buildRepository.delete(build.id);
+
+        then:
+            !buildRepository.load(build.id)
     }
 }

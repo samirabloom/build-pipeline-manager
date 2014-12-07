@@ -2,6 +2,7 @@ package com.buildmanager.api.build
 
 import com.buildmanager.api.build.domain.Build
 import com.buildmanager.api.build.domain.BuildStatus
+import com.buildmanager.api.build.respository.BuildRepository
 import com.buildmanager.api.build.server.BuildManager
 import io.netty.handler.codec.http.HttpResponseStatus
 import spock.lang.Specification
@@ -27,7 +28,7 @@ class BuildRestGetAPIIntSpec extends Specification {
             UUID uuid = UUID.randomUUID()
 
         and:
-            BuildManager.database.put(uuid,
+            new BuildRepository().save(
                     new Build()
                             .setId(uuid)
                             .setNumber(1)

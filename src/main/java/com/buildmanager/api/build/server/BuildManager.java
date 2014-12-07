@@ -22,10 +22,8 @@ public class BuildManager {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final EventLoopGroup group = new NioEventLoopGroup();
-    public static Map<UUID, Build> database;
 
     public BuildManager(final int port) {
-        database = new ConcurrentHashMap<>();
         logger.debug("Starting server on port: " + port);
 
         new Thread(new Runnable() {

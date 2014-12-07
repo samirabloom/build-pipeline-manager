@@ -1,6 +1,7 @@
 package com.buildmanager.api.build.server;
 
 import com.buildmanager.api.build.domain.Build;
+import com.buildmanager.api.build.respository.BuildRepository;
 import com.buildmanager.json.ObjectMapperFactory;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,6 +30,7 @@ import java.util.UUID;
 @ChannelHandler.Sharable
 public class RestAPIHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
     private final ObjectMapper objectMapper = ObjectMapperFactory.createObjectMapper();
+    private final BuildRepository buildRepository = new BuildRepository();
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, FullHttpRequest httpRequest) throws Exception {
@@ -44,7 +46,7 @@ public class RestAPIHandler extends SimpleChannelInboundHandler<FullHttpRequest>
             if (validationReport.isSuccess()) {
                 Build build = objectMapper.readValue(jsonRequest, Build.class);
                 build.setId(UUID.randomUUID());
-                BuildManager.database.put(build.getId(), build);
+                buildRepository.save(build);
                 responseBody = objectMapper.writeValueAsString(build);
                 responseStatus = HttpResponseStatus.ACCEPTED;
             } else {
@@ -59,7 +61,7 @@ public class RestAPIHandler extends SimpleChannelInboundHandler<FullHttpRequest>
             QueryStringDecoder queryStringDecoder = new QueryStringDecoder(httpRequest.getUri());
             try {
                 UUID buildId = UUID.fromString(StringUtils.substringAfter(queryStringDecoder.path(), "/buildManager/build/"));
-                Build retrievedBuild = BuildManager.database.get(buildId);
+                Build retrievedBuild = buildRepository.load(buildId);
                 if (retrievedBuild != null) {
                     responseBody = objectMapper.writeValueAsString(retrievedBuild);
                     responseStatus = HttpResponseStatus.OK;
@@ -74,9 +76,9 @@ public class RestAPIHandler extends SimpleChannelInboundHandler<FullHttpRequest>
             QueryStringDecoder queryStringDecoder = new QueryStringDecoder(httpRequest.getUri());
             try {
                 UUID buildId = UUID.fromString(StringUtils.substringAfter(queryStringDecoder.path(), "/buildManager/build/"));
-                Build retrievedBuild = BuildManager.database.get(buildId);
+                Build retrievedBuild = buildRepository.load(buildId);
                 if (retrievedBuild != null) {
-                    BuildManager.database.remove(buildId);
+                    buildRepository.delete(buildId);
                     responseStatus = HttpResponseStatus.OK;
                 } else {
                     responseStatus = HttpResponseStatus.NOT_FOUND;

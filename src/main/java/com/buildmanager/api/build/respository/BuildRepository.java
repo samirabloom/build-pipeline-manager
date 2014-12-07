@@ -4,6 +4,7 @@ import com.buildmanager.api.build.domain.Build;
 import com.buildmanager.json.ObjectMapperFactory;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Strings;
 import org.mapdb.DB;
 import org.mapdb.DBMaker;
 
@@ -26,21 +27,33 @@ public class BuildRepository {
 
     // db.close();
 
-    public void saveBuild(Build build) {
-        try {
-            map.put(build.getId(), objectMapper.writeValueAsString(build));
-            db.commit(); // persist to disk
-        } catch (JsonProcessingException jpe) {
-            db.rollback(); // revert recent changes
+    public void save(Build build) {
+        if (build != null) {
+            try {
+                map.put(build.getId(), objectMapper.writeValueAsString(build));
+                db.commit(); // persist to disk
+            } catch (JsonProcessingException jpe) {
+                db.rollback(); // revert recent changes
+            }
         }
     }
 
-    public Build loadBuild(UUID id) {
-        String buildJson = map.get(id);
-        try {
-            return objectMapper.readValue(buildJson, Build.class);
-        } catch (IOException jpe) {
-            return null;
+    public Build load(UUID id) {
+        if (id != null) {
+            String buildJson = map.get(id);
+            if (!Strings.isNullOrEmpty(buildJson)) {
+                try {
+                    return objectMapper.readValue(buildJson, Build.class);
+                } catch (IOException jpe) {
+                    return null;
+                }
+            }
         }
+        return null;
+    }
+
+    public void delete(UUID buildId) {
+        map.remove(buildId);
+        db.commit(); // persist to disk
     }
 }
