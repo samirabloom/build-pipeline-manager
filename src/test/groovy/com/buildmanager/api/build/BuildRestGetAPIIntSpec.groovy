@@ -47,4 +47,31 @@ class BuildRestGetAPIIntSpec extends Specification {
                     "\"stage\":\"BUILD\"" +
                     "}"
     }
+
+    void 'should return empty response if build does not exist' () {
+        given:
+            RestClient client = new RestClient("localhost", port)
+
+        when:
+            ClientResponse response = client.sendRequest("GET", "/buildManager/build/666", "")
+
+        then:
+            response.status == HttpResponseStatus.NOT_FOUND.code()
+            response.body == "";
+    }
+
+    void 'should return invalid Id response if build Id is not Integer' () {
+        given:
+            RestClient client = new RestClient("localhost", port)
+
+        when:
+            ClientResponse response = client.sendRequest("GET", "/buildManager/build/a", "")
+
+        then:
+            response.status == HttpResponseStatus.BAD_REQUEST.code()
+            response.body == "[\"Invalid id For input string: \\\"a\\\"\"]";
+    }
+
+
+
 }

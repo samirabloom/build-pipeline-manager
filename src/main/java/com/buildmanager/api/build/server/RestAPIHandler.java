@@ -20,8 +20,6 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author samirarabbanian
@@ -37,7 +35,6 @@ public class RestAPIHandler extends SimpleChannelInboundHandler<FullHttpRequest>
         String responseBody = "";
         HttpResponseStatus responseStatus;
         HttpMethod httpMethod = httpRequest.getMethod();
-//        httpRequest.getUri();
 
         if (httpMethod == HttpMethod.PUT) {
             JsonValidator jsonValidator = JsonSchemaFactory.byDefault().getValidator();
@@ -45,13 +42,12 @@ public class RestAPIHandler extends SimpleChannelInboundHandler<FullHttpRequest>
             ProcessingReport validationReport = jsonValidator.validate(buildSchema, objectMapper.readTree(jsonRequest));
             if (validationReport.isSuccess()) {
                 Build build = objectMapper.readValue(jsonRequest, Build.class);
-//        build.setId(new Random().nextInt());
                 build.setId(1);
                 BuildManager.database.put(build.getId(), build);
                 responseBody = objectMapper.writeValueAsString(build);
                 responseStatus = HttpResponseStatus.ACCEPTED;
             } else {
-                List<String> errorMessages = new ArrayList<String>();
+                List<String> errorMessages = new ArrayList<>();
                 for (ProcessingMessage processingMessage : validationReport) {
                     errorMessages.add(processingMessage.getMessage());
                 }
@@ -66,7 +62,21 @@ public class RestAPIHandler extends SimpleChannelInboundHandler<FullHttpRequest>
                 if (retrievedBuild != null) {
                     responseBody = objectMapper.writeValueAsString(retrievedBuild);
                     responseStatus = HttpResponseStatus.OK;
-                    System.out.println("the returned body is: " + responseBody + "\n");
+                } else {
+                    responseStatus = HttpResponseStatus.NOT_FOUND;
+                }
+            } catch (NumberFormatException nfe) {
+                responseBody = objectMapper.writeValueAsString(Arrays.asList("Invalid id " + nfe.getMessage()));
+                responseStatus = HttpResponseStatus.BAD_REQUEST;
+            }
+        } else if (httpMethod == HttpMethod.DELETE) {
+            QueryStringDecoder queryStringDecoder = new QueryStringDecoder(httpRequest.getUri());
+            try {
+                Integer buildId = Integer.parseInt(StringUtils.substringAfter(queryStringDecoder.path(), "/buildManager/build/"));
+                Build retrievedBuild = BuildManager.database.get(buildId);
+                if (retrievedBuild != null) {
+                    BuildManager.database.remove(buildId);
+                    responseStatus = HttpResponseStatus.OK;
                 } else {
                     responseStatus = HttpResponseStatus.NOT_FOUND;
                 }
