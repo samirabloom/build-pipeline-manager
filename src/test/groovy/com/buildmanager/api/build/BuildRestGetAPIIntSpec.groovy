@@ -4,6 +4,7 @@ import com.buildmanager.api.build.domain.Build
 import com.buildmanager.api.build.domain.BuildStatus
 import com.buildmanager.api.build.respository.BuildRepository
 import com.buildmanager.api.build.server.BuildManager
+import groovy.json.JsonSlurper
 import io.netty.handler.codec.http.HttpResponseStatus
 import spock.lang.Specification
 
@@ -38,17 +39,16 @@ class BuildRestGetAPIIntSpec extends Specification {
             )
 
         when:
-            ClientResponse response = client.sendRequest("GET", "/buildManager/build/" + uuid.toString(), "")
+            ClientResponse response = client.sendRequest("GET", "/buildManager/build/" + uuid, "")
 
         then:
             response.status == HttpResponseStatus.OK.code()
-            response.body == "{" +
-                    "\"id\":\"" + uuid + "\"," +
-                    "\"number\":1," +
-                    "\"status\":\"PASSED\"," +
-                    "\"message\":\"build completed\"," +
-                    "\"stage\":\"BUILD\"" +
-                    "}"
+            Map build = new JsonSlurper().parseText(response.body) as Map
+            build.id == uuid.toString()
+            build.number == 1
+            build.status == "PASSED"
+            build.message == "build completed"
+            build.stage == "BUILD"
     }
 
     void 'should return empty response if build does not exist' () {
@@ -56,7 +56,7 @@ class BuildRestGetAPIIntSpec extends Specification {
             RestClient client = new RestClient("localhost", port)
 
         when:
-            ClientResponse response = client.sendRequest("GET", "/buildManager/build/" + UUID.randomUUID().toString(), "")
+            ClientResponse response = client.sendRequest("GET", "/buildManager/build/" + UUID.randomUUID(), "")
 
         then:
             response.status == HttpResponseStatus.NOT_FOUND.code()

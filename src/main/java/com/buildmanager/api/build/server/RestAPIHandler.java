@@ -87,6 +87,34 @@ public class RestAPIHandler extends SimpleChannelInboundHandler<FullHttpRequest>
                 responseBody = objectMapper.writeValueAsString(Arrays.asList(iae.getMessage()));
                 responseStatus = HttpResponseStatus.BAD_REQUEST;
             }
+        } else if (httpMethod == HttpMethod.POST) {
+            JsonValidator jsonValidator = JsonSchemaFactory.byDefault().getValidator();
+            JsonNode buildSchema = JsonLoader.fromResource("/json/schemas/build_json_schema.json");
+            ProcessingReport validationReport = jsonValidator.validate(buildSchema, objectMapper.readTree(jsonRequest));
+            if (validationReport.isSuccess()) {
+                QueryStringDecoder queryStringDecoder = new QueryStringDecoder(httpRequest.getUri());
+                try {
+                    UUID buildId = UUID.fromString(StringUtils.substringAfter(queryStringDecoder.path(), "/buildManager/build/"));
+                    Build updaterBuild = objectMapper.readValue(jsonRequest, Build.class);
+                    Build existingBuild = buildRepository.load(buildId);
+                    if (existingBuild != null) {
+                        responseBody = objectMapper.writeValueAsString(existingBuild.update(updaterBuild));
+                        responseStatus = HttpResponseStatus.OK;
+                    } else {
+                        responseStatus = HttpResponseStatus.NOT_FOUND;
+                    }
+                } catch (IllegalArgumentException iae) {
+                    responseBody = objectMapper.writeValueAsString(Arrays.asList(iae.getMessage()));
+                    responseStatus = HttpResponseStatus.BAD_REQUEST;
+                }
+            } else {
+                List<String> errorMessages = new ArrayList<>();
+                for (ProcessingMessage processingMessage : validationReport) {
+                    errorMessages.add(processingMessage.getMessage());
+                }
+                responseBody = objectMapper.writeValueAsString(errorMessages);
+                responseStatus = HttpResponseStatus.BAD_REQUEST;
+            }
         } else {
             responseStatus = HttpResponseStatus.METHOD_NOT_ALLOWED;
         }

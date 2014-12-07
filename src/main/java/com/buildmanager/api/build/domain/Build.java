@@ -56,4 +56,17 @@ public class Build extends ObjectWithReflectiveEqualsHashCodeToString {
         this.stage = stage;
         return this;
     }
+
+    public Build update(Build updater) {
+        if (updater.status != null) {
+            this.status = updater.status;
+        }
+        if (updater.message != null) {
+            this.message = updater.message;
+        }
+        if (updater.stage != null) {
+            this.stage = updater.stage;
+        }
+        return this;
+    }
 }

@@ -27,8 +27,8 @@ class BuildRestAddAPIIntSpec extends Specification {
         and:
             String body = "{" +
                     "number: 1, " +
-                    "status: \"PASSED\", " +
-                    "message: \"build completed\", " +
+                    "status: \"IN_PROGRESS\", " +
+                    "message: \"build in-progress\", " +
                     "stage: \"BUILD\"" +
                     "}"
 
@@ -40,8 +40,8 @@ class BuildRestAddAPIIntSpec extends Specification {
             Map build = new JsonSlurper().parseText(response.body) as Map
             build.id
             build.number == 1
-            build.status == "PASSED"
-            build.message == "build completed"
+            build.status == "IN_PROGRESS"
+            build.message == "build in-progress"
             build.stage == "BUILD"
     }
 
@@ -51,8 +51,8 @@ class BuildRestAddAPIIntSpec extends Specification {
         and:
             String body = "{" +
                     "number: \"a\", " +
-                    "status: \"PASSED\", " +
-                    "message: \"build completed\", " +
+                    "status: \"IN_PROGRESS\", " +
+                    "message: \"build in-progress\", " +
                     "stage: \"BUILD\"" +
                     "}"
         when:
@@ -62,10 +62,6 @@ class BuildRestAddAPIIntSpec extends Specification {
             response.body == "[" +
                     "\"instance type (string) does not match any allowed primitive type (allowed: [\\\"integer\\\"])\"" +
                     "]";
-            // test that a build must contain:
-            // - status (IN_PROGRESS, PASSED, FAILED) "DONE"
-            // - message 0 < 128 "DONE"
-            // - stage (BUILD, DEVELOP, AUTO_QA, MANUAL_QA, UAT, PROD) "DONE"
     }
 
 
@@ -76,7 +72,7 @@ class BuildRestAddAPIIntSpec extends Specification {
             String body = "{" +
                     "number: \"a\", " +
                     "status: \"NOT VALID\", " +
-                    "message: \"build completed\", " +
+                    "message: \"build in-progress\", " +
                     "stage: \"BUILD\"" +
                     "}"
         when:
@@ -96,8 +92,8 @@ class BuildRestAddAPIIntSpec extends Specification {
         and:
             String body = "{" +
                     "number: 1 , " +
-                    "status: \"PASSED\", " +
-                    "message: \"build completed and this is hopefully longer than I wanted to be\", " +
+                    "status: \"IN_PROGRESS\", " +
+                    "message: \"build in-progress and this is hopefully longer than I wanted to be\", " +
                     "stage: \"BUILD\"" +
                     "}"
         when:
@@ -105,7 +101,7 @@ class BuildRestAddAPIIntSpec extends Specification {
         then:
             response.status == HttpResponseStatus.BAD_REQUEST.code()
             response.body == "[" +
-                    "\"string \\\"build completed and this is hopefully longer than I wanted to be\\\" is too long (length: 64, maximum allowed: 40)\"" +
+                    "\"string \\\"build in-progress and this is hopefully longer than I wanted to be\\\" is too long (length: 66, maximum allowed: 40)\"" +
                     "]";
     }
 
@@ -115,8 +111,8 @@ class BuildRestAddAPIIntSpec extends Specification {
         and:
             String body = "{" +
                     "number: 1, " +
-                    "status: \"PASSED\", " +
-                    "message: \"build completed\", " +
+                    "status: \"IN_PROGRESS\", " +
+                    "message: \"build in-progress\", " +
                     "stage: \"IN VALID\"" +
                     "}"
         when:
@@ -153,7 +149,7 @@ class BuildRestAddAPIIntSpec extends Specification {
             String body = "{" +
                     "number: \"a\", " +
                     "status: \"IN VALID\", " +
-                    "message: \"build completed\", " +
+                    "message: \"build in-progress\", " +
                     "stage: \"IN VALID\"" +
                     "}"
         when:
