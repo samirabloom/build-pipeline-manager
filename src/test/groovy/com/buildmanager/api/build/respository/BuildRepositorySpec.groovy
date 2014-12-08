@@ -7,7 +7,7 @@ import spock.lang.Specification
 /**
  * @author jamesdbloom
  */
-class BuildRepositoryTest extends Specification {
+class BuildRepositorySpec extends Specification {
 
     void 'should save and retrieve build'() {
         given:

@@ -14,7 +14,6 @@ import com.google.common.base.Charsets;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,18 +29,19 @@ import java.util.UUID;
  */
 @Component
 @ChannelHandler.Sharable
-public class RestAPIHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
+public class RestAPIHandler extends HandlerMapper {
     private final ObjectMapper objectMapper = ObjectMapperFactory.createObjectMapper();
 
     private final BuildRepository buildRepository;
 
     @Autowired
     public RestAPIHandler(BuildRepository buildRepository) {
+        super("/buildManager/build.*");
         this.buildRepository = buildRepository;
     }
 
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, FullHttpRequest httpRequest) throws Exception {
+    protected void messageReceived(ChannelHandlerContext ctx, FullHttpRequest httpRequest) throws Exception {
         String jsonRequest = httpRequest.content().readBytes(httpRequest.content().readableBytes()).toString(Charsets.UTF_8);
         String responseBody = "";
         HttpResponseStatus responseStatus;
