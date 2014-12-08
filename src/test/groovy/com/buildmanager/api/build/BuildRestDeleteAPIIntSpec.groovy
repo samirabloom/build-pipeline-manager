@@ -54,7 +54,7 @@ class BuildRestDeleteAPIIntSpec extends Specification {
             ClientResponse deletedResponse = client.sendRequest("DELETE", "/buildManager/build/" + uuid, "")
 
         then:
-            deletedResponse.status == HttpResponseStatus.OK.code()
+            deletedResponse.status == HttpResponseStatus.ACCEPTED.code()
             deletedResponse.body == "";
 
     }

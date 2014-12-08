@@ -1,8 +1,5 @@
 package com.buildmanager.api.build
 
-import com.buildmanager.api.build.domain.Build
-import com.buildmanager.api.build.domain.BuildStatus
-import com.buildmanager.api.build.respository.BuildRepository
 import com.buildmanager.api.build.server.BuildManager
 import groovy.json.JsonSlurper
 import io.netty.handler.codec.http.HttpResponseStatus
@@ -52,7 +49,7 @@ class BuildRestUpdateAPIIntSpec extends Specification {
             ClientResponse updatedBuildResponse = client.sendRequest("POST", "/buildManager/build/" + uuid, updatedBuildBody)
 
         then:
-            updatedBuildResponse.status == HttpResponseStatus.OK.code()
+            updatedBuildResponse.status == HttpResponseStatus.ACCEPTED.code()
             Map updatedBuild = new JsonSlurper().parseText(updatedBuildResponse.body) as Map
             updatedBuild.id == uuid.toString()
             updatedBuild.number == 1
@@ -88,7 +85,7 @@ class BuildRestUpdateAPIIntSpec extends Specification {
             ClientResponse updatedBuildResponse = client.sendRequest("POST", "/buildManager/build/" + uuid, updatedBuildBody)
 
         then:
-            updatedBuildResponse.status == HttpResponseStatus.OK.code()
+            updatedBuildResponse.status == HttpResponseStatus.ACCEPTED.code()
             Map updatedBuild = new JsonSlurper().parseText(updatedBuildResponse.body) as Map
             updatedBuild.id == uuid.toString()
             updatedBuild.number == 1

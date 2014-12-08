@@ -7,14 +7,21 @@ import io.netty.handler.codec.http.HttpMethod;
 
 public abstract class HandlerMapper extends SimpleChannelInboundHandler<FullHttpRequest> {
 
+    enum HttpMethods {
+        PUT,
+        POST,
+        GET,
+        DELETE
+    }
+
     private final RequestMatcher matcher;
 
-    protected HandlerMapper(String uriBase, HttpMethod method) {
+    protected HandlerMapper(HttpMethod method, String uriBase) {
         matcher = new RequestMatcher(method, uriBase);
     }
 
     protected HandlerMapper(String uriBase) {
-        this(uriBase, null);
+        this(null, uriBase);
     }
 
     public boolean acceptInboundMessage(FullHttpRequest request) throws Exception {
