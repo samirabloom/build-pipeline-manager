@@ -1,6 +1,6 @@
 package com.buildmanager.api.build.server;
 
-import com.buildmanager.api.build.server.handler.RestAPIHandler;
+import com.buildmanager.api.build.server.matcher.InboundHttpHandler;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.http.HttpContentCompressor;
@@ -19,7 +19,7 @@ import javax.annotation.Resource;
 public class BuildManagerInitializer extends ChannelInitializer<SocketChannel> {
 
     @Resource
-    private RestAPIHandler restAPIHandler;
+    private InboundHttpHandler restAPIHandler;
 
     @Override
     protected void initChannel(SocketChannel channel) throws Exception {

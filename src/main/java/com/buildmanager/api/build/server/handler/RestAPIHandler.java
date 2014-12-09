@@ -4,6 +4,7 @@ import com.buildmanager.api.build.json.BindingError;
 import com.buildmanager.api.build.json.JsonValidator;
 import com.buildmanager.api.build.domain.Build;
 import com.buildmanager.api.build.respository.BuildRepository;
+import com.buildmanager.api.build.server.matcher.InboundHttpHandler;
 import com.buildmanager.json.ObjectMapperFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
@@ -25,7 +26,7 @@ import java.util.UUID;
  */
 @Component
 @ChannelHandler.Sharable
-public class RestAPIHandler extends HandlerMapper {
+public class RestAPIHandler extends InboundHttpHandler {
     private final ObjectMapper objectMapper = ObjectMapperFactory.createObjectMapper();
 
     private final BuildRepository buildRepository;
@@ -36,6 +37,13 @@ public class RestAPIHandler extends HandlerMapper {
         super("/buildManager/build.*");
         this.buildRepository = buildRepository;
         jsonValidator = new JsonValidator("/json/messages/build/build_validation_messages.properties", "/json/schemas/build/build_json_schema.json");
+    }
+
+    enum HttpMethods {
+        PUT,
+        POST,
+        GET,
+        DELETE
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.buildmanager.api.build.server.handler;
+package com.buildmanager.api.build.server.matcher;
 
 import com.buildmanager.api.build.server.matcher.RequestMatcher;
 import io.netty.channel.ChannelHandlerContext;
@@ -6,22 +6,15 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.HttpMethod;
 
-public abstract class HandlerMapper extends SimpleChannelInboundHandler<FullHttpRequest> {
-
-    enum HttpMethods {
-        PUT,
-        POST,
-        GET,
-        DELETE
-    }
+public abstract class InboundHttpHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
 
     private final RequestMatcher matcher;
 
-    protected HandlerMapper(HttpMethod method, String uriBase) {
+    protected InboundHttpHandler(HttpMethod method, String uriBase) {
         matcher = new RequestMatcher(method, uriBase);
     }
 
-    protected HandlerMapper(String uriBase) {
+    protected InboundHttpHandler(String uriBase) {
         this(null, uriBase);
     }
 
