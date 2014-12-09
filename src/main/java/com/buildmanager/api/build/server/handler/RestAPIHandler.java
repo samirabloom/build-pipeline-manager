@@ -1,15 +1,11 @@
-package com.buildmanager.api.build.server;
+package com.buildmanager.api.build.server.handler;
 
+import com.buildmanager.api.build.json.BindingError;
+import com.buildmanager.api.build.json.JsonValidator;
 import com.buildmanager.api.build.domain.Build;
 import com.buildmanager.api.build.respository.BuildRepository;
 import com.buildmanager.json.ObjectMapperFactory;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.fge.jackson.JsonLoader;
-import com.github.fge.jsonschema.core.report.ProcessingMessage;
-import com.github.fge.jsonschema.core.report.ProcessingReport;
-import com.github.fge.jsonschema.main.JsonSchemaFactory;
-import com.github.fge.jsonschema.main.JsonValidator;
 import com.google.common.base.Charsets;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandler;
@@ -19,7 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -33,11 +29,13 @@ public class RestAPIHandler extends HandlerMapper {
     private final ObjectMapper objectMapper = ObjectMapperFactory.createObjectMapper();
 
     private final BuildRepository buildRepository;
+    private final JsonValidator jsonValidator;
 
     @Autowired
-    public RestAPIHandler(BuildRepository buildRepository) {
+    public RestAPIHandler(BuildRepository buildRepository) throws IOException {
         super("/buildManager/build.*");
         this.buildRepository = buildRepository;
+        jsonValidator = new JsonValidator("/json/messages/build/build_validation_messages.properties", "/json/schemas/build/build_json_schema.json");
     }
 
     @Override
@@ -46,7 +44,7 @@ public class RestAPIHandler extends HandlerMapper {
 
         switch (HttpMethods.valueOf(httpRequest.getMethod().name())) {
             case PUT: {
-                if (jsonValidator(ctx, jsonRequest)) {
+                if (validateJson(ctx, jsonRequest)) {
                     Build build = objectMapper.readValue(jsonRequest, Build.class);
                     build.setId(UUID.randomUUID());
                     buildRepository.save(build);
@@ -55,7 +53,7 @@ public class RestAPIHandler extends HandlerMapper {
                 break;
             }
             case POST: {
-                if (jsonValidator(ctx, jsonRequest)) {
+                if (validateJson(ctx, jsonRequest)) {
                     UUID buildId = decodeUUID(ctx, httpRequest.getUri());
                     if (buildId != null) {
                         Build updaterBuild = objectMapper.readValue(jsonRequest, Build.class);
@@ -107,19 +105,12 @@ public class RestAPIHandler extends HandlerMapper {
         return new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, responseStatus, Unpooled.wrappedBuffer(responseBody.getBytes(Charsets.UTF_8)));
     }
 
-    private boolean jsonValidator(ChannelHandlerContext ctx, String jsonRequest) throws Exception {
-        List<String> errorMessages = new ArrayList<>();
-        JsonValidator jsonValidator = JsonSchemaFactory.byDefault().getValidator();
-        JsonNode buildSchema = JsonLoader.fromResource("/json/schemas/build_json_schema.json");
-        ProcessingReport validationReport = jsonValidator.validate(buildSchema, objectMapper.readTree(jsonRequest));
-        if (!validationReport.isSuccess()) {
-            for (ProcessingMessage processingMessage : validationReport) {
-                errorMessages.add(processingMessage.getMessage());
-            }
+    private boolean validateJson(ChannelHandlerContext ctx, String jsonRequest) throws Exception {
+        List<BindingError> errorMessages = jsonValidator.jsonValidator(jsonRequest);
+        if (!errorMessages.isEmpty()) {
             ctx.writeAndFlush(createResponse(objectMapper.writeValueAsString(errorMessages), HttpResponseStatus.BAD_REQUEST));
-            return false;
         }
-        return true;
+        return errorMessages.isEmpty();
     }
 
     private UUID decodeUUID(ChannelHandlerContext ctx, String uri) throws Exception {

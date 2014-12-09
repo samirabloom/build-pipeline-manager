@@ -1,4 +1,4 @@
-package com.buildmanager.api.build
+package com.buildmanager
 
 import spock.lang.Specification
 import spock.lang.Unroll

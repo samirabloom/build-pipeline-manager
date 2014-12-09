@@ -1,5 +1,6 @@
-package com.buildmanager.api.build.server;
+package com.buildmanager.api.build.server.handler;
 
+import com.buildmanager.api.build.server.matcher.RequestMatcher;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.FullHttpRequest;

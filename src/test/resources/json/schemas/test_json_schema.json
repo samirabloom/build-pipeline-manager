@@ -1,0 +1,21 @@
+{
+    "type": "object",
+    "properties": {
+        "enumField": {
+            "enum": [ "one", "two" ]
+        },
+        "arrayField": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "type": "string" },
+            "uniqueItems": true
+        },
+        "stringField": {
+            "type": "string",
+            "minLength": 5,
+            "maxLength": 6
+        },
+        "booleanField": { "type": "boolean" }
+    },
+    "required": [ "enumField", "arrayField" ]
+}

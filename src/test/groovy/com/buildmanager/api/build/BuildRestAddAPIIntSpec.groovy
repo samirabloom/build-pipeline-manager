@@ -58,7 +58,7 @@ class BuildRestAddAPIIntSpec extends Specification {
         then:
             response.status == HttpResponseStatus.BAD_REQUEST.code()
             response.body == "[" +
-                    "\"instance type (string) does not match any allowed primitive type (allowed: [\\\"integer\\\"])\"" +
+                    "{\"path\":\"number\",\"type\":\"type\",\"message\":\"please enter a valid number\"}" +
                     "]";
     }
 
@@ -76,8 +76,8 @@ class BuildRestAddAPIIntSpec extends Specification {
         then:
             response.status == HttpResponseStatus.BAD_REQUEST.code()
             response.body == "[" +
-                    "\"instance type (string) does not match any allowed primitive type (allowed: [\\\"integer\\\"])\"," +
-                    "\"instance value (\\\"NOT VALID\\\") not found in enum (possible values: [\\\"IN_PROGRESS\\\",\\\"PASSED\\\",\\\"FAILED\\\"])\"" +
+                    "{\"path\":\"number\",\"type\":\"type\",\"message\":\"please enter a valid number\"}," +
+                    "{\"path\":\"status\",\"type\":\"enum\",\"message\":\"please enter a status from [\\\"IN_PROGRESS\\\" , \\\"PASSED\\\", \\\"FAILED\\\"]\"}" +
                     "]";
     }
 
@@ -95,7 +95,7 @@ class BuildRestAddAPIIntSpec extends Specification {
         then:
             response.status == HttpResponseStatus.BAD_REQUEST.code()
             response.body == "[" +
-                    "\"string \\\"build in-progress and this is hopefully longer than I wanted to be\\\" is too long (length: 66, maximum allowed: 40)\"" +
+                    "{\"path\":\"message\",\"type\":\"maxLength\",\"message\":\"please enter a message between 1 and 50 characters\"}" +
                     "]";
     }
 
@@ -112,7 +112,7 @@ class BuildRestAddAPIIntSpec extends Specification {
         then:
             response.status == HttpResponseStatus.BAD_REQUEST.code()
             response.body == "[" +
-                    "\"instance value (\\\"IN VALID\\\") not found in enum (possible values: [\\\"BUILD\\\",\\\"DEVELOP\\\",\\\"AUTO_QA\\\",\\\"MANUAL_QA\\\",\\\"UAT, PROD\\\"])\"" +
+                    "{\"path\":\"stage\",\"type\":\"enum\",\"message\":\"please enter a stage from [\\\"BUILD\\\", \\\"DEVELOP\\\", \\\"AUTO_QA\\\", \\\"MANUAL_QA\\\", \\\"UAT\\\", \\\"PROD\\\"]\"}" +
                     "]";
     }
 
@@ -128,7 +128,7 @@ class BuildRestAddAPIIntSpec extends Specification {
         then:
             response.status == HttpResponseStatus.BAD_REQUEST.code()
             response.body == "[" +
-                    "\"object has missing required properties ([\\\"message\\\",\\\"status\\\"])\"" +
+                    "{\"type\":\"required\",\"message\":\"please enter all required fields\"}" +
                     "]";
     }
 
@@ -145,9 +145,9 @@ class BuildRestAddAPIIntSpec extends Specification {
         then:
             response.status == HttpResponseStatus.BAD_REQUEST.code()
             response.body == "[" +
-                    "\"instance type (string) does not match any allowed primitive type (allowed: [\\\"integer\\\"])\"," +
-                    "\"instance value (\\\"IN VALID\\\") not found in enum (possible values: [\\\"BUILD\\\",\\\"DEVELOP\\\",\\\"AUTO_QA\\\",\\\"MANUAL_QA\\\",\\\"UAT, PROD\\\"])\"," +
-                    "\"instance value (\\\"IN VALID\\\") not found in enum (possible values: [\\\"IN_PROGRESS\\\",\\\"PASSED\\\",\\\"FAILED\\\"])\"" +
+                    "{\"path\":\"number\",\"type\":\"type\",\"message\":\"please enter a valid number\"}," +
+                    "{\"path\":\"stage\",\"type\":\"enum\",\"message\":\"please enter a stage from [\\\"BUILD\\\", \\\"DEVELOP\\\", \\\"AUTO_QA\\\", \\\"MANUAL_QA\\\", \\\"UAT\\\", \\\"PROD\\\"]\"}," +
+                    "{\"path\":\"status\",\"type\":\"enum\",\"message\":\"please enter a status from [\\\"IN_PROGRESS\\\" , \\\"PASSED\\\", \\\"FAILED\\\"]\"}" +
                     "]";
     }
 

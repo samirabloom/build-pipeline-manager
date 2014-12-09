@@ -1,20 +1,16 @@
 package com.buildmanager.api.build;
 
-import com.buildmanager.api.build.server.LoggingHandler;
 import com.google.common.util.concurrent.SettableFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpClientCodec;
 import io.netty.handler.codec.http.HttpObjectAggregator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import io.netty.handler.logging.LoggingHandler;
 
 import javax.net.ssl.SSLException;
 
 public class HttpClientInitializer extends ChannelInitializer<SocketChannel> {
-
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private HttpClientHandler httpClientHandler = new HttpClientHandler();
 

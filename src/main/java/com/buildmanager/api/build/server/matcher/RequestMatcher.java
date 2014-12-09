@@ -1,4 +1,4 @@
-package com.buildmanager.api.build.server;
+package com.buildmanager.api.build.server.matcher;
 
 import com.google.common.base.Strings;
 import io.netty.handler.codec.http.FullHttpRequest;
@@ -20,7 +20,9 @@ public class RequestMatcher {
 
     public boolean match(FullHttpRequest request) {
         boolean methodMatches = method == null || method.equals(request.getMethod());
-        boolean uriBaseMatches = Strings.isNullOrEmpty(uriRegex) || StringUtils.startsWithIgnoreCase(new QueryStringDecoder(request.getUri()).path(), uriRegex) || new QueryStringDecoder(request.getUri()).path().matches(uriRegex);
+        boolean uriBaseMatches = Strings.isNullOrEmpty(uriRegex)
+                || StringUtils.startsWithIgnoreCase(new QueryStringDecoder(request.getUri()).path(), uriRegex)
+                || new QueryStringDecoder(request.getUri()).path().matches(uriRegex);
         return uriBaseMatches && methodMatches;
     }
 }

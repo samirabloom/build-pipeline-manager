@@ -1,5 +1,6 @@
-package com.buildmanager.api.build.server
+package com.buildmanager.api.build.server.matcher
 
+import com.buildmanager.api.build.server.matcher.RequestMatcher
 import io.netty.handler.codec.http.DefaultFullHttpRequest
 import io.netty.handler.codec.http.HttpMethod
 import io.netty.handler.codec.http.HttpRequest
@@ -26,6 +27,7 @@ class RequestMatcherSpec extends Specification {
         where:
             requestMethod  | requestUri                 | matcherMethod   | matcherUri                 || result
             HttpMethod.GET | "/some/uri"                | HttpMethod.GET  | "/some/uri.*"              || true
+            HttpMethod.GET | "/some/uri"                | HttpMethod.GET  | "/some/.*"                 || true
             HttpMethod.GET | "/some/uri"                | HttpMethod.GET  | "/some/uri"                || true
             HttpMethod.GET | "/some/uri/something"      | HttpMethod.GET  | "/some/uri"                || true
             HttpMethod.GET | "/some/uri/something/else" | HttpMethod.GET  | "/some/uri"                || true
