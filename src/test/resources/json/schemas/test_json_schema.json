@@ -7,7 +7,9 @@
         "arrayField": {
             "type": "array",
             "minItems": 1,
-            "items": { "type": "string" },
+            "items": {
+                "type": "string"
+            },
             "uniqueItems": true
         },
         "stringField": {
@@ -15,7 +17,20 @@
             "minLength": 5,
             "maxLength": 6
         },
-        "booleanField": { "type": "boolean" }
+        "booleanField": {
+            "type": "boolean"
+        },
+        "objectField": {
+            "type": "object",
+            "properties": {
+                "stringField": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 3
+                }
+            },
+            "required": [ "stringField" ]
+        }
     },
     "required": [ "enumField", "arrayField" ]
 }
