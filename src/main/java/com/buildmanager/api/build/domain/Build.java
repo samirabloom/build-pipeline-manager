@@ -5,7 +5,7 @@ import java.util.UUID;
 /**
  * @author samirarabbanian
  */
-public class Build extends ObjectWithReflectiveEqualsHashCodeToString {
+public class Build extends ObjectWithReflectiveEqualsHashCodeToString implements Comparable {
     private UUID id;
     private Integer number;
     private BuildStatus status;
@@ -68,5 +68,14 @@ public class Build extends ObjectWithReflectiveEqualsHashCodeToString {
             this.stage = updater.stage;
         }
         return this;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        if (o instanceof Build) {
+            return id.compareTo(((Build) o).id);
+        } else {
+            return -1;
+        }
     }
 }

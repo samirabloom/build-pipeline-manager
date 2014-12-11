@@ -1,0 +1,54 @@
+<!doctype html>
+<title>JetBrains IDE Support Options</title>
+<script src="latest/lib.js"></script>
+<script src="latest/kotlin-output/kotlin-es5.js"></script>
+<script src="latest/kotlin-output/browser-ext-platform.js"></script>
+<script src="latest/kotlin-output/jb-chrome-ext-api.js"></script>
+<script src="latest/kotlin-output/chrome-ext-options.js"></script>
+<script src="kotlin-output/chrome-ext-options-ui.js"></script>
+<link rel="stylesheet" href="options/chrome_shared.css">
+
+<style>
+  body {
+    font-family: 'Lucida Grande', sans-serif;
+    font-size: 75%;
+  }
+
+  input:invalid {
+    border: 1px solid red;
+  }
+
+  section {
+    -webkit-padding-start: 18px;
+    margin-bottom: 24px;
+    margin-top: 8px;
+    max-width: 600px;
+  }
+
+  input[type='submit'] {
+    display: block;
+    margin: 0.65em 0 !important;
+  }
+</style>
+
+<section>
+  <form>
+    <h3>IDE Connection</h3>
+    <label><span>Host:</span> <input id=host type=text pattern="[A-Za-z0-9.]+" required></label>
+    <label for=port>Port: </label><input id=port type=number min=1024 max=65535 required>
+
+    <h3>Force CORS (Access-Control-Allow-Origin: *)</h3>
+    <label>
+      (whitespace- or comma-separated <a href="http://developer.chrome.com/extensions/match_patterns.html" target="_blank">match patterns</a>)
+      <textarea id="corsUrls" style="width: 100%"></textarea>
+    </label>
+
+    <div>
+      <br/>
+      <input id=appendSourceUrl type=checkbox> <label for=appendSourceUrl>Append '# sourceURL' to script loaded via XMLHttpRequest (reload browser to apply change)</label>
+      <br/><br/>
+    </div>
+
+    <input id="apply" type="submit" value="Apply">
+  </form>
+</section>

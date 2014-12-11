@@ -1,0 +1,31 @@
+{
+   "background": {
+      "scripts": [ "latest/lib.js", "latest/kotlin-output/kotlin-es5.js", "latest/kotlin-output/browser-ext-platform.js", "latest/kotlin-output/jb-chrome-ext-api.js", "latest/kotlin-output/chrome-ext-options.js", "kotlin-output/browser-ext-bootstrap.js" ]
+   },
+   "browser_action": {
+      "default_icon": {
+         "19": "icons/JB_19.png",
+         "38": "icons/JB_38.png"
+      },
+      "default_title": "Not connected"
+   },
+   "description": "HTML/CSS/JavaScript editing and JavaScript debugging using JetBrains IDEs.",
+   "devtools_page": "devtools.html",
+   "icons": {
+      "128": "icons/JB_128.png",
+      "16": "icons/JB_16.png",
+      "48": "icons/JB_48.png"
+   },
+   "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDKZDGxXK/hzUO6XxOwyhhX3bIFlnVhUEVZjeEZlVJ1wQ5fIi4tcJ4h5kONbNF7Y5DztrsnnzgxzOhU9IEkDB/ATcp8Su4FASl+fUfOcpUftOVV0GH1H+nwUiHhl5MzZoB0t1EWZ3jZYNDgIyKHDrT6j3yEymXzPI1Iey7Xe8uK0wIDAQAB",
+   "manifest_version": 2,
+   "minimum_chrome_version": "30",
+   "name": "JetBrains IDE Support",
+   "omnibox": {
+      "keyword": "jb"
+   },
+   "options_page": "options.html",
+   "permissions": [ "tabs", "debugger", "storage", "webRequest", "webRequestBlocking", "contextMenus", "http://*/*", "https://*/*" ],
+   "update_url": "https://clients2.google.com/service/update2/crx",
+   "version": "2.0.7",
+   "web_accessible_resources": [ "devtools.html", "devtools.js" ]
+}

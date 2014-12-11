@@ -1,0 +1,27 @@
+<div class="content">
+
+    <h1>Edit Build</h1>
+
+    <form name="editBuild" method="post" data-ng-submit="update()" class="buildConfiguration pure-form pure-form-aligned">
+        <input type="hidden" name="csrfToken" value="${csrfToken}">
+
+        <input type="hidden" id="id" name="id" data-ng-model="build.id">
+        <input type="hidden" id="cas" name="cas" data-ng-model="build.cas">
+        <input type="hidden" id="createdDate" name="createdDate" data-ng-model="build.createdDate">
+
+        <div class="pure-control-group">
+            <form-error data-field-name="buildDTO"></form-error>
+        </div>
+
+        <ng-include src="'views/build/readOnlyBuildFields.html'"></ng-include>
+
+        <fieldset>
+            <ng-include src="'views/build/buildForm.html'"></ng-include>
+        </fieldset>
+
+        <div class="pure-controls">
+            <button type="submit" class="pure-button pure-button-primary" id="submitEditForm">Save</button>
+            <a href="#/build/list" class="buildConfiguration__input buildConfiguration__input--cancel pure-button">Cancel</a>
+        </div>
+    </form>
+</div>

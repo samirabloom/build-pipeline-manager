@@ -1,0 +1,1 @@
+document.title = "Loading " + decodeURIComponent(window.location.search.substring("?url=".length));

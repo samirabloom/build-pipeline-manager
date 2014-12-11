@@ -11,8 +11,9 @@ import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentNavigableMap;
+import java.util.function.Function;
 
 /**
  * @author jamesdbloom
@@ -50,6 +51,7 @@ public class BuildRepository {
                     try {
                         return objectMapper.readValue(buildJson, Build.class);
                     } catch (IOException jpe) {
+                        // FIXME log error
                         return null;
                     }
                 }
@@ -58,9 +60,34 @@ public class BuildRepository {
         }
     }
 
+    public List<Build> loadAll() {
+        synchronized (db) {
+            Collection<String> buildsJson = map.values();
+            List<Build> builds = new ArrayList<>();
+            Collections.sort(builds);
+            for(String buildJson : buildsJson) {
+                if (!Strings.isNullOrEmpty(buildJson)) {
+                    try {
+                        builds.add(objectMapper.readValue(buildJson, Build.class));
+                    } catch (IOException jpe) {
+                        // FIXME log error
+                    }
+                }
+            }
+            return builds;
+        }
+    }
+
     public void delete(UUID id) {
         synchronized (db) {
             map.remove(id);
+            db.commit(); // persist to disk
+        }
+    }
+
+    public void clear() {
+        synchronized (db) {
+            map.clear();
             db.commit(); // persist to disk
         }
     }

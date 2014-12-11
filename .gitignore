@@ -48,7 +48,14 @@ target
 pom.xml.releaseBackup
 release.properties
 
-# grunt / node build artifacts #
-################################
+# js build artifacts #
+######################
+.sass-cache
+bower_components
+dist
 node_modules
 npm-debug.log
+temp
+.node-xmlhttprequest*
+test_out
+console/node_modules/

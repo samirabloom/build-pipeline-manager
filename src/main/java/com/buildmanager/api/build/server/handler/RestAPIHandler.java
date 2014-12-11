@@ -1,8 +1,8 @@
 package com.buildmanager.api.build.server.handler;
 
+import com.buildmanager.api.build.domain.Build;
 import com.buildmanager.api.build.json.BindingError;
 import com.buildmanager.api.build.json.JsonValidator;
-import com.buildmanager.api.build.domain.Build;
 import com.buildmanager.api.build.respository.BuildRepository;
 import com.buildmanager.api.build.server.matcher.InboundHttpHandler;
 import com.buildmanager.json.ObjectMapperFactory;
@@ -62,7 +62,13 @@ public class RestAPIHandler extends InboundHttpHandler {
             }
             case POST: {
                 if (validateJson(ctx, jsonRequest)) {
-                    UUID buildId = decodeUUID(ctx, httpRequest.getUri());
+                    UUID buildId;
+                    try {
+                        buildId = decodeUUID(httpRequest.getUri());
+                    } catch (IllegalArgumentException iae) {
+                        ctx.writeAndFlush(createResponse(objectMapper.writeValueAsString(Arrays.asList(iae.getMessage())), HttpResponseStatus.BAD_REQUEST));
+                        break;
+                    }
                     if (buildId != null) {
                         Build updaterBuild = objectMapper.readValue(jsonRequest, Build.class);
                         Build existingBuild = buildRepository.load(buildId);
@@ -78,7 +84,12 @@ public class RestAPIHandler extends InboundHttpHandler {
                 break;
             }
             case GET: {
-                UUID buildId = decodeUUID(ctx, httpRequest.getUri());
+                UUID buildId;
+                try {
+                    buildId = decodeUUID(httpRequest.getUri());
+                } catch (IllegalArgumentException iae) {
+                    buildId = null;
+                }
                 if (buildId != null) {
                     Build retrievedBuild = buildRepository.load(buildId);
                     if (retrievedBuild != null) {
@@ -86,11 +97,20 @@ public class RestAPIHandler extends InboundHttpHandler {
                     } else {
                         ctx.writeAndFlush(createResponse("", HttpResponseStatus.NOT_FOUND));
                     }
+                } else {
+                    List<Build> retrievedBuilds = buildRepository.loadAll();
+                    ctx.writeAndFlush(createResponse(objectMapper.writeValueAsString(retrievedBuilds), HttpResponseStatus.OK));
                 }
                 break;
             }
             case DELETE: {
-                UUID buildId = decodeUUID(ctx, httpRequest.getUri());
+                UUID buildId;
+                try {
+                    buildId = decodeUUID(httpRequest.getUri());
+                } catch (IllegalArgumentException iae) {
+                    ctx.writeAndFlush(createResponse(objectMapper.writeValueAsString(Arrays.asList(iae.getMessage())), HttpResponseStatus.BAD_REQUEST));
+                    break;
+                }
                 if (buildId != null) {
                     Build retrievedBuild = buildRepository.load(buildId);
                     if (retrievedBuild != null) {
@@ -121,14 +141,9 @@ public class RestAPIHandler extends InboundHttpHandler {
         return errorMessages.isEmpty();
     }
 
-    private UUID decodeUUID(ChannelHandlerContext ctx, String uri) throws Exception {
+    private UUID decodeUUID(String uri) throws IllegalArgumentException {
         QueryStringDecoder queryStringDecoder = new QueryStringDecoder(uri);
-        try {
-            return UUID.fromString(StringUtils.substringAfter(queryStringDecoder.path(), "/buildManager/build/"));
-        } catch (IllegalArgumentException iae) {
-            ctx.writeAndFlush(createResponse(objectMapper.writeValueAsString(Arrays.asList(iae.getMessage())), HttpResponseStatus.BAD_REQUEST));
-        }
-        return null;
+        return UUID.fromString(StringUtils.substringAfter(queryStringDecoder.path(), "/buildManager/build/"));
     }
 }
 

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html ng-app='console' id="ng-app">
+<head lang="en">    
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/pure-min.css">
+    <link rel="stylesheet" href="css/pure-forms.css">
+    <link rel="stylesheet" href="css/grids-responsive-min.css">
+    <link rel="stylesheet" href="css/main.css">
+
+    <title></title>
+</head>
+<body>
+    <div data-ng-view></div>
+
+    <script src="js/lib/angular/angular.js"></script>
+    <script src="js/lib/angular/angular-route.js"></script>
+
+	<!-- create namespace -->
+    <script src="js/init.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/factories/HttpInterceptorFactory.js"></script>
+    <script src="js/services/FormValidationErrorHelper.js"></script>
+
+    <script src="js/directives/CheckBoxGroupDirective.js"></script>
+    <script src="js/directives/FormErrorDirective.js"></script>
+
+    <!-- build -->
+    <script src="js/services/build/BuildService.js"></script>
+    <script src="js/controllers/build/BuildListController.js"></script>
+    <script src="js/controllers/build/BuildCreateController.js"></script>
+    <script src="js/controllers/build/BuildEditController.js"></script>
+    <script src="js/controllers/build/BuildViewController.js"></script>
+
+	<!-- wire it all together -->
+    <script src="js/angularConfig.js"></script>
+</body>
+</html>

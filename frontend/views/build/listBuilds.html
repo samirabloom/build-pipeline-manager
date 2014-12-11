@@ -1,0 +1,36 @@
+<div class="account-systems-list-page">
+    <div class="content">
+        <h1>Builds</h1>
+
+        <div class="buildList">
+            <table class="buildList__table pure-table">
+                <thead class="buildList__header">
+                <tr>
+                    <th class="buildList__columnHeader">ID</th>
+                    <th class="buildList__columnHeader">Name</th>
+                    <th class="buildList__columnHeader">Actions</th>
+                </tr>
+                </thead>
+
+                <tbody class="buildList__content">
+                    <tr class="buildItem" data-ng-repeat="build in buildsList | orderBy:'name'">
+                        <td class="buildItem__cell buildItem__cell--id">{{build.id}}</td>
+                        <td class="buildItem__cell buildItem__cell--name">{{build.name}}</td>
+                        <td class="buildItem__cell buildItem__cell--actions">
+                            <a class="buildItem__input buildItem__input--slotsGames pure-button pure-button-primary"
+                               href="/console/slots/gameconfiguration/list?buildIdFilter={{build.id}}&csrfToken=${csrfToken}">Slots Games</a>
+                            <a class="buildItem__input buildItem__input--view pure-button pure-button-primary"
+                               href="#/build/view/{{build.id}}">View</a>
+                            <a class="buildItem__input buildItem__input--edit pure-button pure-button-primary"
+                               href="#/build/edit/{{build.id}}">Edit</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="buildListControls">
+            <a href="#/build/create" class="buildListControls__input buildListControls__input--create pure-button pure-button-primary">Create</a>
+        </div>
+    </div>
+</div>
