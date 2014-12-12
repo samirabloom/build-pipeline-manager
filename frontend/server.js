@@ -37,13 +37,10 @@
         if (!statusCode) {
             statusCode = 200;
         }
-        //realistic timeout for all json requests to server
-        setTimeout(function () {
-            res.writeHead(statusCode, {'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-cache, no-store'});
-            res.write("while(1);" + JSON.stringify(data));
-            res.end();
-        }, 1500);
 
+        res.writeHead(statusCode, {'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-cache, no-store'});
+        res.write(JSON.stringify(data));
+        res.end();
     };
 
     function postRequest(request, response, callback) {
@@ -97,8 +94,6 @@
                     filename = "";
                 }
             }
-
-            // console.log('serving file: ' + filename);
 
             if (filename) {
                 var mimeType = mimeTypes[path.extname(filename).split(".")[1]];

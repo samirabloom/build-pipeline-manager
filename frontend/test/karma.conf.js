@@ -33,11 +33,9 @@ module.exports = function (config) {
             'karma-ng-scenario',
             'karma-junit-reporter',
             'karma-chrome-launcher',
-//            'karma-firefox-launcher',
-//            'karma-safari-launcher',
+            'karma-firefox-launcher',
+            'karma-safari-launcher',
             'karma-phantomjs-launcher',
-//            'karma-ie-launcher',
-//            'karma-script-launcher',
             'karma-coverage'
         ],
 

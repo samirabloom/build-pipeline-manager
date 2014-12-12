@@ -44,6 +44,9 @@ module.exports = function (grunt) {
             },
             chrome: {
                 browsers: ['Chrome']
+            },
+            firefox: {
+                browsers: ['Firefox']
             }
         },
         protractor: {

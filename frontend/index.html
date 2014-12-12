@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app='console' id="ng-app">
+<html data-ng-app='build_manager'>
 <head lang="en">    
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 
@@ -14,24 +14,30 @@
 <body>
     <div data-ng-view></div>
 
+	<!-- libraries -->
     <script src="js/lib/angular/angular.js"></script>
     <script src="js/lib/angular/angular-route.js"></script>
 
 	<!-- create namespace -->
     <script src="js/init.js"></script>
+
+	<!-- environment configuration -->
     <script src="js/config.js"></script>
-    <script src="js/factories/HttpInterceptorFactory.js"></script>
-    <script src="js/services/FormValidationErrorHelper.js"></script>
 
-    <script src="js/directives/CheckBoxGroupDirective.js"></script>
-    <script src="js/directives/FormErrorDirective.js"></script>
-
-    <!-- build -->
+    <!-- factories & services -->
+	<script src="js/factories/HttpInterceptorFactory.js"></script>
     <script src="js/services/build/BuildService.js"></script>
+
+	<!-- controllers -->
     <script src="js/controllers/build/BuildListController.js"></script>
     <script src="js/controllers/build/BuildCreateController.js"></script>
     <script src="js/controllers/build/BuildEditController.js"></script>
     <script src="js/controllers/build/BuildViewController.js"></script>
+
+	<!-- directives & helpers -->
+	<script src="js/directives/CheckBoxGroupDirective.js"></script>
+	<script src="js/directives/FormErrorDirective.js"></script>
+	<script src="js/services/FormValidationErrorHelper.js"></script>
 
 	<!-- wire it all together -->
     <script src="js/angularConfig.js"></script>

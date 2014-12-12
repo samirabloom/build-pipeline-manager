@@ -7,22 +7,22 @@
                 <thead class="buildList__header">
                 <tr>
                     <th class="buildList__columnHeader">ID</th>
-                    <th class="buildList__columnHeader">Name</th>
+                    <th class="buildList__columnHeader">Number</th>
+                    <th class="buildList__columnHeader">Stage</th>
+                    <th class="buildList__columnHeader">Status</th>
                     <th class="buildList__columnHeader">Actions</th>
                 </tr>
                 </thead>
 
                 <tbody class="buildList__content">
-                    <tr class="buildItem" data-ng-repeat="build in buildsList | orderBy:'name'">
+                    <tr class="buildItem" data-ng-repeat="build in buildsList | orderBy:'number'">
                         <td class="buildItem__cell buildItem__cell--id">{{build.id}}</td>
-                        <td class="buildItem__cell buildItem__cell--name">{{build.name}}</td>
+                        <td class="buildItem__cell buildItem__cell--number">{{build.number}}</td>
+                        <td class="buildItem__cell buildItem__cell--stage">{{build.stage}}</td>
+                        <td class="buildItem__cell buildItem__cell--status">{{build.status}}</td>
                         <td class="buildItem__cell buildItem__cell--actions">
-                            <a class="buildItem__input buildItem__input--slotsGames pure-button pure-button-primary"
-                               href="/console/slots/gameconfiguration/list?buildIdFilter={{build.id}}&csrfToken=${csrfToken}">Slots Games</a>
-                            <a class="buildItem__input buildItem__input--view pure-button pure-button-primary"
-                               href="#/build/view/{{build.id}}">View</a>
-                            <a class="buildItem__input buildItem__input--edit pure-button pure-button-primary"
-                               href="#/build/edit/{{build.id}}">Edit</a>
+                            <a class="buildItem__input buildItem__input--view pure-button pure-button-primary" href="#/build/view/{{build.id}}">View</a>
+                            <a class="buildItem__input buildItem__input--edit pure-button pure-button-primary" href="#/build/edit/{{build.id}}">Edit</a>
                         </td>
                     </tr>
                 </tbody>

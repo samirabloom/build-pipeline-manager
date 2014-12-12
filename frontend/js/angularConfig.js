@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    var app = angular.module('console', ['ngRoute']);
+    var app = angular.module('build_manager', ['ngRoute']);
 
     app.config(['$httpProvider', '$locationProvider', '$provide', '$routeProvider', function ($httpProvider, $locationProvider, $provide, $routeProvider) {
         // necessary in order to keep fullscreen while navigating

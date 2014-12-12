@@ -12,7 +12,7 @@
 
         beforeEach(function ()
         {
-            var $injector = angular.injector(['console', 'ngMock']);
+            var $injector = angular.injector(['build_manager', 'ngMock']);
             $httpBackend = $injector.get('$httpBackend');
             testBuildService = $injector.get('buildService');
 

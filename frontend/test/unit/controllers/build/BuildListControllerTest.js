@@ -1,46 +1,40 @@
 /*global loadJson:true,tv4:true */
-(function ()
-{
+(function () {
     'use strict';
 
-    
-    describe('BuildListController', function ()
-    {
 
-        /*it('should work', function()
-        {
-            var objects = [
-                {}
-            ];
+    describe('BuildListController', function () {
 
-            var schema = loadJson("schema/list-response.json");
-            var result = tv4.validateResult(objects, schema);
-            console.log(result);
+         /*it('should work', function()
+         {
+         var objects = [
+         {}
+         ];
 
-            expect(result.valid).toBe(false);
-        });*/
+         var schema = loadJson("schema/list-response.json");
+         var result = tv4.validateResult(objects, schema);
+         console.log(result);
 
-        it('on successCallback should update scope with given data', function ()
-        {
+         expect(result.valid).toBe(false);
+         });*/
+
+        it('on successCallback should update scope with given data', function () {
             //given
             var scope = {};
 
-            var accountSysstemsListResponse = {
-                'builds' : [
-                    {'testData': 'testData1'},
-                    {'testData': 'testData2'}
-                ]
-            };
+            var accountSystemsListResponse = [
+                {'testData': 'testData1'},
+                {'testData': 'testData2'}
+            ];
 
             var mockBuildService = {
                 loadAll: jasmine.createSpy('loadAll')
             };
 
             var mockPromise = {
-                then: function (callback)
-                    {
-                        return callback(accountSysstemsListResponse);
-                    }
+                then: function (callback) {
+                    return callback(accountSystemsListResponse);
+                }
             };
 
             //and
@@ -51,7 +45,7 @@
 
             //then
             expect(mockBuildService.loadAll).toHaveBeenCalled();
-            expect(scope.buildsList).toBe(accountSysstemsListResponse.builds);
+            expect(scope.buildsList).toBe(accountSystemsListResponse);
         });
     });
 })();

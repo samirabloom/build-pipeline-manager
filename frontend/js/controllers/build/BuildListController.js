@@ -29,7 +29,7 @@
                 .then(
                     function (data) 
                     {
-                        self.$scope.buildsList = data.builds;
+                        self.$scope.buildsList = data;
                     }
                 );
         }
