@@ -13,7 +13,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ConcurrentNavigableMap;
-import java.util.function.Function;
 
 /**
  * @author jamesdbloom
@@ -65,7 +64,7 @@ public class BuildRepository {
             Collection<String> buildsJson = map.values();
             List<Build> builds = new ArrayList<>();
             Collections.sort(builds);
-            for(String buildJson : buildsJson) {
+            for (String buildJson : buildsJson) {
                 if (!Strings.isNullOrEmpty(buildJson)) {
                     try {
                         builds.add(objectMapper.readValue(buildJson, Build.class));
