@@ -25,7 +25,6 @@
 
             var self = this;
 
-            //intialise the build object for the checkboxes
             this.services.buildService.find(this.buildId)
                 .then(
                     function(data) 

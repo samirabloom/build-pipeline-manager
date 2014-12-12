@@ -32,7 +32,7 @@
         it('on request with 0 response code should get error', function ()
         {
             //given
-            $httpBackend.expectGET(Config.webServer + '/angular/slots/gameConfiguration').respond(0, 'bad request');
+            $httpBackend.expectGET(Config.webServer + '/build').respond(0, 'bad request');
 
             //when
             testBuildService.loadAll();
@@ -47,7 +47,7 @@
         it('on request with 400 response code should get validation error', function ()
         {
             //given
-            $httpBackend.expectGET(Config.webServer + '/angular/slots/gameConfiguration').respond(400, 'bad request');
+            $httpBackend.expectGET(Config.webServer + '/build').respond(400, 'bad request');
 
             //when
             testBuildService.loadAll();
@@ -61,7 +61,7 @@
         it('on request with 401 response code should get unauthorized error', function ()
         {
             //given
-            $httpBackend.expectGET(Config.webServer + '/angular/slots/gameConfiguration').respond(401, 'bad request');
+            $httpBackend.expectGET(Config.webServer + '/build').respond(401, 'bad request');
 
             //when
             testBuildService.loadAll();
@@ -76,7 +76,7 @@
         it('on request with 500 response code should get generic error', function ()
         {
             //given
-            $httpBackend.expectGET(Config.webServer + '/angular/slots/gameConfiguration').respond(500, 'bad request');
+            $httpBackend.expectGET(Config.webServer + '/build').respond(500, 'bad request');
 
             //when
             testBuildService.loadAll();
@@ -91,7 +91,7 @@
         it('on request with not expected response code should get error error', function ()
         {
             //given
-            $httpBackend.expectGET(Config.webServer + '/angular/slots/gameConfiguration').respond(666, 'bad request');
+            $httpBackend.expectGET(Config.webServer + '/build').respond(666, 'bad request');
 
             //when
             testBuildService.loadAll();

@@ -37,7 +37,7 @@
             var returnedResult = testBuildServiceTest.loadAll();
 
             //then
-            expect(mockHttp.get).toHaveBeenCalledWith(Config.webServer + '/angular/build');
+            expect(mockHttp.get).toHaveBeenCalledWith(Config.webServer + '/build');
 
             //and
             expect(expectedResult).toEqual(returnedResult);
@@ -59,7 +59,7 @@
             var returnedResult = testBuildServiceTest.save(buildToSave);
 
             //then
-            expect(mockHttp.put).toHaveBeenCalledWith(Config.webServer + '/angular/build', buildToSave);
+            expect(mockHttp.put).toHaveBeenCalledWith(Config.webServer + '/build', buildToSave);
 
             //and
             expect(expectedResult).toEqual(returnedResult);
@@ -81,7 +81,7 @@
             var returnedResult = testBuildServiceTest.update(buildToUpdate);
 
             //then
-            expect(mockHttp.post).toHaveBeenCalledWith(Config.webServer + '/angular/build', buildToUpdate);
+            expect(mockHttp.post).toHaveBeenCalledWith(Config.webServer + '/build', buildToUpdate);
 
             //and
             expect(expectedResult).toEqual(returnedResult);
@@ -103,7 +103,7 @@
             var returnedResult = testBuildServiceTest.find(buildId);
 
             //then
-            expect(mockHttp.get).toHaveBeenCalledWith(Config.webServer + '/angular/build/' + buildId);
+            expect(mockHttp.get).toHaveBeenCalledWith(Config.webServer + '/build/' + buildId);
 
             //and
             expect(expectedResult).toEqual(returnedResult);

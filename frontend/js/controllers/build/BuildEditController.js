@@ -2,7 +2,7 @@
 {
     'use strict';
     
-    function BuildEditController($scope, buildService, formValidationErrorHelper, $location, $routeParams)
+    function BuildEditController($scope, buildService, $routeParams, formValidationErrorHelper, $location)
     {
         this.$scope = $scope;
         this.$location = $location;
@@ -15,7 +15,7 @@
         this._initialize();
     }
 
-    BuildEditController['$inject'] = ['$scope', 'buildService', 'formValidationErrorHelper', '$location', '$routeParams'];
+    BuildEditController['$inject'] = ['$scope', 'buildService', '$routeParams', 'formValidationErrorHelper', '$location'];
 
     BuildEditController.prototype = {
 
@@ -35,16 +35,21 @@
         {
             this.$scope.errors = {};
 
-            this.$scope.build = {
-                supportedCurrencies : []
-            };
-
-            this.$scope.update = this._update.bind(this);
+            this.$scope.build = {};
 
             var self = this;
+
+            this.services.buildService.find(this.buildId)
+                .then(
+                    function(data)
+                    {
+                        self.$scope.build = data;
+                    }
+                );
+
+            this.$scope.update = this._update.bind(this);
             
         }
-        
         
     };
 

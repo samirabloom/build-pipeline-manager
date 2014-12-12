@@ -28,7 +28,7 @@
             //given
             mockServerClient.mockAnyResponse({
                 'httpRequest' : {
-                    'path' : '/gameserver/angular/build',
+                    'path' : '/buildManager/build',
                     'method' : 'PUT',
                     'body' : {
 

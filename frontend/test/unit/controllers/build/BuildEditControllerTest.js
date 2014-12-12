@@ -55,7 +55,7 @@
             var scope = {};
 
             //when
-            new co.controllers.BuildEditController(scope, mockBuildService, mockFormValidationErrorHelper, mockLocation, routeParams);
+            new co.controllers.BuildEditController(scope, mockBuildService, routeParams, mockFormValidationErrorHelper, mockLocation);
 
             //then
             expect(mockBuildService.find).toHaveBeenCalled();
@@ -84,7 +84,7 @@
             mockBuildService.update.and.returnValue(mockUpdatePromise);
 
             //when
-            var controller = new co.controllers.BuildEditController(scope, mockBuildService, mockFormValidationErrorHelper, mockLocation, routeParams);
+            var controller = new co.controllers.BuildEditController(scope, mockBuildService, routeParams, mockFormValidationErrorHelper, mockLocation);
 
             controller._update();
 
@@ -123,7 +123,7 @@
             mockBuildService.update.and.returnValue(mockUpdatePromise);
 
             //when
-            var controller = new co.controllers.BuildEditController(scope, mockBuildService, mockFormValidationErrorHelper, mockLocation, routeParams);
+            var controller = new co.controllers.BuildEditController(scope, mockBuildService, routeParams, mockFormValidationErrorHelper, mockLocation);
 
             controller._update();
 

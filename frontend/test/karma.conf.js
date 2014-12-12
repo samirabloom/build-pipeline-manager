@@ -13,12 +13,6 @@ module.exports = function (config) {
 
             'js/init.js',
             'js/config.js',
-            'js/core/Class.js',
-            'js/core/Component.js',
-            'js/core/UiComponent.js',
-            'js/core/BaseController.js',
-            'js/core/BaseDirective.js',
-            'js/core/BaseService.js',
             { pattern: 'js/controllers/**/*.js' },
             { pattern: 'js/directives/**/*.js' },
             { pattern: 'js/factories/**/*.js' },
@@ -26,7 +20,7 @@ module.exports = function (config) {
             { pattern: 'js/services/**/*.js' },
             'js/angularConfig.js',
 
-            { pattern: 'json/**/*.json', included: false, served: true },
+//            { pattern: 'json/**/*.json', included: false, served: true },
 
             'test/unit/helpers/JsonHelpers.js',
             { pattern: 'test/unit/**/*.js' }

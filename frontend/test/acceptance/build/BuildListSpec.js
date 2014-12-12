@@ -22,7 +22,7 @@
                 ]
             };
 
-            mockServerClient.mockSimpleResponse('/gameserver/angular/build/list', buildsList, 200);
+            mockServerClient.mockSimpleResponse('/buildManager/build', buildsList, 200);
         });
 
         it('should display list', function ()
