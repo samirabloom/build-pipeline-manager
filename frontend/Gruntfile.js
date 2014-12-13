@@ -3,7 +3,10 @@ module.exports = function (grunt) {
     'use strict';
 
     grunt.initConfig({
-
+        clean:
+        {
+            dist: ['../target/classes']
+        },
         jshint: {
             options: {
                 jshintrc: '.jshintrc'
@@ -66,14 +69,33 @@ module.exports = function (grunt) {
                     tasks: ['protractor:acceptance']
                 }
             }
+        },
+        copy: {
+            dist: {
+                files: [
+                    {
+                        expand: true,
+                        src: [
+                            'css/**',
+                            'icon/**',
+                            'js/**',
+                            'views/**',
+                            'index.html'
+                        ],
+                        dest: '../target/classes'
+                    }
+                ]
+            }
         }
     });
 
     grunt.loadTasks('build');
-    grunt.loadNpmTasks('grunt-protractor-runner');
+    grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-csslint');
     grunt.loadNpmTasks('grunt-karma');
+    grunt.loadNpmTasks('grunt-protractor-runner');
+    grunt.loadNpmTasks('grunt-contrib-copy');
 
     grunt.registerTask('lint', ['csslint', 'jshint']);
 
@@ -85,5 +107,5 @@ module.exports = function (grunt) {
 
     // default
     //grunt.registerTask('default', ['lint', 'karma:chrome', 'start_node_and_run_tasks:run_tests']);
-    grunt.registerTask('default', ['lint', 'karma:phantom']);
+    grunt.registerTask('default', ['lint', 'karma:phantom', 'copy:dist']);
 };

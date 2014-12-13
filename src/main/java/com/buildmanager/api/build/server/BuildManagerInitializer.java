@@ -1,6 +1,7 @@
 package com.buildmanager.api.build.server;
 
-import com.buildmanager.api.build.server.matcher.InboundHttpHandler;
+import com.buildmanager.api.build.server.handler.RestAPIHandler;
+import com.buildmanager.api.build.server.handler.StaticHandler;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.http.HttpContentCompressor;
@@ -19,7 +20,10 @@ import javax.annotation.Resource;
 public class BuildManagerInitializer extends ChannelInitializer<SocketChannel> {
 
     @Resource
-    private InboundHttpHandler restAPIHandler;
+    private RestAPIHandler restAPIHandler;
+
+    @Resource
+    private StaticHandler viewHandler;
 
     @Override
     protected void initChannel(SocketChannel channel) throws Exception {
@@ -32,7 +36,8 @@ public class BuildManagerInitializer extends ChannelInitializer<SocketChannel> {
                 .addLast(new HttpContentCompressor())
                 .addLast(new HttpObjectAggregator(Integer.MAX_VALUE))
                 .addLast(new LoggingHandler("<= HTTP-FULL"))
-                .addLast(restAPIHandler);
+                .addLast(restAPIHandler)
+                .addLast(viewHandler);
 
     }
 }

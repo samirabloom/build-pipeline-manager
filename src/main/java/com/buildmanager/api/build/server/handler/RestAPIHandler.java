@@ -8,10 +8,11 @@ import com.buildmanager.api.build.server.matcher.InboundHttpHandler;
 import com.buildmanager.json.ObjectMapperFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.handler.codec.http.*;
+import io.netty.handler.codec.http.FullHttpRequest;
+import io.netty.handler.codec.http.HttpResponseStatus;
+import io.netty.handler.codec.http.QueryStringDecoder;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -34,16 +35,9 @@ public class RestAPIHandler extends InboundHttpHandler {
 
     @Autowired
     public RestAPIHandler(BuildRepository buildRepository) throws IOException {
-        super("/buildManager/build.*");
+        super("/api/build.*");
         this.buildRepository = buildRepository;
         jsonValidator = new JsonValidator("/json/messages/build/build_validation_messages.properties", "/json/schemas/build/build_json_schema.json");
-    }
-
-    enum HttpMethods {
-        PUT,
-        POST,
-        GET,
-        DELETE
     }
 
     @Override
@@ -52,98 +46,83 @@ public class RestAPIHandler extends InboundHttpHandler {
 
         switch (HttpMethods.valueOf(httpRequest.getMethod().name())) {
             case PUT: {
-                if (validateJson(ctx, jsonRequest)) {
+                if (validateJson(ctx, httpRequest, jsonRequest)) {
                     Build build = objectMapper.readValue(jsonRequest, Build.class);
                     build.setId(UUID.randomUUID());
                     buildRepository.save(build);
-                    ctx.writeAndFlush(createResponse(objectMapper.writeValueAsString(build), HttpResponseStatus.ACCEPTED));
+                    sendResponse(ctx, httpRequest, objectMapper.writeValueAsString(build), "application/json", HttpResponseStatus.ACCEPTED);
                 }
                 break;
             }
             case POST: {
-                if (validateJson(ctx, jsonRequest)) {
-                    UUID buildId;
-                    try {
-                        buildId = decodeUUID(httpRequest.getUri());
-                    } catch (IllegalArgumentException iae) {
-                        ctx.writeAndFlush(createResponse(objectMapper.writeValueAsString(Arrays.asList(iae.getMessage())), HttpResponseStatus.BAD_REQUEST));
-                        break;
-                    }
+                if (validateJson(ctx, httpRequest, jsonRequest)) {
+                    UUID buildId = decodeUUID(ctx, httpRequest, httpRequest.getUri(), true);
                     if (buildId != null) {
                         Build updaterBuild = objectMapper.readValue(jsonRequest, Build.class);
                         Build existingBuild = buildRepository.load(buildId);
                         if (existingBuild != null) {
                             existingBuild.update(updaterBuild);
                             buildRepository.save(existingBuild);
-                            ctx.writeAndFlush(createResponse(objectMapper.writeValueAsString(existingBuild), HttpResponseStatus.ACCEPTED));
+                            sendResponse(ctx, httpRequest, objectMapper.writeValueAsString(existingBuild), "application/json", HttpResponseStatus.ACCEPTED);
                         } else {
-                            ctx.writeAndFlush(createResponse("", HttpResponseStatus.NOT_FOUND));
+                            sendResponse(ctx, httpRequest, HttpResponseStatus.NOT_FOUND);
                         }
                     }
                 }
                 break;
             }
             case GET: {
-                UUID buildId;
-                try {
-                    buildId = decodeUUID(httpRequest.getUri());
-                } catch (IllegalArgumentException iae) {
-                    buildId = null;
-                }
+                UUID buildId = decodeUUID(ctx, httpRequest, httpRequest.getUri(), false);
                 if (buildId != null) {
                     Build retrievedBuild = buildRepository.load(buildId);
                     if (retrievedBuild != null) {
-                        ctx.writeAndFlush(createResponse(objectMapper.writeValueAsString(retrievedBuild), HttpResponseStatus.OK));
+                        sendResponse(ctx, httpRequest, objectMapper.writeValueAsString(retrievedBuild), "application/json", HttpResponseStatus.OK);
                     } else {
-                        ctx.writeAndFlush(createResponse("", HttpResponseStatus.NOT_FOUND));
+                        sendResponse(ctx, httpRequest, HttpResponseStatus.NOT_FOUND);
                     }
                 } else {
                     List<Build> retrievedBuilds = buildRepository.loadAll();
-                    ctx.writeAndFlush(createResponse(objectMapper.writeValueAsString(retrievedBuilds), HttpResponseStatus.OK));
+                    sendResponse(ctx, httpRequest, objectMapper.writeValueAsString(retrievedBuilds), "application/json", HttpResponseStatus.OK);
                 }
                 break;
             }
             case DELETE: {
-                UUID buildId;
-                try {
-                    buildId = decodeUUID(httpRequest.getUri());
-                } catch (IllegalArgumentException iae) {
-                    ctx.writeAndFlush(createResponse(objectMapper.writeValueAsString(Arrays.asList(iae.getMessage())), HttpResponseStatus.BAD_REQUEST));
-                    break;
-                }
+                UUID buildId = decodeUUID(ctx, httpRequest, httpRequest.getUri(), true);
                 if (buildId != null) {
                     Build retrievedBuild = buildRepository.load(buildId);
                     if (retrievedBuild != null) {
                         buildRepository.delete(buildId);
-                        ctx.writeAndFlush(createResponse("", HttpResponseStatus.ACCEPTED));
+                        sendResponse(ctx, httpRequest, HttpResponseStatus.ACCEPTED);
                     } else {
-                        ctx.writeAndFlush(createResponse("", HttpResponseStatus.NOT_FOUND));
+                        sendResponse(ctx, httpRequest, HttpResponseStatus.NOT_FOUND);
                     }
                 }
                 break;
             }
             default:
-                ctx.writeAndFlush(createResponse("", HttpResponseStatus.METHOD_NOT_ALLOWED));
+                sendResponse(ctx, httpRequest, HttpResponseStatus.METHOD_NOT_ALLOWED);
         }
-
-        ctx.close();
     }
 
-    private DefaultFullHttpResponse createResponse(String responseBody, HttpResponseStatus responseStatus) {
-        return new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, responseStatus, Unpooled.wrappedBuffer(responseBody.getBytes(Charsets.UTF_8)));
-    }
-
-    private boolean validateJson(ChannelHandlerContext ctx, String jsonRequest) throws Exception {
+    private boolean validateJson(ChannelHandlerContext ctx, FullHttpRequest httpRequest, String jsonRequest) throws Exception {
         List<BindingError> errorMessages = jsonValidator.jsonValidator(jsonRequest);
         if (!errorMessages.isEmpty()) {
-            ctx.writeAndFlush(createResponse(objectMapper.writeValueAsString(errorMessages), HttpResponseStatus.BAD_REQUEST));
+            sendResponse(ctx, httpRequest, objectMapper.writeValueAsString(errorMessages), "application/json", HttpResponseStatus.BAD_REQUEST);
         }
         return errorMessages.isEmpty();
     }
 
-    private UUID decodeUUID(String uri) throws IllegalArgumentException {
+    private UUID decodeUUID(ChannelHandlerContext ctx, FullHttpRequest httpRequest, String uri, boolean mustExist) throws Exception {
         QueryStringDecoder queryStringDecoder = new QueryStringDecoder(uri);
-        return UUID.fromString(StringUtils.substringAfter(queryStringDecoder.path(), "/buildManager/build/"));
+        UUID buildId = null;
+        try {
+            buildId = UUID.fromString(StringUtils.substringAfter(queryStringDecoder.path(), "/api/build/"));
+        } catch (IllegalArgumentException iae) {
+            if (mustExist) {
+                sendResponse(ctx, httpRequest, objectMapper.writeValueAsString(Arrays.asList(iae.getMessage())), "application/json", HttpResponseStatus.BAD_REQUEST);
+            }
+        }
+        return buildId;
     }
 }
 

@@ -1,3 +1,3 @@
 var Config = Config || {};
 
-Config.webServer = '/buildManager';
+Config.webServer = '/api';

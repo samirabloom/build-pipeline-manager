@@ -36,7 +36,7 @@ class BuildRestDeleteAPIIntSpec extends Specification {
                     "}"
 
         and:
-            ClientResponse saveResponse = client.sendRequest("PUT", "/buildManager/build", body)
+            ClientResponse saveResponse = client.sendRequest("PUT", "/api/build", body)
             Map savedBuild = new JsonSlurper().parseText(saveResponse.body) as Map
             UUID uuid = UUID.fromString(savedBuild.id)
 
@@ -51,7 +51,7 @@ class BuildRestDeleteAPIIntSpec extends Specification {
             )
 
         when:
-            ClientResponse deletedResponse = client.sendRequest("DELETE", "/buildManager/build/" + uuid, "")
+            ClientResponse deletedResponse = client.sendRequest("DELETE", "/api/build/" + uuid, "")
 
         then:
             deletedResponse.status == HttpResponseStatus.ACCEPTED.code()
@@ -61,7 +61,7 @@ class BuildRestDeleteAPIIntSpec extends Specification {
 
     void 'should indicate build does not exist when deleting build'() {
         when:
-            ClientResponse response = client.sendRequest("DELETE", "/buildManager/build/" + UUID.randomUUID(), "")
+            ClientResponse response = client.sendRequest("DELETE", "/api/build/" + UUID.randomUUID(), "")
 
         then:
             response.status == HttpResponseStatus.NOT_FOUND.code()

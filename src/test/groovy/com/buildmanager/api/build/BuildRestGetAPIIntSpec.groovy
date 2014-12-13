@@ -37,17 +37,17 @@ class BuildRestGetAPIIntSpec extends Specification {
                     "}"
 
         and:
-            ClientResponse saveFirstResponse = client.sendRequest("PUT", "/buildManager/build", body)
+            ClientResponse saveFirstResponse = client.sendRequest("PUT", "/api/build", body)
             Map savedFirstBuild = new JsonSlurper().parseText(saveFirstResponse.body) as Map
             UUID firstUuid = UUID.fromString(savedFirstBuild.id)
 
         and:
-            ClientResponse saveSecondResponse = client.sendRequest("PUT", "/buildManager/build", body)
+            ClientResponse saveSecondResponse = client.sendRequest("PUT", "/api/build", body)
             Map savedSecondBuild = new JsonSlurper().parseText(saveSecondResponse.body) as Map
             UUID secondUuid = UUID.fromString(savedSecondBuild.id)
 
         when:
-            ClientResponse loadResponse = client.sendRequest("GET", "/buildManager/build", "")
+            ClientResponse loadResponse = client.sendRequest("GET", "/api/build", "")
 
         then:
             loadResponse.status == HttpResponseStatus.OK.code()
@@ -74,12 +74,12 @@ class BuildRestGetAPIIntSpec extends Specification {
                     "}"
 
         and:
-            ClientResponse saveResponse = client.sendRequest("PUT", "/buildManager/build", body)
+            ClientResponse saveResponse = client.sendRequest("PUT", "/api/build", body)
             Map savedBuild = new JsonSlurper().parseText(saveResponse.body) as Map
             UUID uuid = UUID.fromString(savedBuild.id)
 
         when:
-            ClientResponse loadResponse = client.sendRequest("GET", "/buildManager/build/" + uuid, "")
+            ClientResponse loadResponse = client.sendRequest("GET", "/api/build/" + uuid, "")
 
         then:
             loadResponse.status == HttpResponseStatus.OK.code()
@@ -93,7 +93,7 @@ class BuildRestGetAPIIntSpec extends Specification {
 
     void 'should return empty response if build does not exist' () {
         when:
-            ClientResponse response = client.sendRequest("GET", "/buildManager/build/" + UUID.randomUUID(), "")
+            ClientResponse response = client.sendRequest("GET", "/api/build/" + UUID.randomUUID(), "")
 
         then:
             response.status == HttpResponseStatus.NOT_FOUND.code()
@@ -104,7 +104,7 @@ class BuildRestGetAPIIntSpec extends Specification {
 //
 //    void 'should return invalid Id response if build Id is not Integer' () {
 //        when:
-//            ClientResponse response = client.sendRequest("GET", "/buildManager/build/a", "")
+//            ClientResponse response = client.sendRequest("GET", "/api/build/a", "")
 //
 //        then:
 //            response.status == HttpResponseStatus.BAD_REQUEST.code()
