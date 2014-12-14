@@ -1,12 +1,15 @@
-package com.buildmanager.json;
+package com.buildmanager.api.json;
 
+import com.buildmanager.api.json.time.JodaTimeModule;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.*;
 
 public class ObjectMapperFactory {
+
+    public static final Module[] DEFAULT_MODULES = {
+            new JodaTimeModule()
+    };
 
     public static ObjectMapper createObjectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -33,6 +36,10 @@ public class ObjectMapperFactory {
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_DEFAULT);
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
+
+        for (Module module : DEFAULT_MODULES) {
+            objectMapper.registerModule(module);
+        }
 
         return objectMapper;
     }

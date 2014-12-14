@@ -1,13 +1,11 @@
 package com.buildmanager.api.server.handler;
 
-import com.buildmanager.api.build.uuid.UUIDFactory;
 import com.buildmanager.api.domain.Entity;
 import com.buildmanager.api.json.BindingError;
 import com.buildmanager.api.json.JsonValidator;
 import com.buildmanager.api.respository.Repository;
 import com.buildmanager.api.server.matcher.InboundHttpHandler;
-import com.buildmanager.json.ObjectMapperFactory;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.buildmanager.api.uuid.UUIDFactory;
 import com.google.common.base.Charsets;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -27,19 +25,20 @@ import java.util.UUID;
  */
 @ChannelHandler.Sharable
 public class RestAPIHandler<T extends Entity> extends InboundHttpHandler {
-    private final ObjectMapper objectMapper = ObjectMapperFactory.createObjectMapper();
     private final Class<T> entityClass;
     private final Repository<T> entityRepository;
-    private final JsonValidator jsonValidator;
+    private final JsonValidator newJsonValidator;
+    private final JsonValidator updateJsonValidator;
 
     @Resource
     protected UUIDFactory uuidFactory;
 
-    public RestAPIHandler(Class<T> entityClass, String uriBase, Repository<T> entityRepository, JsonValidator jsonValidator) throws IOException {
+    public RestAPIHandler(Class<T> entityClass, String uriBase, Repository<T> entityRepository, JsonValidator newJsonValidator, JsonValidator updateJsonValidator) throws IOException {
         super(uriBase);
         this.entityClass = entityClass;
         this.entityRepository = entityRepository;
-        this.jsonValidator = jsonValidator;
+        this.newJsonValidator = newJsonValidator;
+        this.updateJsonValidator = updateJsonValidator;
     }
 
     @Override
@@ -48,7 +47,7 @@ public class RestAPIHandler<T extends Entity> extends InboundHttpHandler {
 
         switch (HttpMethods.valueOf(httpRequest.getMethod().name())) {
             case PUT: {
-                if (validateJson(ctx, jsonRequest)) {
+                if (validateJson(ctx, updateJsonValidator, jsonRequest)) {
                     UUID entityId = decodeUUID(ctx, httpRequest.getUri(), true);
                     if (entityId != null) {
                         T updaterEntity = objectMapper.readValue(jsonRequest, entityClass);
@@ -56,7 +55,7 @@ public class RestAPIHandler<T extends Entity> extends InboundHttpHandler {
                         if (existingEntity != null) {
                             existingEntity.update(updaterEntity);
                             entityRepository.save(existingEntity);
-                            sendResponse(ctx, objectMapper.writeValueAsString(existingEntity), "application/json", HttpResponseStatus.ACCEPTED);
+                            sendResponse(ctx, existingEntity, HttpResponseStatus.ACCEPTED);
                         } else {
                             sendError(ctx, HttpResponseStatus.NOT_FOUND);
                         }
@@ -65,11 +64,11 @@ public class RestAPIHandler<T extends Entity> extends InboundHttpHandler {
                 break;
             }
             case POST: {
-                if (validateJson(ctx, jsonRequest)) {
+                if (validateJson(ctx, newJsonValidator, jsonRequest)) {
                     T entity = objectMapper.readValue(jsonRequest, entityClass);
                     entity.setId(uuidFactory.generateUUID());
                     entityRepository.save(entity);
-                    sendResponse(ctx, objectMapper.writeValueAsString(entity), "application/json", HttpResponseStatus.ACCEPTED);
+                    sendResponse(ctx, entity, HttpResponseStatus.ACCEPTED);
                 }
                 break;
             }
@@ -78,13 +77,13 @@ public class RestAPIHandler<T extends Entity> extends InboundHttpHandler {
                 if (entityId != null) {
                     T retrievedEntity = entityRepository.load(entityId);
                     if (retrievedEntity != null) {
-                        sendResponse(ctx, objectMapper.writeValueAsString(retrievedEntity), "application/json", HttpResponseStatus.OK);
+                        sendResponse(ctx, retrievedEntity, HttpResponseStatus.OK);
                     } else {
                         sendError(ctx, HttpResponseStatus.NOT_FOUND);
                     }
                 } else {
-                    List<T> retrievedEntitys = entityRepository.loadAll();
-                    sendResponse(ctx, objectMapper.writeValueAsString(retrievedEntitys), "application/json", HttpResponseStatus.OK);
+                    List<T> retrievedEntities = entityRepository.loadAll();
+                    sendResponse(ctx, retrievedEntities, HttpResponseStatus.OK);
                 }
                 break;
             }
@@ -106,7 +105,7 @@ public class RestAPIHandler<T extends Entity> extends InboundHttpHandler {
         }
     }
 
-    private boolean validateJson(ChannelHandlerContext ctx, String jsonRequest) throws Exception {
+    private boolean validateJson(ChannelHandlerContext ctx, JsonValidator jsonValidator, String jsonRequest) throws Exception {
         List<BindingError> errorMessages = jsonValidator.jsonValidator(jsonRequest);
         if (!errorMessages.isEmpty()) {
             sendResponse(ctx, objectMapper.writeValueAsString(errorMessages), "application/json", HttpResponseStatus.BAD_REQUEST);

@@ -1,7 +1,7 @@
 package com.buildmanager.api.respository;
 
 import com.buildmanager.api.domain.Entity;
-import com.buildmanager.json.ObjectMapperFactory;
+import com.buildmanager.api.json.ObjectMapperFactory;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
@@ -68,7 +68,6 @@ public abstract class Repository<T extends Entity> {
         synchronized (db) {
             Collection<String> entitiesJson = map.values();
             List<T> entities = new ArrayList<>();
-            Collections.sort(entities);
             for (String entityJson : entitiesJson) {
                 if (!Strings.isNullOrEmpty(entityJson)) {
                     try {
@@ -78,6 +77,7 @@ public abstract class Repository<T extends Entity> {
                     }
                 }
             }
+            Collections.sort(entities);
             return entities;
         }
     }

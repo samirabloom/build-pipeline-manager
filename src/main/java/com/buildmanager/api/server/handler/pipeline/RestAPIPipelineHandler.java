@@ -19,12 +19,12 @@ public class RestAPIPipelineHandler extends RestAPIHandler<Pipeline> {
 
     @Autowired
     public RestAPIPipelineHandler(PipelineRepository pipelineRepository) throws IOException {
-        super(Pipeline.class, "/api/pipeline.*", pipelineRepository, new JsonValidator("/json/messages/pipeline/pipeline_validation_messages.properties", "/json/schemas/pipeline/pipeline_json_schema.json"));
+        super(
+                Pipeline.class,
+                "/api/pipeline.*",
+                pipelineRepository,
+                new JsonValidator("/json/messages/pipeline/pipeline_validation_messages.properties", "/json/schemas/pipeline/pipeline_json_schema.json"),
+                new JsonValidator("/json/messages/pipeline/pipeline_validation_messages.properties", "/json/schemas/pipeline/pipeline_json_schema.json")
+        );
     }
 }
-
-
-
-
-
-

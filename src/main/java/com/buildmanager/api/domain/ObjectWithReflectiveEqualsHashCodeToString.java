@@ -1,6 +1,6 @@
 package com.buildmanager.api.domain;
 
-import com.buildmanager.json.ObjectMapperFactory;
+import com.buildmanager.api.json.ObjectMapperFactory;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;

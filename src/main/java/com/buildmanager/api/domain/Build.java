@@ -13,8 +13,8 @@ public class Build extends Entity<Build> {
     private BuildStatus status;
     private String message;
     private String stage;
-    // FIXME fix date handling
-//    private DateTime dateTime = new DateTime();
+    private DateTime createdDate = new DateTime();
+    private DateTime updatedDate = new DateTime();
 
     public UUID getId() {
         return id;
@@ -61,6 +61,24 @@ public class Build extends Entity<Build> {
         return this;
     }
 
+    public DateTime getCreatedDate() {
+        return createdDate;
+    }
+
+    public Build setCreatedDate(DateTime createdDate) {
+        this.createdDate = createdDate;
+        return this;
+    }
+
+    public DateTime getUpdatedDate() {
+        return updatedDate;
+    }
+
+    public Build setUpdatedDate(DateTime updatedDate) {
+        this.updatedDate = updatedDate;
+        return this;
+    }
+
     public Build update(Build updater) {
         if (updater.status != null) {
             this.status = updater.status;
@@ -71,16 +89,17 @@ public class Build extends Entity<Build> {
         if (updater.stage != null) {
             this.stage = updater.stage;
         }
+        this.updatedDate = new DateTime();
         return this;
     }
 
-//    @Override
-//    public int compareTo(Object o) {
-//        if (o instanceof Entity) {
-//            return dateTime.compareTo(((Build) o).dateTime);
-//        } else {
-//            return -1;
-//        }
-//    }
+    @Override
+    public int compareTo(Object o) {
+        if (o instanceof Entity) {
+            return createdDate.compareTo(((Build) o).createdDate);
+        } else {
+            return -1;
+        }
+    }
 
 }

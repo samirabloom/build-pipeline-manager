@@ -1,5 +1,9 @@
 package com.buildmanager.api.server.matcher;
 
+import com.buildmanager.api.domain.Entity;
+import com.buildmanager.api.json.ObjectMapperFactory;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFutureListener;
@@ -10,6 +14,8 @@ import io.netty.util.ReferenceCountUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+
 import static io.netty.handler.codec.http.HttpHeaders.Names.CONNECTION;
 import static io.netty.handler.codec.http.HttpHeaders.Names.CONTENT_TYPE;
 import static io.netty.handler.codec.http.HttpHeaders.Values.CLOSE;
@@ -19,7 +25,7 @@ import static io.netty.handler.codec.http.HttpResponseStatus.*;
 public abstract class InboundHttpHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
 
     protected final Logger logger = LoggerFactory.getLogger(this.getClass());
-
+    protected final ObjectMapper objectMapper = ObjectMapperFactory.createObjectMapper();
     private final RequestMatcher matcher;
 
     protected InboundHttpHandler(HttpMethod method, String uriBase) {
@@ -77,6 +83,16 @@ public abstract class InboundHttpHandler extends SimpleChannelInboundHandler<Ful
 
         httpResponse.headers().add(CONNECTION, CLOSE);
         ctx.writeAndFlush(httpResponse).addListener(ChannelFutureListener.CLOSE);
+    }
+
+    protected void sendResponse(ChannelHandlerContext ctx, Entity jsonResponse, HttpResponseStatus responseStatus) throws JsonProcessingException {
+        String responseBody = objectMapper.writer().withDefaultPrettyPrinter().writeValueAsString(jsonResponse);
+        sendResponse(ctx, responseBody, "application/json", responseStatus);
+    }
+
+    protected void sendResponse(ChannelHandlerContext ctx, List<? extends Entity> jsonResponse, HttpResponseStatus responseStatus) throws JsonProcessingException {
+        String responseBody = objectMapper.writer().withDefaultPrettyPrinter().writeValueAsString(jsonResponse);
+        sendResponse(ctx, responseBody, "application/json", responseStatus);
     }
 
     @Override

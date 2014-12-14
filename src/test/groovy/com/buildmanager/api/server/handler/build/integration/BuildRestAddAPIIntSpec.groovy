@@ -5,6 +5,7 @@ import com.buildmanager.api.build.RestClient
 import com.buildmanager.api.server.BuildManager
 import groovy.json.JsonSlurper
 import io.netty.handler.codec.http.HttpResponseStatus
+import org.joda.time.DateTime
 import spock.lang.Specification
 
 /**
@@ -31,7 +32,9 @@ class BuildRestAddAPIIntSpec extends Specification {
                     "number: 1, " +
                     "status: \"IN_PROGRESS\", " +
                     "message: \"build in-progress\", " +
-                    "stage: \"BUILD\"" +
+                    "stage: \"BUILD\"," +
+                    "createdDate: \"2014-12-14T18:52:02.043Z\",\n" +
+                    "updatedDate: \"2014-12-14T18:52:02.043Z\"\n" +
                     "}"
 
         when:
@@ -45,6 +48,8 @@ class BuildRestAddAPIIntSpec extends Specification {
             build.status == "IN_PROGRESS"
             build.message == "build in-progress"
             build.stage == "BUILD"
+            build.createdDate == "2014-12-14T18:52:02.043Z"
+            build.updatedDate == "2014-12-14T18:52:02.043Z"
     }
 
     void 'should validate when new build is added'() {

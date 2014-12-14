@@ -1,6 +1,5 @@
 package com.buildmanager.api.json;
 
-import com.buildmanager.json.ObjectMapperFactory;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jackson.JsonLoader;
@@ -47,14 +46,14 @@ public class JsonValidator {
     }
 
     private final List<String> integerValidations = Arrays.asList("minItems", "maxItems", "minLength", "maxLength");
-    private final List<String> listValidations = Arrays.asList("required", "enum");
+    private final List<String> listValidations = Arrays.asList("required", "additionalProperties", "enum");
 
     private BindingError getMessage(ProcessingMessage processingMessage) {
         String path = processingMessage.asJson().get("instance").get("pointer").asText().replaceFirst("/", "").replaceAll("/", ".").replaceAll("\\d\\.", "");
         String type = processingMessage.asJson().get("keyword").asText();
         String message = messageBundle.getMessage("err." + path + (Strings.isNullOrEmpty(path) ? "" : ".") + type);
         if (listValidations.contains(type)) {
-            message = String.format(message, processingMessage.asJson().get(type));
+            message = String.format(message, processingMessage.asJson().get(type.replaceAll("additionalProperties", "unwanted")));
         }
         if (integerValidations.contains(type)) {
             message = String.format(message, processingMessage.asJson().get(type).asInt());

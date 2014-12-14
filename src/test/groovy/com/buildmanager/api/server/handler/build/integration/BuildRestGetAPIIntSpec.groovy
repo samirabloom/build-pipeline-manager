@@ -29,20 +29,26 @@ class BuildRestGetAPIIntSpec extends Specification {
 
     void 'should return all builds'() {
         given:
-            String body = "{" +
+            String buildOne = "{" +
                     "number: 1, " +
                     "status: \"PASSED\", " +
                     "message: \"build completed\", " +
                     "stage: \"BUILD\"" +
                     "}"
+            String buildTwo = "{" +
+                    "number: 2, " +
+                    "status: \"FAILED\", " +
+                    "message: \"build failed\", " +
+                    "stage: \"BUILD\"" +
+                    "}"
 
         and:
-            ClientResponse saveFirstResponse = client.sendRequest("POST", "/api/build", body)
+            ClientResponse saveFirstResponse = client.sendRequest("POST", "/api/build", buildOne)
             Map savedFirstBuild = new JsonSlurper().parseText(saveFirstResponse.body) as Map
             UUID firstUuid = UUID.fromString(savedFirstBuild.id)
 
         and:
-            ClientResponse saveSecondResponse = client.sendRequest("POST", "/api/build", body)
+            ClientResponse saveSecondResponse = client.sendRequest("POST", "/api/build", buildTwo)
             Map savedSecondBuild = new JsonSlurper().parseText(saveSecondResponse.body) as Map
             UUID secondUuid = UUID.fromString(savedSecondBuild.id)
 
@@ -51,6 +57,7 @@ class BuildRestGetAPIIntSpec extends Specification {
 
         then:
             loadResponse.status == HttpResponseStatus.OK.code()
+            println "loadResponse.body = $loadResponse.body"
             List loadedBuilds = new JsonSlurper().parseText(loadResponse.body) as List
             loadedBuilds[0].id == firstUuid.toString()
             loadedBuilds[0].number == 1
@@ -58,9 +65,9 @@ class BuildRestGetAPIIntSpec extends Specification {
             loadedBuilds[0].message == "build completed"
             loadedBuilds[0].stage == "BUILD"
             loadedBuilds[1].id == secondUuid.toString()
-            loadedBuilds[1].number == 1
-            loadedBuilds[1].status == "PASSED"
-            loadedBuilds[1].message == "build completed"
+            loadedBuilds[1].number == 2
+            loadedBuilds[1].status == "FAILED"
+            loadedBuilds[1].message == "build failed"
             loadedBuilds[1].stage == "BUILD"
     }
 

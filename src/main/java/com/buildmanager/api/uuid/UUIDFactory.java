@@ -1,4 +1,4 @@
-package com.buildmanager.api.build.uuid;
+package com.buildmanager.api.uuid;
 
 import org.springframework.stereotype.Component;
 

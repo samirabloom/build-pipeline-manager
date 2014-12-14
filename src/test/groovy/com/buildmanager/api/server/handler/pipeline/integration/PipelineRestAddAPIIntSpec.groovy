@@ -52,7 +52,7 @@ class PipelineRestAddAPIIntSpec extends Specification {
             pipeline.stages[1].name == "DEVELOPMENT"
     }
 
-    void 'should validate when new pipeline is added'() {
+    void 'should validate pipeline name'() {
         given:
             String body = "{" +
                     "name: 2, " +
@@ -116,75 +116,19 @@ class PipelineRestAddAPIIntSpec extends Specification {
                     "]";
     }
 
-    @Ignore
-    void 'should validate pipeline stage'() {
+    void 'should validate multiple validation errors'() {
         given:
             String body = "{" +
-                    "name: \"build manager\", " +
-                    "stages: [" +
-                    "   {" +
-                    "      name: \"BUILD\"" +
-                    "   }," +
-                    "   {" +
-                    "      name: \"DEVELOPMENT\"" +
-                    "   }" +
-                    "]" +
+                    "name: \"\", " +
+                    "stages: [ ]" +
                     "}"
         when:
             ClientResponse response = client.sendRequest("POST", "/api/pipeline", body)
         then:
             response.status == HttpResponseStatus.BAD_REQUEST.code()
             response.body == "[" +
-                    "{\"path\":\"stage\",\"type\":\"enum\",\"message\":\"please enter a stage from [\\\"BUILD\\\", \\\"DEVELOP\\\", \\\"AUTO_QA\\\", \\\"MANUAL_QA\\\", \\\"UAT\\\", \\\"PROD\\\"]\"}" +
-                    "]";
-    }
-
-    @Ignore
-    void 'should validate adding new pipeline with 2 missing properties'() {
-        given:
-            String body = "{" +
-                    "name: \"build manager\", " +
-                    "stages: [" +
-                    "   {" +
-                    "      name: \"BUILD\"" +
-                    "   }," +
-                    "   {" +
-                    "      name: \"DEVELOPMENT\"" +
-                    "   }" +
-                    "]" +
-                    "}"
-        when:
-            ClientResponse response = client.sendRequest("POST", "/api/pipeline", body)
-
-        then:
-            response.status == HttpResponseStatus.BAD_REQUEST.code()
-            response.body == "[" +
-                    "{\"type\":\"required\",\"message\":\"please enter all required fields [\\\"message\\\",\\\"number\\\",\\\"stage\\\",\\\"status\\\"]\"}" +
-                    "]";
-    }
-
-    @Ignore
-    void 'should validate adding new pipeline with 2 in valid properties'() {
-        given:
-            String body = "{" +
-                    "name: \"build manager\", " +
-                    "stages: [" +
-                    "   {" +
-                    "      name: \"BUILD\"" +
-                    "   }," +
-                    "   {" +
-                    "      name: \"DEVELOPMENT\"" +
-                    "   }" +
-                    "]" +
-                    "}"
-        when:
-            ClientResponse response = client.sendRequest("POST", "/api/pipeline", body)
-        then:
-            response.status == HttpResponseStatus.BAD_REQUEST.code()
-            response.body == "[" +
-                    "{\"path\":\"number\",\"type\":\"type\",\"message\":\"please enter a valid number\"}," +
-                    "{\"path\":\"stage\",\"type\":\"enum\",\"message\":\"please enter a stage from [\\\"BUILD\\\", \\\"DEVELOP\\\", \\\"AUTO_QA\\\", \\\"MANUAL_QA\\\", \\\"UAT\\\", \\\"PROD\\\"]\"}," +
-                    "{\"path\":\"status\",\"type\":\"enum\",\"message\":\"please enter a status from [\\\"IN_PROGRESS\\\" , \\\"PASSED\\\", \\\"FAILED\\\"]\"}" +
+                    "{\"path\":\"name\",\"type\":\"minLength\",\"message\":\"please enter a name between 1 and 50 characters\"}," +
+                    "{\"path\":\"stages\",\"type\":\"minItems\",\"message\":\"please enter at least one stage for the pipeline\"}" +
                     "]";
     }
 
