@@ -5,7 +5,7 @@ import com.buildmanager.api.build.server.handler.StaticFileHandler;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
 //import io.netty.handler.codec.http.HttpContentCompressor;
-//import io.netty.handler.codec.http.HttpContentDecompressor;
+import io.netty.handler.codec.http.HttpContentDecompressor;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
 import io.netty.handler.logging.LoggingHandler;
@@ -30,7 +30,7 @@ public class BuildManagerInitializer extends ChannelInitializer<SocketChannel> {
                 .addLast(new LoggingHandler("<= RAW"))
                 .addLast(new HttpServerCodec())
                 .addLast(new LoggingHandler("<= HTTP-CHUNKED"))
-//                .addLast(new HttpContentDecompressor())
+                .addLast(new HttpContentDecompressor())
 //                .addLast(new HttpContentCompressor())
                 .addLast(new HttpObjectAggregator(Integer.MAX_VALUE))
                 .addLast(new ChunkedWriteHandler())
