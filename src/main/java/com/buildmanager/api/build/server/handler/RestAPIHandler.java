@@ -5,6 +5,7 @@ import com.buildmanager.api.build.json.BindingError;
 import com.buildmanager.api.build.json.JsonValidator;
 import com.buildmanager.api.build.respository.Repository;
 import com.buildmanager.api.build.server.matcher.InboundHttpHandler;
+import com.buildmanager.api.build.uuid.UUIDFactory;
 import com.buildmanager.json.ObjectMapperFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
@@ -14,9 +15,8 @@ import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.netty.handler.codec.http.QueryStringDecoder;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -31,6 +31,9 @@ public class RestAPIHandler<T extends Entity> extends InboundHttpHandler {
     private final Class<T> entityClass;
     private final Repository<T> entityRepository;
     private final JsonValidator jsonValidator;
+
+    @Resource
+    protected UUIDFactory uuidFactory;
 
     public RestAPIHandler(Class<T> entityClass, String uriBase, Repository<T> entityRepository, JsonValidator jsonValidator) throws IOException {
         super(uriBase);
@@ -64,7 +67,7 @@ public class RestAPIHandler<T extends Entity> extends InboundHttpHandler {
             case POST: {
                 if (validateJson(ctx, jsonRequest)) {
                     T entity = objectMapper.readValue(jsonRequest, entityClass);
-                    entity.setId(UUID.randomUUID());
+                    entity.setId(uuidFactory.generateUUID());
                     entityRepository.save(entity);
                     sendResponse(ctx, objectMapper.writeValueAsString(entity), "application/json", HttpResponseStatus.ACCEPTED);
                 }

@@ -1,5 +1,7 @@
 package com.buildmanager.api.build.domain;
 
+import org.joda.time.DateTime;
+
 import java.util.UUID;
 
 /**
@@ -11,6 +13,8 @@ public class Build extends Entity<Build> {
     private BuildStatus status;
     private String message;
     private String stage;
+    // FIXME fix date handling
+//    private DateTime dateTime = new DateTime();
 
     public UUID getId() {
         return id;
@@ -69,4 +73,14 @@ public class Build extends Entity<Build> {
         }
         return this;
     }
+
+//    @Override
+//    public int compareTo(Object o) {
+//        if (o instanceof Entity) {
+//            return dateTime.compareTo(((Build) o).dateTime);
+//        } else {
+//            return -1;
+//        }
+//    }
+
 }

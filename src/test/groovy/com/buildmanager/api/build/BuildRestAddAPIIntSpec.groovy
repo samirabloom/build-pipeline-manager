@@ -128,7 +128,7 @@ class BuildRestAddAPIIntSpec extends Specification {
         then:
             response.status == HttpResponseStatus.BAD_REQUEST.code()
             response.body == "[" +
-                    "{\"type\":\"required\",\"message\":\"please enter all required fields\"}" +
+                    "{\"type\":\"required\",\"message\":\"please enter all required fields [\\\"message\\\",\\\"number\\\",\\\"stage\\\",\\\"status\\\"]\"}" +
                     "]";
     }
 
