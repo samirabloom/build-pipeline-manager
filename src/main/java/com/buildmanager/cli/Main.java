@@ -1,6 +1,6 @@
 package com.buildmanager.cli;
 
-import com.buildmanager.api.build.server.BuildManager;
+import com.buildmanager.api.server.BuildManager;
 import org.apache.commons.cli.*;
 
 /**

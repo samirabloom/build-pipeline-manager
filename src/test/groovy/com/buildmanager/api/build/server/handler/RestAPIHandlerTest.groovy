@@ -1,9 +1,10 @@
 package com.buildmanager.api.build.server.handler
 
-import com.buildmanager.api.build.domain.Build
-import com.buildmanager.api.build.domain.BuildStatus
-import com.buildmanager.api.build.respository.BuildRepository
 import com.buildmanager.api.build.uuid.UUIDFactory
+import com.buildmanager.api.domain.Build
+import com.buildmanager.api.domain.BuildStatus
+import com.buildmanager.api.respository.BuildRepository
+import com.buildmanager.api.server.handler.build.RestAPIBuildHandler
 import com.google.common.base.Charsets
 import io.netty.buffer.Unpooled
 import io.netty.channel.embedded.EmbeddedChannel
