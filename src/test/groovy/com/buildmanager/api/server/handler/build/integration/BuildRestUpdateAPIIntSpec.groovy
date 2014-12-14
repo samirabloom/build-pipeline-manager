@@ -92,7 +92,7 @@ class BuildRestUpdateAPIIntSpec extends Specification {
         then:
             response.status == HttpResponseStatus.BAD_REQUEST.code()
             response.body == "[" +
-                    "{\"type\":\"additionalProperties\",\"message\":\"please only provide allow fields [\\\"id\\\",\\\"number\\\"]\"}" +
+                    "{\"type\":\"additionalProperties\",\"message\":\"please only provide allow fields, the following fields are not allowed: [\\\"id\\\",\\\"number\\\"]\"}" +
                     "]";
     }
 
