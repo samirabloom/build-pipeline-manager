@@ -6,9 +6,19 @@
             "minLength": 1,
             "maxLength": 50
         },
-        "Stages": {
-            "type": "list",
-            "enum": [ "BUILD", "DEVELOP", "AUTO_QA", "MANUAL_QA", "UAT", "PROD" ]
+        "stages": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 50
+                    }
+                }
+            }
         }
     },
     "required": ["name", "stages"]

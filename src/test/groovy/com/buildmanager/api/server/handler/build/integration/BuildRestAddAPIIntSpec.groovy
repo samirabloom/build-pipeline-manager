@@ -47,7 +47,7 @@ class BuildRestAddAPIIntSpec extends Specification {
             build.stage == "BUILD"
     }
 
-    void 'should validate adding new build'() {
+    void 'should validate when new build is added'() {
         given:
             String body = "{" +
                     "number: \"a\", " +

@@ -22,11 +22,11 @@ import java.util.List;
 public class JsonValidator {
     private final ObjectMapper objectMapper = ObjectMapperFactory.createObjectMapper();
     private final MessageBundle messageBundle;
-    private final JsonNode buildSchema;
+    private final JsonNode schema;
 
     public JsonValidator(String messageResourcePath, String schemaResourcePath) throws IOException {
         messageBundle = PropertiesBundle.forPath(messageResourcePath);
-        buildSchema = JsonLoader.fromResource(schemaResourcePath);
+        schema = JsonLoader.fromResource(schemaResourcePath);
     }
 
     public List<BindingError> jsonValidator(String json) throws Exception {
@@ -34,7 +34,7 @@ public class JsonValidator {
                 JsonSchemaFactory
                         .byDefault()
                         .getValidator()
-                        .validate(buildSchema, objectMapper.readTree(json), true);
+                        .validate(schema, objectMapper.readTree(json), true);
 
         List<BindingError> errorMessages = new ArrayList<>();
         if (!validationReport.isSuccess()) {
@@ -50,7 +50,7 @@ public class JsonValidator {
     private final List<String> listValidations = Arrays.asList("required", "enum");
 
     private BindingError getMessage(ProcessingMessage processingMessage) {
-        String path = processingMessage.asJson().get("instance").get("pointer").asText().replaceFirst("/", "").replaceAll("/", ".");
+        String path = processingMessage.asJson().get("instance").get("pointer").asText().replaceFirst("/", "").replaceAll("/", ".").replaceAll("\\d\\.", "");
         String type = processingMessage.asJson().get("keyword").asText();
         String message = messageBundle.getMessage("err." + path + (Strings.isNullOrEmpty(path) ? "" : ".") + type);
         if (listValidations.contains(type)) {
