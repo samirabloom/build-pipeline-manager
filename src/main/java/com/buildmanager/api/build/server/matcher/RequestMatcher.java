@@ -18,11 +18,17 @@ public class RequestMatcher {
         this.method = method;
     }
 
-    public boolean match(FullHttpRequest request) {
-        boolean methodMatches = method == null || method.equals(request.getMethod());
-        boolean uriBaseMatches = Strings.isNullOrEmpty(uriRegex)
+    public boolean matches(FullHttpRequest request) {
+        return pathMatches(request) && methodMatches(request);
+    }
+
+    public boolean methodMatches(FullHttpRequest request) {
+        return method == null || method.equals(request.getMethod());
+    }
+
+    public boolean pathMatches(FullHttpRequest request) {
+        return Strings.isNullOrEmpty(uriRegex)
                 || StringUtils.startsWithIgnoreCase(new QueryStringDecoder(request.getUri()).path(), uriRegex)
                 || new QueryStringDecoder(request.getUri()).path().matches(uriRegex);
-        return uriBaseMatches && methodMatches;
     }
 }

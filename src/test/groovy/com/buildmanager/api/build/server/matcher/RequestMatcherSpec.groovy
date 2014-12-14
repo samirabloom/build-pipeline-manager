@@ -1,6 +1,5 @@
 package com.buildmanager.api.build.server.matcher
 
-import com.buildmanager.api.build.server.matcher.RequestMatcher
 import io.netty.handler.codec.http.DefaultFullHttpRequest
 import io.netty.handler.codec.http.HttpMethod
 import io.netty.handler.codec.http.HttpRequest
@@ -19,7 +18,7 @@ class RequestMatcherSpec extends Specification {
             HttpRequest httpRequest = new DefaultFullHttpRequest(HttpVersion.HTTP_1_1, requestMethod, requestUri)
 
         when:
-            boolean matches = new RequestMatcher(matcherMethod, matcherUri).match(httpRequest);
+            boolean matches = new RequestMatcher(matcherMethod, matcherUri).matches(httpRequest);
 
         then:
             matches == result

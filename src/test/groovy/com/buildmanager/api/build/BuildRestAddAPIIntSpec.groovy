@@ -33,7 +33,7 @@ class BuildRestAddAPIIntSpec extends Specification {
                     "}"
 
         when:
-            ClientResponse response = client.sendRequest("PUT", "/api/build", body)
+            ClientResponse response = client.sendRequest("POST", "/api/build", body)
 
         then:
             response.status == HttpResponseStatus.ACCEPTED.code()
@@ -54,7 +54,7 @@ class BuildRestAddAPIIntSpec extends Specification {
                     "stage: \"BUILD\"" +
                     "}"
         when:
-            ClientResponse response = client.sendRequest("PUT", "/api/build", body)
+            ClientResponse response = client.sendRequest("POST", "/api/build", body)
         then:
             response.status == HttpResponseStatus.BAD_REQUEST.code()
             response.body == "[" +
@@ -72,7 +72,7 @@ class BuildRestAddAPIIntSpec extends Specification {
                     "stage: \"BUILD\"" +
                     "}"
         when:
-            ClientResponse response = client.sendRequest("PUT", "/api/build", body)
+            ClientResponse response = client.sendRequest("POST", "/api/build", body)
         then:
             response.status == HttpResponseStatus.BAD_REQUEST.code()
             response.body == "[" +
@@ -91,7 +91,7 @@ class BuildRestAddAPIIntSpec extends Specification {
                     "stage: \"BUILD\"" +
                     "}"
         when:
-            ClientResponse response = client.sendRequest("PUT", "/api/build", body)
+            ClientResponse response = client.sendRequest("POST", "/api/build", body)
         then:
             response.status == HttpResponseStatus.BAD_REQUEST.code()
             response.body == "[" +
@@ -108,7 +108,7 @@ class BuildRestAddAPIIntSpec extends Specification {
                     "stage: \"IN VALID\"" +
                     "}"
         when:
-            ClientResponse response = client.sendRequest("PUT", "/api/build", body)
+            ClientResponse response = client.sendRequest("POST", "/api/build", body)
         then:
             response.status == HttpResponseStatus.BAD_REQUEST.code()
             response.body == "[" +
@@ -123,7 +123,7 @@ class BuildRestAddAPIIntSpec extends Specification {
                     "stage: \"BUILD\"" +
                     "}"
         when:
-            ClientResponse response = client.sendRequest("PUT", "/api/build", body)
+            ClientResponse response = client.sendRequest("POST", "/api/build", body)
 
         then:
             response.status == HttpResponseStatus.BAD_REQUEST.code()
@@ -141,7 +141,7 @@ class BuildRestAddAPIIntSpec extends Specification {
                     "stage: \"IN VALID\"" +
                     "}"
         when:
-            ClientResponse response = client.sendRequest("PUT", "/api/build", body)
+            ClientResponse response = client.sendRequest("POST", "/api/build", body)
         then:
             response.status == HttpResponseStatus.BAD_REQUEST.code()
             response.body == "[" +

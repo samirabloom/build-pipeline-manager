@@ -37,12 +37,12 @@ class BuildRestGetAPIIntSpec extends Specification {
                     "}"
 
         and:
-            ClientResponse saveFirstResponse = client.sendRequest("PUT", "/api/build", body)
+            ClientResponse saveFirstResponse = client.sendRequest("POST", "/api/build", body)
             Map savedFirstBuild = new JsonSlurper().parseText(saveFirstResponse.body) as Map
             UUID firstUuid = UUID.fromString(savedFirstBuild.id)
 
         and:
-            ClientResponse saveSecondResponse = client.sendRequest("PUT", "/api/build", body)
+            ClientResponse saveSecondResponse = client.sendRequest("POST", "/api/build", body)
             Map savedSecondBuild = new JsonSlurper().parseText(saveSecondResponse.body) as Map
             UUID secondUuid = UUID.fromString(savedSecondBuild.id)
 
@@ -74,7 +74,7 @@ class BuildRestGetAPIIntSpec extends Specification {
                     "}"
 
         and:
-            ClientResponse saveResponse = client.sendRequest("PUT", "/api/build", body)
+            ClientResponse saveResponse = client.sendRequest("POST", "/api/build", body)
             Map savedBuild = new JsonSlurper().parseText(saveResponse.body) as Map
             UUID uuid = UUID.fromString(savedBuild.id)
 

@@ -33,7 +33,7 @@ class BuildRestUpdateAPIIntSpec extends Specification {
                     "}"
 
         and:
-            ClientResponse saveResponse = client.sendRequest("PUT", "/api/build", body)
+            ClientResponse saveResponse = client.sendRequest("POST", "/api/build", body)
             Map savedBuild = new JsonSlurper().parseText(saveResponse.body) as Map
             UUID uuid = UUID.fromString(savedBuild.id)
 
@@ -46,7 +46,7 @@ class BuildRestUpdateAPIIntSpec extends Specification {
                     "}"
 
         when:
-            ClientResponse updatedBuildResponse = client.sendRequest("POST", "/api/build/" + uuid, updatedBuildBody)
+            ClientResponse updatedBuildResponse = client.sendRequest("PUT", "/api/build/" + uuid, updatedBuildBody)
 
         then:
             updatedBuildResponse.status == HttpResponseStatus.ACCEPTED.code()
@@ -68,7 +68,7 @@ class BuildRestUpdateAPIIntSpec extends Specification {
                     "}"
 
         and:
-            ClientResponse response = client.sendRequest("PUT", "/api/build", body)
+            ClientResponse response = client.sendRequest("POST", "/api/build", body)
             Map build = new JsonSlurper().parseText(response.body) as Map
             UUID uuid = UUID.fromString(build.id)
 
@@ -82,7 +82,7 @@ class BuildRestUpdateAPIIntSpec extends Specification {
                     "}"
 
         when:
-            ClientResponse updatedBuildResponse = client.sendRequest("POST", "/api/build/" + uuid, updatedBuildBody)
+            ClientResponse updatedBuildResponse = client.sendRequest("PUT", "/api/build/" + uuid, updatedBuildBody)
 
         then:
             updatedBuildResponse.status == HttpResponseStatus.ACCEPTED.code()
@@ -108,7 +108,7 @@ class BuildRestUpdateAPIIntSpec extends Specification {
                     "}"
 
         when:
-            ClientResponse response = client.sendRequest("POST", "/api/build/" + uuid, body)
+            ClientResponse response = client.sendRequest("PUT", "/api/build/" + uuid, body)
 
         then:
             response.status == HttpResponseStatus.NOT_FOUND.code()

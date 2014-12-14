@@ -10,8 +10,11 @@ import io.netty.util.ReferenceCountUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static io.netty.handler.codec.http.HttpHeaders.Names.*;
+import static io.netty.handler.codec.http.HttpHeaders.Names.CONNECTION;
+import static io.netty.handler.codec.http.HttpHeaders.Names.CONTENT_TYPE;
 import static io.netty.handler.codec.http.HttpHeaders.Values.CLOSE;
+import static io.netty.handler.codec.http.HttpHeaders.setContentLength;
+import static io.netty.handler.codec.http.HttpResponseStatus.*;
 
 public abstract class InboundHttpHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
 
@@ -28,15 +31,18 @@ public abstract class InboundHttpHandler extends SimpleChannelInboundHandler<Ful
         this(null, uriBase);
     }
 
-    public boolean acceptInboundMessage(FullHttpRequest request) throws Exception {
-        return matcher.match(request);
-    }
-
     @Override
     public void channelRead0(ChannelHandlerContext ctx, FullHttpRequest request) throws Exception {
+        if (!request.getDecoderResult().isSuccess()) {
+            sendError(ctx, BAD_REQUEST);
+            return;
+        }
         boolean release = true;
         try {
-            if (acceptInboundMessage(request)) {
+            // FIXME introduce a match result to avoid doing path matching twice
+            if (matcher.pathMatches(request) && !matcher.methodMatches(request)) {
+                sendError(ctx, METHOD_NOT_ALLOWED);
+            } else if (matcher.matches(request)) {
                 messageReceived(ctx, request);
             } else {
                 release = false;
@@ -58,36 +64,28 @@ public abstract class InboundHttpHandler extends SimpleChannelInboundHandler<Ful
 
     protected abstract void messageReceived(ChannelHandlerContext ctx, FullHttpRequest msg) throws Exception;
 
-    protected void sendResponse(ChannelHandlerContext ctx, FullHttpRequest httpRequest, HttpResponseStatus responseStatus) {
-        sendResponse(ctx, httpRequest, "", null, responseStatus);
+    protected void sendError(ChannelHandlerContext ctx, HttpResponseStatus responseStatus) {
+        sendResponse(ctx, "", "text/plain", responseStatus);
     }
 
-    protected void sendResponse(ChannelHandlerContext ctx, FullHttpRequest httpRequest, String responseBody, String contentType, HttpResponseStatus responseStatus) {
+    protected void sendResponse(ChannelHandlerContext ctx, String responseBody, String contentType, HttpResponseStatus responseStatus) {
         DefaultFullHttpResponse httpResponse = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, responseStatus, Unpooled.wrappedBuffer(responseBody.getBytes(Charsets.UTF_8)));
         if (responseBody.length() > 0) {
-            httpResponse.headers().add(CONTENT_TYPE, contentType + "; charset=utf-8");
-            httpResponse.headers().add(CONTENT_LENGTH, responseBody.length());
+            setContentLength(httpResponse, responseBody.length());
         }
+        httpResponse.headers().add(CONTENT_TYPE, contentType + "; charset=utf-8");
 
-        // FIXME why does this cause some of the tests to hang
-//        if (isKeepAlive(httpRequest)) {
-//            httpResponse.headers().add(CONNECTION, KEEP_ALIVE);
-//            ctx.write(httpResponse);
-//        } else {
         httpResponse.headers().add(CONNECTION, CLOSE);
         ctx.writeAndFlush(httpResponse).addListener(ChannelFutureListener.CLOSE);
-//        }
-    }
-
-    @Override
-    public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
-        ctx.flush();
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         if (!cause.getMessage().contains("Connection reset by peer")) {
             logger.warn("Exception caught handling request", cause);
+        }
+        if (ctx.channel().isActive()) {
+            sendError(ctx, INTERNAL_SERVER_ERROR);
         }
         ctx.close();
     }
