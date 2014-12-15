@@ -106,20 +106,27 @@
 
                 var fileStream = fs.createReadStream(filename);
                 fileStream.pipe(res);
-            } else if (isCannedData && uri === '/buildManager/build') {
-                postRequest(req, res, function (post) {
-                    var response = canned_data.build.list;
-                    sendJSONResponse(res, response);
+            } else if (isCannedData && uri === '/api/pipeline') {
+                postRequest(req, res, function () {
+                    sendJSONResponse(res, canned_data.pipeline.list);
                 })
-            } else if (isCannedData && uri.indexOf('/buildManager/build') == 0) {
-                postRequest(req, res, function (post) {
-                    var response = canned_data.build.list;
-                    if (uri === '/buildManager/build/8f0666b2-df97-42f5-a13e-9deac7dd590e') {
-                        response = canned_data.build.view;
-                    } else if (uri === '/buildManager/build/1e214c23-168a-4c87-b960-45eb9e93d526') {
-                        response = canned_data.build.edit;
+            } else if (isCannedData && uri.indexOf('/api/pipeline') == 0) {
+                postRequest(req, res, function () {
+                    sendJSONResponse(res, canned_data.pipeline.view);
+                })
+            } else if (isCannedData && uri === '/api/build') {
+                postRequest(req, res, function () {
+                    sendJSONResponse(res, canned_data.build.list);
+                })
+            } else if (isCannedData && uri.indexOf('/api/build') == 0) {
+                postRequest(req, res, function () {
+                    if (uri === '/api/build/8f0666b2-df97-42f5-a13e-9deac7dd590e') {
+                        sendJSONResponse(res, canned_data.build.view);
+                    } else if (uri === '/api/build/1e214c23-168a-4c87-b960-45eb9e93d526') {
+                        sendJSONResponse(res, canned_data.build.edit);
+                    } else {
+                        res.writeHead(404, {'Content-Type': 'application/json'});
                     }
-                    sendJSONResponse(res, response);
                 })
             } else {
                 console.log('node sending following request to MockServer: ' + JSON.stringify({
