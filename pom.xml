@@ -141,6 +141,23 @@
 
     <build>
         <plugins>
+            <!-- clean up additional artifacts such as log files -->
+            <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <verbose>false</verbose>
+                    <filesets>
+                        <fileset>
+                            <directory>${basedir}</directory>
+                            <includes>
+                                <include>*.log</include>
+                                <include>**/*.log</include>
+                            </includes>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
             <!-- compile with correct warnings -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
