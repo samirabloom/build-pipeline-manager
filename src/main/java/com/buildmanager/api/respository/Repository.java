@@ -28,7 +28,11 @@ public abstract class Repository<T extends Entity> {
 
     protected Repository(Class<T> entityClass) {
         this.entityClass = entityClass;
-        this.db = DBMaker.newFileDB(new File(entityClass.getSimpleName().toLowerCase() + "-entities.db"))
+        File databaseFolder = new File("database");
+        if (!databaseFolder.exists()) {
+            databaseFolder.mkdirs();
+        }
+        this.db = DBMaker.newFileDB(new File("database/" + entityClass.getSimpleName().toLowerCase() + "-entities.db"))
                 .closeOnJvmShutdown()
                 .make();
         this.map = db.getTreeMap("entity");

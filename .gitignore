@@ -25,6 +25,7 @@
 #########
 *.db
 *.db.*
+database
 
 # OS generated files #
 ######################
