@@ -48,4 +48,13 @@ public class Pipeline extends Entity<Pipeline> {
         }
         return this;
     }
+
+    @Override
+    public int compareTo(Object o) {
+        if (o instanceof Pipeline) {
+            return name.compareTo(((Pipeline) o).name);
+        } else {
+            return -1;
+        }
+    }
 }

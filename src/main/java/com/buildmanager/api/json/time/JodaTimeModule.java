@@ -9,7 +9,7 @@ import org.joda.time.DateTime;
  */
 public class JodaTimeModule extends SimpleModule {
 
-    public static final Version VERSION = new Version(1, 0, 0, null, "com.nektan.gameserver.json", "json-mapping");
+    public static final Version VERSION = new Version(1, 0, 0, null, "org.build-manager", "build-manager");
 
     public JodaTimeModule() {
         super(VERSION);

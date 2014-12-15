@@ -10,7 +10,7 @@ import spock.lang.Specification
 /**
  * @author samirarabbanian
  */
-class BuildRestUpdateAPIIntSpec extends Specification {
+class BuildRestUpdateAPIIntTest extends Specification {
     static BuildManager buildManager
     static RestClient client
 

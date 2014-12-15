@@ -32,5 +32,6 @@
             "required": [ "stringField" ]
         }
     },
+    "additionalProperties" : false,
     "required": [ "enumField", "arrayField" ]
 }

@@ -10,7 +10,7 @@ import spock.lang.Unroll
 /**
  * @author jamesdbloom
  */
-class RequestMatcherSpec extends Specification {
+class RequestMatcherTest extends Specification {
 
     @Unroll
     void '#requestMethod and #requestUri should match #matcherMethod #matcherUri as #result'() {

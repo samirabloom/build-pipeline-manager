@@ -26,6 +26,7 @@ class JsonValidatorTest extends Specification {
             'too few items'        | "{arrayField: [ ],         enumField: \"one\"}"                                        || [new BindingError("arrayField", "minItems", "please enter at least 1 item(s)")]
             'too long string'      | "{arrayField: [ \"one\" ], enumField: \"one\", stringField: \"1234567\"}"              || [new BindingError("stringField", "maxLength", "please enter less then 6 characters")]
             'incorrect enum'       | "{arrayField: [ \"one\" ], enumField: \"four\"}"                                       || [new BindingError("enumField", "enum", "please enter a valid value from [\"one\",\"two\"]")]
+            'extra field'          | "{arrayField: [ \"one\" ], enumField: \"one\", extra: \"field\"}"                      || [new BindingError("", "additionalProperties", "please only provide allow fields, the following fields are not allowed: [\"extra\"]")]
             'incorrect sub-fields' | "{arrayField: [ \"one\" ], enumField: \"one\", objectField: {stringField: \"1234\"} }" || [new BindingError("objectField.stringField", "maxLength", "please enter less then 3 characters")]
             'missing sub-fields'   | "{arrayField: [ \"one\" ], enumField: \"one\", objectField: { } }"                     || [new BindingError("objectField", "required", "please enter all required fields - [\"stringField\"]")]
             'multiple errors'      | "{arrayField: [ ],  stringField: \"1234\"}"                                            || [

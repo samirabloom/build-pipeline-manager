@@ -13,7 +13,7 @@ import spock.lang.Specification
 /**
  * @author samirarabbanian
  */
-class BuildRestDeleteAPIIntSpec extends Specification {
+class BuildRestDeleteAPIIntTest extends Specification {
     static BuildManager buildManager
     static RestClient client
 

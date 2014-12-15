@@ -1,4 +1,4 @@
-package com.buildmanager.api.server.matcher
+package com.buildmanager.api.server.pathvariables
 
 import com.buildmanager.api.server.pathvariables.PathVariable
 import com.buildmanager.api.server.pathvariables.PathVariableParser
