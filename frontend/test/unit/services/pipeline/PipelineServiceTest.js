@@ -2,11 +2,12 @@
 {
     'use strict';
 
-    describe('BuildService', function ()
+    describe('PipelineService', function ()
     {
         var mockHttp;
         var mockPromise;
-        var buildService;
+        var testPipelineServiceTest;
+        var expectedConfig;
 
         beforeEach(function ()
         {
@@ -20,7 +21,7 @@
                 then: jasmine.createSpy('promise.then')
             };
 
-            buildService = co.factories.BuildServiceFactory(mockHttp);
+            testPipelineServiceTest = co.factories.PipelineServiceFactory(mockHttp);
         });
 
         it('on loadAll should call $http.get', function ()
@@ -33,10 +34,10 @@
             mockPromise.then.and.returnValue(expectedResult);
 
             //when
-            var returnedResult = buildService.loadAll();
+            var returnedResult = testPipelineServiceTest.loadAll();
 
             //then
-            expect(mockHttp.get).toHaveBeenCalledWith(Config.webServer + '/build');
+            expect(mockHttp.get).toHaveBeenCalledWith(Config.webServer + '/pipeline');
 
             //and
             expect(expectedResult).toEqual(returnedResult);
@@ -52,13 +53,13 @@
             mockPromise.then.and.returnValue(expectedResult);
 
             //and
-            var buildId = 'ACCOUNT-SYSTEM-ID';
+            var pipelineId = 'ACCOUNT-SYSTEM-ID';
 
             //when
-            var returnedResult = buildService.load(buildId);
+            var returnedResult = testPipelineServiceTest.load(pipelineId);
 
             //then
-            expect(mockHttp.get).toHaveBeenCalledWith(Config.webServer + '/build/' + buildId);
+            expect(mockHttp.get).toHaveBeenCalledWith(Config.webServer + '/pipeline/' + pipelineId);
 
             //and
             expect(expectedResult).toEqual(returnedResult);
@@ -74,13 +75,13 @@
             mockPromise.then.and.returnValue(expectedResult);
 
             //and
-            var buildToSave = {};
+            var pipelineToSave = {};
 
             //when
-            var returnedResult = buildService.save(buildToSave);
+            var returnedResult = testPipelineServiceTest.save(pipelineToSave);
 
             //then
-            expect(mockHttp.post).toHaveBeenCalledWith(Config.webServer + '/build', buildToSave);
+            expect(mockHttp.post).toHaveBeenCalledWith(Config.webServer + '/pipeline', pipelineToSave);
 
             //and
             expect(expectedResult).toEqual(returnedResult);
@@ -96,13 +97,13 @@
             mockPromise.then.and.returnValue(expectedResult);
 
             //and
-            var buildToUpdate = { id: "build_id"};
+            var pipelineToUpdate = { id: "pipeline_id" };
 
             //when
-            var returnedResult = buildService.update(buildToUpdate);
+            var returnedResult = testPipelineServiceTest.update(pipelineToUpdate);
 
             //then
-            expect(mockHttp.put).toHaveBeenCalledWith(Config.webServer + '/build/build_id', buildToUpdate);
+            expect(mockHttp.put).toHaveBeenCalledWith(Config.webServer + '/pipeline/pipeline_id', pipelineToUpdate);
 
             //and
             expect(expectedResult).toEqual(returnedResult);

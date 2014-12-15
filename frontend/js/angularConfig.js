@@ -6,36 +6,16 @@
     app.config(['$httpProvider', '$locationProvider', '$provide', '$routeProvider', function ($httpProvider, $locationProvider, $provide, $routeProvider) {
         // necessary in order to keep fullscreen while navigating
         $locationProvider.html5Mode(false);
-        $routeProvider.when(
-            '/build/list',
-            {
-                templateUrl: 'views/build/listBuilds.html',
-                controller: 'BuildListController'
-            }
-        ).when(
-            '/build/create',
-            {
-                templateUrl: 'views/build/createBuild.html',
-                controller: 'BuildCreateController'
-            }
-        ).when(
-            '/build/edit/:buildId',
-            {
-                templateUrl: 'views/build/editBuild.html',
-                controller: 'BuildEditController'
-            }
-        ).when(
-            '/build/view/:buildId',
-            {
-                templateUrl: 'views/build/viewBuild.html',
-                controller: 'BuildViewController'
-            }
-        ).when(
-            '/',
-            {
-                templateUrl: 'views/landing.html'
-            }
-        );
+        $routeProvider
+            .when('/', { templateUrl: 'views/landing.html' })
+            .when('/build/list', {templateUrl: 'views/build/listBuilds.html', controller: 'BuildListController'})
+            .when('/build/create', {templateUrl: 'views/build/createBuild.html', controller: 'BuildCreateController'})
+            .when('/build/edit/:buildId', {templateUrl: 'views/build/editBuild.html', controller: 'BuildEditController'})
+            .when('/build/view/:buildId', { templateUrl: 'views/build/viewBuild.html', controller: 'BuildViewController' })
+            .when('/pipeline/list', {templateUrl: 'views/pipeline/listPipelines.html', controller: 'PipelineListController'})
+            .when('/pipeline/create', {templateUrl: 'views/pipeline/createPipeline.html', controller: 'PipelineCreateController'})
+            .when('/pipeline/edit/:pipelineId', {templateUrl: 'views/pipeline/editPipeline.html', controller: 'PipelineEditController'})
+            .when('/pipeline/view/:pipelineId', { templateUrl: 'views/pipeline/viewPipeline.html', controller: 'PipelineViewController' });
 
         $httpProvider.defaults.headers.common = {
             'Content-Type': 'application/json',
@@ -47,20 +27,25 @@
         $httpProvider.defaults.xsrfCookieName = 'GS-XSRF-TOKEN';
     }]);
 
-    //factories
+    // factories
     app.factory('httpInterceptor', co.factories.HttpInterceptorFactory);
     app.factory('formValidationErrorHelper', co.factories.FormValidationErrorHelperFactory);
 
+    // services
     app.factory('buildService', co.factories.BuildServiceFactory);
+    app.factory('pipelineService', co.factories.PipelineServiceFactory);
 
-    //controllers
-    app.controller('SlotsGameConfigurationListController', co.controllers.SlotsGameConfigurationListController);
+    // controllers
     app.controller('BuildListController', co.controllers.BuildListController);
     app.controller('BuildCreateController', co.controllers.BuildCreateController);
     app.controller('BuildEditController', co.controllers.BuildEditController);
     app.controller('BuildViewController', co.controllers.BuildViewController);
+    app.controller('PipelineListController', co.controllers.PipelineListController);
+    app.controller('PipelineCreateController', co.controllers.PipelineCreateController);
+    app.controller('PipelineEditController', co.controllers.PipelineEditController);
+    app.controller('PipelineViewController', co.controllers.PipelineViewController);
 
-    //directives
+    // directives
     app.directive('checkBoxGroup', co.directives.CheckBoxGroupDirectiveFactory);
     app.directive('formError', co.directives.FormErrorDirectiveFactory);
 

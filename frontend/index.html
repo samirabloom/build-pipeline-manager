@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/pure-min.css">
     <link rel="stylesheet" href="css/pure-forms.css">
-    <link rel="stylesheet" href="css/grids-responsive-min.css">
+    <!--<link rel="stylesheet" href="css/grids-responsive-min.css">-->
     <link rel="stylesheet" href="css/main.css">
 
     <title></title>
@@ -26,15 +26,24 @@
 	<!-- environment configuration -->
     <script src="js/config.js"></script>
 
-    <!-- factories & services -->
+    <!-- http interceptor -->
 	<script src="js/factories/HttpInterceptorFactory.js"></script>
-    <script src="js/services/build/BuildService.js"></script>
 
-	<!-- controllers -->
+	<!-- build service -->
+    <script src="js/services/build/BuildService.js"></script>
+	<!-- build controllers -->
     <script src="js/controllers/build/BuildListController.js"></script>
     <script src="js/controllers/build/BuildCreateController.js"></script>
     <script src="js/controllers/build/BuildEditController.js"></script>
     <script src="js/controllers/build/BuildViewController.js"></script>
+
+	<!-- pipeline service -->
+	<script src="js/services/pipeline/PipelineService.js"></script>
+	<!-- pipeline controllers -->
+	<script src="js/controllers/pipeline/PipelineListController.js"></script>
+	<script src="js/controllers/pipeline/PipelineCreateController.js"></script>
+	<script src="js/controllers/pipeline/PipelineEditController.js"></script>
+	<script src="js/controllers/pipeline/PipelineViewController.js"></script>
 
 	<!-- directives & helpers -->
 	<script src="js/directives/CheckBoxGroupDirective.js"></script>

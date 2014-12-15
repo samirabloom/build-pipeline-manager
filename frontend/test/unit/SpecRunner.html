@@ -1,58 +1,73 @@
 <!doctype html>
 <head>
-<title>Jasmine Spec Runner</title>
+	<title>Jasmine Spec Runner</title>
 
-<link rel="stylesheet" type="text/css" href="../../node_modules/jasmine-core/lib/jasmine-core/jasmine.css">
-<script type="text/javascript" src="../../node_modules/jasmine-core/lib/jasmine-core/jasmine.js"></script>
-<script type="text/javascript" src="../../node_modules/jasmine-core/lib/jasmine-core/jasmine-html.js"></script>
-<script type="text/javascript" src="../../node_modules/jasmine-core/lib/jasmine-core/boot.js"></script>
-<script type="text/javascript" src="../../js/lib/angular/angular.js"></script>
-<script type="text/javascript" src="../../js/lib/angular/angular-route.js"></script>
+	<link rel="stylesheet" type="text/css" href="../../node_modules/jasmine-core/lib/jasmine-core/jasmine.css">
+	<script type="text/javascript" src="../../node_modules/jasmine-core/lib/jasmine-core/jasmine.js"></script>
+	<script type="text/javascript" src="../../node_modules/jasmine-core/lib/jasmine-core/jasmine-html.js"></script>
+	<script type="text/javascript" src="../../node_modules/jasmine-core/lib/jasmine-core/boot.js"></script>
+	<script type="text/javascript" src="../../js/lib/angular/angular.js"></script>
+	<script type="text/javascript" src="../../js/lib/angular/angular-route.js"></script>
 
-<!-- test utility libraries -->
-<script type="text/javascript" src="../../js/lib/angular/angular-mocks.js"></script>
-<!--script type="text/javascript" src="test-utils.js"></script-->
+	<!-- test utility libraries -->
+	<script type="text/javascript" src="../../js/lib/angular/angular-mocks.js"></script>
+	<!--script type="text/javascript" src="test-utils.js"></script-->
 
-<!-- include source files here... -->
-<script type="text/javascript" src="../../js/init.js"></script>
-<script type="text/javascript" src="../../js/config.js"></script>
-<script type="text/javascript" src="builders/ListItemBuilder.js"></script>
-<script type="text/javascript" src="builders/SpecificFieldBuilder.js"></script>
+	<!-- include source files here... -->
+	<script type="text/javascript" src="../../js/init.js"></script>
+	<script type="text/javascript" src="../../js/config.js"></script>
+	<script type="text/javascript" src="builders/ListItemBuilder.js"></script>
+	<script type="text/javascript" src="builders/SpecificFieldBuilder.js"></script>
 
-<!-- Controllers -->
-<script type="text/javascript" src="../../js/controllers/build/BuildListController.js"></script>
-<script type="text/javascript" src="../../js/controllers/build/BuildCreateController.js"></script>
-<script type="text/javascript" src="../../js/controllers/build/BuildEditController.js"></script>
-<script type="text/javascript" src="../../js/controllers/build/BuildViewController.js"></script>
+	<!-- Factories -->
+	<script type="text/javascript" src="../../js/factories/HttpInterceptorFactory.js"></script>
+	<script type="text/javascript" src="../../js/services/FormValidationErrorHelper.js"></script>
 
-<!-- Factories -->
-<script type="text/javascript" src="../../js/services/build/BuildService.js"></script>
-<script type="text/javascript" src="../../js/factories/HttpInterceptorFactory.js"></script>
-<script type="text/javascript" src="../../js/services/FormValidationErrorHelper.js"></script>
+	<!-- Services -->
+	<script type="text/javascript" src="../../js/services/build/BuildService.js"></script>
+	<script type="text/javascript" src="../../js/services/pipeline/PipelineService.js"></script>
 
-<!-- Directives -->
-<script type="text/javascript" src="../../js/directives/CheckBoxGroupDirective.js"></script>
-<script type="text/javascript" src="../../js/directives/FormErrorDirective.js"></script>
+	<!-- Controllers -->
+	<script type="text/javascript" src="../../js/controllers/build/BuildListController.js"></script>
+	<script type="text/javascript" src="../../js/controllers/build/BuildCreateController.js"></script>
+	<script type="text/javascript" src="../../js/controllers/build/BuildEditController.js"></script>
+	<script type="text/javascript" src="../../js/controllers/build/BuildViewController.js"></script>
+	<script type="text/javascript" src="../../js/controllers/pipeline/PipelineListController.js"></script>
+	<script type="text/javascript" src="../../js/controllers/pipeline/PipelineCreateController.js"></script>
+	<script type="text/javascript" src="../../js/controllers/pipeline/PipelineEditController.js"></script>
+	<script type="text/javascript" src="../../js/controllers/pipeline/PipelineViewController.js"></script>
+
+	<!-- Directives -->
+	<script type="text/javascript" src="../../js/directives/CheckBoxGroupDirective.js"></script>
+	<script type="text/javascript" src="../../js/directives/FormErrorDirective.js"></script>
+
+	<!-- include spec files here... -->
+
+	<!-- Factories -->
+	<script type="text/javascript" src="factories/HttpInterceptorAngularTest.js"></script>
+	<script type="text/javascript" src="factories/HttpInterceptorFactoryTest.js"></script>
+	<script type="text/javascript" src="services/FormValidationErrorHelperTest.js"></script>
+
+	<!-- Services -->
+	<script type="text/javascript" src="services/build/BuildServiceTest.js"></script>
+	<script type="text/javascript" src="services/pipeline/PipelineServiceTest.js"></script>
+
+	<!-- Controllers -->
+	<script type="text/javascript" src="controllers/build/BuildListControllerTest.js"></script>
+	<script type="text/javascript" src="controllers/build/BuildCreateControllerTest.js"></script>
+	<script type="text/javascript" src="controllers/build/BuildEditControllerTest.js"></script>
+	<script type="text/javascript" src="controllers/build/BuildViewControllerTest.js"></script>
+	<script type="text/javascript" src="controllers/pipeline/PipelineListControllerTest.js"></script>
+	<script type="text/javascript" src="controllers/pipeline/PipelineCreateControllerTest.js"></script>
+	<script type="text/javascript" src="controllers/pipeline/PipelineEditControllerTest.js"></script>
+	<script type="text/javascript" src="controllers/pipeline/PipelineViewControllerTest.js"></script>
 
 
-<!-- include spec files here... -->
-<script type="text/javascript" src="factories/HttpInterceptorAngularTest.js"></script>
-<script type="text/javascript" src="factories/HttpInterceptorFactoryTest.js"></script>
-<script type="text/javascript" src="services/FormValidationErrorHelperTest.js"></script>
+	<script type="text/javascript" src="directives/CheckBoxGroupDirectiveTest.js"></script>
 
-<script type="text/javascript" src="controllers/build/BuildListControllerTest.js"></script>
-<script type="text/javascript" src="controllers/build/BuildCreateControllerTest.js"></script>
-<script type="text/javascript" src="controllers/build/BuildEditControllerTest.js"></script>
-<script type="text/javascript" src="controllers/build/BuildViewControllerTest.js"></script>
-
-<script type="text/javascript" src="services/build/BuildServiceTest.js"></script>
-
-<script type="text/javascript" src="directives/CheckBoxGroupDirectiveTest.js"></script>
-
-<script type="text/javascript" src="../../js/angularConfig.js"></script>
+	<script type="text/javascript" src="../../js/angularConfig.js"></script>
 
 </head>
 <body>
 
-</body>
-</html>
+</body></html>

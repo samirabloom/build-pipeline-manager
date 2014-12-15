@@ -1,0 +1,32 @@
+<div class="account-systems-list-page">
+    <div class="content">
+        <h1>Pipelines</h1>
+
+        <div class="pipelineList">
+            <table class="pipelineList__table pure-table">
+                <thead class="pipelineList__header">
+                <tr>
+                    <th class="pipelineList__columnHeader">ID</th>
+                    <th class="pipelineList__columnHeader">Name</th>
+	                <th class="buildList__columnHeader">Actions</th>
+                </tr>
+                </thead>
+
+                <tbody class="pipelineList__content">
+                    <tr class="pipelineItem" data-ng-repeat="pipeline in pipelinesList | orderBy:'name'">
+                        <td class="pipelineItem__cell pipelineItem__cell--id">{{pipeline.id}}</td>
+                        <td class="pipelineItem__cell pipelineItem__cell--name">{{pipeline.name}}</td>
+                        <td class="pipelineItem__cell pipelineItem__cell--actions">
+                            <a class="pipelineItem__input pipelineItem__input--view pure-button pure-button-primary" href="#/pipeline/view/{{pipeline.id}}">View</a>
+                            <a class="pipelineItem__input pipelineItem__input--edit pure-button pure-button-primary" href="#/pipeline/edit/{{pipeline.id}}">Edit</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="pipelineListControls">
+            <a href="#/pipeline/create" class="pipelineListControls__input pipelineListControls__input--create pure-button pure-button-primary">Create</a>
+        </div>
+    </div>
+</div>

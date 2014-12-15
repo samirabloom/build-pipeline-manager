@@ -2,27 +2,27 @@
 {
     'use strict';
 
-    describe('BuildEditController', function ()
+    describe('PipelineEditController', function ()
     {
 
-        var ListItemBuilder = co.builders.ListItemBuilder;
+        var ListItemPipelineer = co.builders.ListItemPipelineer;
 
-        var build = {
+        var pipeline = {
             name : 'name'
         };
 
         var routeParams = {
-            buildId : 'buildId'
+            pipelineId : 'pipelineId'
         };
 
-        var mockBuildService;
+        var mockPipelineService;
         var mockLocation;
         var mockFormValidationErrorHelper;
 
         beforeEach(function()
         {
 
-            mockBuildService = {
+            mockPipelineService = {
                 update: jasmine.createSpy('update'),
                 load: jasmine.createSpy('load')
             };
@@ -31,11 +31,11 @@
             var mockFindPromise = {
                 then: function (callback)
                     {
-                        return callback(build);
+                        return callback(pipeline);
                     }
             };
 
-            mockBuildService.load.and.returnValue(mockFindPromise);
+            mockPipelineService.load.and.returnValue(mockFindPromise);
 
             //and
             mockLocation = {
@@ -55,11 +55,11 @@
             var scope = {};
 
             //when
-            new co.controllers.BuildEditController(scope, mockBuildService, routeParams, mockFormValidationErrorHelper, mockLocation);
+            new co.controllers.PipelineEditController(scope, mockPipelineService, routeParams, mockFormValidationErrorHelper, mockLocation);
 
             //then
-            expect(mockBuildService.load).toHaveBeenCalled();
-            expect(scope.build).toBe(build);
+            expect(mockPipelineService.load).toHaveBeenCalled();
+            expect(scope.pipeline).toBe(pipeline);
         });
     
 
@@ -67,7 +67,7 @@
         {
             //given
             var scope = {
-                build : 'build'
+                pipeline : 'pipeline'
             };
 
             //and
@@ -81,18 +81,18 @@
                     }
             };
 
-            mockBuildService.update.and.returnValue(mockUpdatePromise);
+            mockPipelineService.update.and.returnValue(mockUpdatePromise);
 
             //when
-            var controller = new co.controllers.BuildEditController(scope, mockBuildService, routeParams, mockFormValidationErrorHelper, mockLocation);
+            var controller = new co.controllers.PipelineEditController(scope, mockPipelineService, routeParams, mockFormValidationErrorHelper, mockLocation);
 
             controller._update();
 
             //then
-            expect(mockBuildService.update).toHaveBeenCalledWith(scope.build);
+            expect(mockPipelineService.update).toHaveBeenCalledWith(scope.pipeline);
 
             //and
-            expect(mockLocation.path).toHaveBeenCalledWith('/build/list');
+            expect(mockLocation.path).toHaveBeenCalledWith('/pipeline/list');
 
             //and
             expect(mockFormValidationErrorHelper.handleValidationErrors).not.toHaveBeenCalled();
@@ -103,7 +103,7 @@
         {
             //given
             var scope = {
-                build : 'build'
+                pipeline : 'pipeline'
             };
 
             var testError = 'testError';
@@ -120,18 +120,18 @@
                     }
             };
 
-            mockBuildService.update.and.returnValue(mockUpdatePromise);
+            mockPipelineService.update.and.returnValue(mockUpdatePromise);
 
             //when
-            var controller = new co.controllers.BuildEditController(scope, mockBuildService, routeParams, mockFormValidationErrorHelper, mockLocation);
+            var controller = new co.controllers.PipelineEditController(scope, mockPipelineService, routeParams, mockFormValidationErrorHelper, mockLocation);
 
             controller._update();
 
             //then
-            expect(mockBuildService.update).toHaveBeenCalledWith(scope.build);
+            expect(mockPipelineService.update).toHaveBeenCalledWith(scope.pipeline);
 
             //and
-            expect(mockLocation.path).not.toHaveBeenCalledWith('/build/list');
+            expect(mockLocation.path).not.toHaveBeenCalledWith('/pipeline/list');
 
             //and
             expect(mockFormValidationErrorHelper.handleValidationErrors).toHaveBeenCalledWith(testError, scope);

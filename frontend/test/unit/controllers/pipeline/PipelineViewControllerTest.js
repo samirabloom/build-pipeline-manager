@@ -2,25 +2,25 @@
 {
     'use strict';
 
-    describe('BuildViewController', function ()
+    describe('PipelineViewController', function ()
     {
 
-        var ListItemBuilder = co.builders.ListItemBuilder;
+        var ListItemPipelineer = co.builders.ListItemPipelineer;
 
-        var build = {
+        var pipeline = {
             name : 'name'
         };
 
         var routeParams = {
-            buildId : 'buildId'
+            pipelineId : 'pipelineId'
         };
 
-        var mockBuildService;
+        var mockPipelineService;
 
         beforeEach(function()
         {
 
-            mockBuildService = {
+            mockPipelineService = {
                 load: jasmine.createSpy('load')
             };
 
@@ -28,11 +28,11 @@
             var mockFindPromise = {
                 then: function (callback)
                     {
-                        return callback(build);
+                        return callback(pipeline);
                     }
             };
 
-            mockBuildService.load.and.returnValue(mockFindPromise);
+            mockPipelineService.load.and.returnValue(mockFindPromise);
         });
 
         it('on successCallback should update scope with given data', function ()
@@ -41,11 +41,11 @@
             var scope = {};
 
             //when
-            new co.controllers.BuildViewController(scope, mockBuildService, routeParams);
+            new co.controllers.PipelineViewController(scope, mockPipelineService, routeParams);
 
             //then
-            expect(mockBuildService.load).toHaveBeenCalled();
-            expect(scope.build).toBe(build);
+            expect(mockPipelineService.load).toHaveBeenCalled();
+            expect(scope.pipeline).toBe(pipeline);
         });
 
     });

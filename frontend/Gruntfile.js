@@ -5,7 +5,7 @@ module.exports = function (grunt) {
     grunt.initConfig({
         clean:
         {
-            dist: ['../target/classes']
+            test: ['test_out']
         },
         jshint: {
             options: {
@@ -98,14 +98,8 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-copy');
 
     grunt.registerTask('lint', ['csslint', 'jshint']);
-
-    // task to run all the tests, but without starting server.js
     grunt.registerTask('test:all', ['karma:chrome', 'protractor:acceptance']);
 
-    // tasks to run on jenkins
-    grunt.registerTask('jenkins', ['lint', 'karma:phantom']);
-
     // default
-    //grunt.registerTask('default', ['lint', 'karma:chrome', 'start_node_and_run_tasks:run_tests']);
-    grunt.registerTask('default', ['lint', 'karma:phantom', 'copy:dist']);
+    grunt.registerTask('default', ['clean', 'lint', 'karma:phantom', 'copy:dist']);
 };

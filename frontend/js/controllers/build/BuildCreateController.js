@@ -37,9 +37,6 @@
             this.$scope.errors = {};
 
             this.$scope.create = this._create.bind(this);
-
-            var self = this;
-
         }
         
     };

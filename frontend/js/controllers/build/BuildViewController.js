@@ -25,7 +25,7 @@
 
             var self = this;
 
-            this.services.buildService.find(this.buildId)
+            this.services.buildService.load(this.buildId)
                 .then(
                     function(data) 
                     {
