@@ -41,7 +41,9 @@
         {
             this.$scope.errors = {};
 
-            this.$scope.pipeline = {};
+            this.$scope.pipeline = {
+                stages: []
+            };
 
             var self = this;
 

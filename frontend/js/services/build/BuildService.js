@@ -33,8 +33,10 @@
         },
 
         update: function (build) {
+            var buildId = build.id;
+            delete build.id;
             return this.$http
-                .put(Config.webServer + '/build/' + build.id, build)
+                .put(Config.webServer + '/build/' + buildId, build)
                 .then(function (result) {
                     return true;
                 });

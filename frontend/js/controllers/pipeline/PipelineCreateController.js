@@ -34,7 +34,9 @@
         },
 
         _initialize: function () {
-            this.$scope.pipeline = {};
+            this.$scope.pipeline = {
+                stages: []
+            };
 
             this.$scope.errors = {};
 

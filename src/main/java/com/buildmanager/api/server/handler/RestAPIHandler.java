@@ -117,7 +117,7 @@ public class RestAPIHandler<T extends Entity> extends InboundHttpHandler {
         QueryStringDecoder queryStringDecoder = new QueryStringDecoder(uri);
         UUID entityId = null;
         try {
-            entityId = UUID.fromString(StringUtils.substringAfter(queryStringDecoder.path(), "/api/build/"));
+            entityId = UUID.fromString(StringUtils.substringAfterLast(queryStringDecoder.path(), "/"));
         } catch (IllegalArgumentException iae) {
             if (mustExist) {
                 sendResponse(ctx, objectMapper.writeValueAsString(Arrays.asList(iae.getMessage())), "application/json", HttpResponseStatus.BAD_REQUEST);

@@ -35,9 +35,10 @@
         },
 
         update : function(pipeline) {
-            var self = this;
+            var pipelineId = pipeline.id;
+            delete pipeline.id;
             return this.$http
-                .put(Config.webServer + '/pipeline/' + pipeline.id, pipeline)
+                .put(Config.webServer + '/pipeline/' + pipelineId, pipeline)
                 .then(function(result){
                     return true;
                 });
