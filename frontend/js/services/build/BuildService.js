@@ -1,4 +1,4 @@
-(function (co) {
+(function (ns) {
     'use strict';
 
     function BuildService($http) {
@@ -47,9 +47,9 @@
         }
     };
 
-    co.factories.BuildServiceFactory = function ($http) {
+    ns.factories.BuildServiceFactory = function ($http) {
         return new BuildService($http);
     };
 
-})(co);
+})(ns);
 

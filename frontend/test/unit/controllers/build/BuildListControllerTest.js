@@ -41,7 +41,7 @@
             mockBuildService.loadAll.and.returnValue(mockPromise);
 
             //when
-            new co.controllers.BuildListController(scope, mockBuildService);
+            new ns.controllers.BuildListController(scope, mockBuildService);
 
             //then
             expect(mockBuildService.loadAll).toHaveBeenCalled();

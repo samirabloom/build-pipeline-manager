@@ -21,7 +21,7 @@
                 then: jasmine.createSpy('promise.then')
             };
 
-            testPipelineServiceTest = co.factories.PipelineServiceFactory(mockHttp);
+            testPipelineServiceTest = ns.factories.PipelineServiceFactory(mockHttp);
         });
 
         it('on loadAll should call $http.get', function ()

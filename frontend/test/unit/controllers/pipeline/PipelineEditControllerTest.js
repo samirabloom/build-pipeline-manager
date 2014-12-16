@@ -5,7 +5,7 @@
     describe('PipelineEditController', function ()
     {
 
-        var ListItemPipelineer = co.builders.ListItemPipelineer;
+        var ListItemPipelineer = ns.builders.ListItemPipelineer;
 
         var pipeline = {
             name : 'name'
@@ -55,7 +55,7 @@
             var scope = {};
 
             //when
-            new co.controllers.PipelineEditController(scope, mockPipelineService, routeParams, mockFormValidationErrorHelper, mockLocation);
+            new ns.controllers.PipelineEditController(scope, mockPipelineService, routeParams, mockFormValidationErrorHelper, mockLocation);
 
             //then
             expect(mockPipelineService.load).toHaveBeenCalled();
@@ -84,7 +84,7 @@
             mockPipelineService.update.and.returnValue(mockUpdatePromise);
 
             //when
-            var controller = new co.controllers.PipelineEditController(scope, mockPipelineService, routeParams, mockFormValidationErrorHelper, mockLocation);
+            var controller = new ns.controllers.PipelineEditController(scope, mockPipelineService, routeParams, mockFormValidationErrorHelper, mockLocation);
 
             controller._update();
 
@@ -123,7 +123,7 @@
             mockPipelineService.update.and.returnValue(mockUpdatePromise);
 
             //when
-            var controller = new co.controllers.PipelineEditController(scope, mockPipelineService, routeParams, mockFormValidationErrorHelper, mockLocation);
+            var controller = new ns.controllers.PipelineEditController(scope, mockPipelineService, routeParams, mockFormValidationErrorHelper, mockLocation);
 
             controller._update();
 

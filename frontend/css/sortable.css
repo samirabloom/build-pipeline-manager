@@ -1,0 +1,72 @@
+.pure-form-aligned .pure-control-group.sortable {
+    padding: 0;
+    margin: 0 0 2em;
+}
+
+.sortable li {
+    list-style: none;
+    width: 50%;
+    min-width: 485px;
+    margin-right: 4%;
+}
+
+.sortable li div {
+    margin: 5px 5px 5px 7em;
+    padding: 5px 5px 5px 0;
+    border: 1px solid #CCC;
+    background: #E6E6E6;
+    display: inline-block;
+}
+
+.ui-state-highlight {
+    height: 2.5em;
+    line-height: 2.5em;
+}
+
+.pure-skin-dark .ui-state-highlight {
+    border: 0 none;
+    border-radius: 2px;
+    background: rgba(108, 82, 11, 0.17);
+}
+
+.pure-skin-dark .sortable li div {
+    border: 0 none;
+    border-radius: 2px;
+    background: #665338;
+    display: inline-block;
+}
+
+.sortable li.disabled div {
+    margin: 5px 5px 5px 7em;
+    padding: 5px 5px 5px 0;
+    border: 0 none #fff;
+    background: #fff;
+    display: inline-block;
+}
+
+.pure-skin-dark .sortable li.disabled div label span {
+    background: #000;
+}
+
+.pure-skin-dark .sortable li.disabled div {
+    background: #000;
+}
+
+.sortable li.disabled div label span {
+    background: #fff;
+}
+
+.pure-form-aligned .pure-control-group.sortable label {
+    text-align: right;
+    display: inline-block;
+    vertical-align: middle;
+    width: 2em;
+}
+
+.sortable li span {
+    float: right;
+}
+
+.sortable li {
+
+}

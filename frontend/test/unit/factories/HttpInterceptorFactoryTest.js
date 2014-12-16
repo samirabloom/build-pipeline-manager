@@ -19,7 +19,7 @@
             consoleSpy = console;
             spyOn(consoleSpy, 'error');
 
-            testHttpInterceptor = co.factories.HttpInterceptorFactory(mockQ);
+            testHttpInterceptor = ns.factories.HttpInterceptorFactory(mockQ);
         });
 
         it('on responseError with response code 0 should reject response', function ()

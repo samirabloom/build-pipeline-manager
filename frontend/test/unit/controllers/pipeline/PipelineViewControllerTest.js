@@ -5,7 +5,7 @@
     describe('PipelineViewController', function ()
     {
 
-        var ListItemPipelineer = co.builders.ListItemPipelineer;
+        var ListItemPipelineer = ns.builders.ListItemPipelineer;
 
         var pipeline = {
             name : 'name'
@@ -41,7 +41,7 @@
             var scope = {};
 
             //when
-            new co.controllers.PipelineViewController(scope, mockPipelineService, routeParams);
+            new ns.controllers.PipelineViewController(scope, mockPipelineService, routeParams);
 
             //then
             expect(mockPipelineService.load).toHaveBeenCalled();

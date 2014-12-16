@@ -22,7 +22,8 @@
     "evil": true,
     "-W069": true,
     "globals": {
-        "co": true,
+        "$": true,
+        "ns": true,
         "console": true,
         "ActiveXObject": true,
         "Config": true,

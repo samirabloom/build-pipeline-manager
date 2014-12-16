@@ -1,4 +1,4 @@
-(function(co) {
+(function(ns) {
 	'use strict';
 
 	function CheckBoxGroupDirectiveFactory() {
@@ -57,10 +57,10 @@
 
 	};
 
-	co.directives.CheckBoxGroupDirectiveFactory = CheckBoxGroupDirectiveFactory;
-	co.directives.CheckBoxGroupDirective = CheckBoxGroupDirective;
+	ns.directives.CheckBoxGroupDirectiveFactory = CheckBoxGroupDirectiveFactory;
+	ns.directives.CheckBoxGroupDirective = CheckBoxGroupDirective;
 
-})(co);
+})(ns);
 
 
 

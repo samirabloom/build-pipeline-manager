@@ -1,0 +1,7 @@
+<div class="pure-menu pure-menu-open pure-menu-horizontal" data-ng-controller="MenuController">
+	<a class="pure-menu-heading" href="#/">Build Manager</a>
+	<ul>
+		<li data-ng-class="{'pure-menu-selected': isCurrentPage('/pipeline/list')}"><a id="pipelinesLink" href="#/pipeline/list">Pipelines</a></li>
+		<li data-ng-class="{'pure-menu-selected': isCurrentPage('/build/list')}"><a id="buildsLink" href="#/build/list">Builds</a></li>
+	</ul>
+</div>

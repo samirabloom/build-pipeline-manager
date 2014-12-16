@@ -41,7 +41,7 @@
             mockPipelineService.loadAll.and.returnValue(mockPromise);
 
             //when
-            new co.controllers.PipelineListController(scope, mockPipelineService);
+            new ns.controllers.PipelineListController(scope, mockPipelineService);
 
             //then
             expect(mockPipelineService.loadAll).toHaveBeenCalled();

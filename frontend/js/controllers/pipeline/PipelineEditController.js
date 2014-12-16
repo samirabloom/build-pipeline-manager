@@ -1,4 +1,4 @@
-(function (co)
+(function (ns)
 {
     'use strict';
     
@@ -61,6 +61,6 @@
         
     };
 
-    co.controllers.PipelineEditController = PipelineEditController;
+    ns.controllers.PipelineEditController = PipelineEditController;
 
-})(co);
+})(ns);

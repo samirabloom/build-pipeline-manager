@@ -1,0 +1,18 @@
+fieldset.createPipeline__fieldset--stages {
+    padding: 1em 1em 1em 0;
+}
+
+.pipelineList {
+    margin: 1em 0;
+}
+
+.pipelineItem__cell--actions .pure-button {
+    margin: 0.25em auto;
+    width: 2.5em;
+}
+
+@media (max-width: 935px) {
+    .pipelineList__columnHeader--id, .pipelineItem__cell--id {
+        display: none;
+    }
+}

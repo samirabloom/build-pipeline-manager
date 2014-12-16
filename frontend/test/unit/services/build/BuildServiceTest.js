@@ -20,7 +20,7 @@
                 then: jasmine.createSpy('promise.then')
             };
 
-            buildService = co.factories.BuildServiceFactory(mockHttp);
+            buildService = ns.factories.BuildServiceFactory(mockHttp);
         });
 
         it('on loadAll should call $http.get', function ()

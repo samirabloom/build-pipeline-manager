@@ -1,4 +1,4 @@
-(function (co)
+(function (ns)
 {
     'use strict';
     
@@ -41,6 +41,6 @@
         
     };
 
-    co.controllers.BuildCreateController = BuildCreateController;
+    ns.controllers.BuildCreateController = BuildCreateController;
 
-})(co);
+})(ns);

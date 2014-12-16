@@ -1,4 +1,4 @@
-(function(co) {
+(function(ns) {
     'use strict';
 
     function FormValidationErrorHelper(){}
@@ -13,9 +13,9 @@
         }
     };
 
-    co.factories.FormValidationErrorHelperFactory = function($http) {
+    ns.factories.FormValidationErrorHelperFactory = function($http) {
         return new FormValidationErrorHelper();
     };
 
-})(co);
+})(ns);
 

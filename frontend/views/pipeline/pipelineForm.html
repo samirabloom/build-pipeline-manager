@@ -5,10 +5,14 @@
 
 <fieldset class="createPipeline__fieldset--stages">
 	<legend>Stages</legend>
-	<div class="pure-control-group" data-ng-repeat="stage in pipeline.stages">
-		<label for="stage.{{$index}}.name"></label> <input type="text" id="stage.{{$index}}.name" name="stage.{{$index}}.name" value="" class="createPipeline__input createPipeline__input--stage-name" data-ng-model="stage.name" data-ng-readonly="readonly">
-		<form-error data-field-name="stage.name"/>
-	</div>
+	<ul class="pure-control-group sortable list" data-sortable="" data-list="pipeline.stages">
+		<li data-ng-repeat="stage in pipeline.stages" data-ng-class="{disabled: readonly}">
+			<div>
+				<label for="stage.{{$index}}.name"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span></label> <input type="text" id="stage.{{$index}}.name" name="stage.{{$index}}.name" value="" class="createPipeline__input createPipeline__input--stage-name" data-ng-model="stage.name" data-ng-readonly="readonly">
+				<form-error data-field-name="stage.name"/>
+			</div>
+		</li>
+	</ul>
 	<div class="createPipeline__controls" data-ng-show="!readonly">
 		<button type="button" class="createPipeline__input createPipeline__input--add pure-button pure-button-primary" data-ng-click="addStage()">Add Stage</button>
 	</div>

@@ -1,4 +1,4 @@
-(function(co) {
+(function(ns) {
     'use strict';
 
     function PipelineService($http)
@@ -49,9 +49,9 @@
         }
     };
 
-    co.factories.PipelineServiceFactory = function($http) {
+    ns.factories.PipelineServiceFactory = function($http) {
         return new PipelineService($http);
     };
 
-})(co);
+})(ns);
 

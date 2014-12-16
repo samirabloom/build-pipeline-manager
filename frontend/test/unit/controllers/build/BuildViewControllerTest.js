@@ -5,7 +5,7 @@
     describe('BuildViewController', function ()
     {
 
-        var ListItemBuilder = co.builders.ListItemBuilder;
+        var ListItemBuilder = ns.builders.ListItemBuilder;
 
         var build = {
             name : 'name'
@@ -41,7 +41,7 @@
             var scope = {};
 
             //when
-            new co.controllers.BuildViewController(scope, mockBuildService, routeParams);
+            new ns.controllers.BuildViewController(scope, mockBuildService, routeParams);
 
             //then
             expect(mockBuildService.load).toHaveBeenCalled();

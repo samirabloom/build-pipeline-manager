@@ -1,4 +1,4 @@
-var co = {
+var ns = {
     controllers: {},
     services: {},
     parsers: {},
@@ -13,4 +13,3 @@ var co = {
     variables: {},
     builders: {}
 };
-co.tests = {};

@@ -5,7 +5,7 @@
     describe('BuildEditController', function ()
     {
 
-        var ListItemBuilder = co.builders.ListItemBuilder;
+        var ListItemBuilder = ns.builders.ListItemBuilder;
 
         var build = {
             name : 'name'
@@ -55,7 +55,7 @@
             var scope = {};
 
             //when
-            new co.controllers.BuildEditController(scope, mockBuildService, routeParams, mockFormValidationErrorHelper, mockLocation);
+            new ns.controllers.BuildEditController(scope, mockBuildService, routeParams, mockFormValidationErrorHelper, mockLocation);
 
             //then
             expect(mockBuildService.load).toHaveBeenCalled();
@@ -84,7 +84,7 @@
             mockBuildService.update.and.returnValue(mockUpdatePromise);
 
             //when
-            var controller = new co.controllers.BuildEditController(scope, mockBuildService, routeParams, mockFormValidationErrorHelper, mockLocation);
+            var controller = new ns.controllers.BuildEditController(scope, mockBuildService, routeParams, mockFormValidationErrorHelper, mockLocation);
 
             controller._update();
 
@@ -123,7 +123,7 @@
             mockBuildService.update.and.returnValue(mockUpdatePromise);
 
             //when
-            var controller = new co.controllers.BuildEditController(scope, mockBuildService, routeParams, mockFormValidationErrorHelper, mockLocation);
+            var controller = new ns.controllers.BuildEditController(scope, mockBuildService, routeParams, mockFormValidationErrorHelper, mockLocation);
 
             controller._update();
 

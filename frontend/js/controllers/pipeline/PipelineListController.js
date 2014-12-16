@@ -1,13 +1,7 @@
-(function (co)
+(function (ns)
 {
     'use strict';
 
-    /**
-     * Handles functionality to list the accoutn systems
-     *
-     * @param $scope
-     * @constructor
-     */
     function PipelineListController($scope, pipelineService)
     {
         this.$scope = $scope;
@@ -35,6 +29,6 @@
         }
     };
 
-    co.controllers.PipelineListController = PipelineListController;
+    ns.controllers.PipelineListController = PipelineListController;
 
-})(co);
+})(ns);

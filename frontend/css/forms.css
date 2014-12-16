@@ -1,0 +1,19 @@
+.pure-form input[type="text"]:focus:read-only,
+.pure-form input[type="password"]:focus:read-only,
+.pure-form input[type="email"]:focus:read-only,
+.pure-form input[type="url"]:focus:read-only,
+.pure-form input[type="date"]:focus:read-only,
+.pure-form input[type="month"]:focus:read-only,
+.pure-form input[type="time"]:focus:read-only,
+.pure-form input[type="datetime"]:focus:read-only,
+.pure-form input[type="datetime-local"]:focus:read-only,
+.pure-form input[type="week"]:focus:read-only,
+.pure-form input[type="number"]:focus:read-only,
+.pure-form input[type="search"]:focus:read-only,
+.pure-form input[type="tel"]:focus:read-only,
+.pure-form input[type="color"]:focus:read-only,
+.pure-form select:focus:read-only,
+.pure-form textarea:focus:read-only
+{
+    border-color: #ccc;
+}

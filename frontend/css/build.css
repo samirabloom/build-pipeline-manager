@@ -1,0 +1,14 @@
+.buildList {
+    margin: 1em 0;
+}
+
+.buildItem__cell--actions .pure-button {
+    margin: 0.25em auto;
+    width: 2.5em;
+}
+
+@media (max-width: 935px) {
+    .buildList__columnHeader--id, .buildItem__cell--id {
+        display: none;
+    }
+}

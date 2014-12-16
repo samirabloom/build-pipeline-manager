@@ -5,7 +5,7 @@
     describe('BuildCreateController', function ()
     {
 
-        var ListItemBuilder = co.builders.ListItemBuilder;
+        var ListItemBuilder = ns.builders.ListItemBuilder;
 
         var mockBuildService;
         var mockLocation;
@@ -52,7 +52,7 @@
             mockBuildService.save.and.returnValue(mockSavePromise);
 
             //when
-            var controller = new co.controllers.BuildCreateController(scope, mockBuildService, mockFormValidationErrorHelper, mockLocation);
+            var controller = new ns.controllers.BuildCreateController(scope, mockBuildService, mockFormValidationErrorHelper, mockLocation);
 
             controller._create();
 
@@ -91,7 +91,7 @@
             mockBuildService.save.and.returnValue(mockSavePromise);
 
             //when
-            var controller = new co.controllers.BuildCreateController(scope, mockBuildService, mockFormValidationErrorHelper, mockLocation);
+            var controller = new ns.controllers.BuildCreateController(scope, mockBuildService, mockFormValidationErrorHelper, mockLocation);
 
             controller._create();
 

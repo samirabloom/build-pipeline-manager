@@ -1,4 +1,4 @@
-(function (co)
+(function (ns)
 {
     'use strict';
     
@@ -53,6 +53,6 @@
         
     };
 
-    co.controllers.BuildEditController = BuildEditController;
+    ns.controllers.BuildEditController = BuildEditController;
 
-})(co);
+})(ns);

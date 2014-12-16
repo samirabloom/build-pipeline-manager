@@ -30,7 +30,7 @@
             ];
 
             //and
-            var directive = new co.directives.CheckBoxGroupDirective();
+            var directive = new ns.directives.CheckBoxGroupDirective();
 
             //when
             directive._toggleCheckBox(scope, mockElemet, model, property, value);
@@ -65,7 +65,7 @@
             ];
 
             //and
-            var directive = new co.directives.CheckBoxGroupDirective();
+            var directive = new ns.directives.CheckBoxGroupDirective();
 
             //when
             directive._toggleCheckBox(scope, mockElemet, model, property, value);

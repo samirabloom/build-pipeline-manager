@@ -5,7 +5,7 @@
     describe('PipelineCreateController', function ()
     {
 
-        var ListItemPipelineer = co.builders.ListItemPipelineer;
+        var ListItemPipelineer = ns.builders.ListItemPipelineer;
 
         var mockPipelineService;
         var mockLocation;
@@ -52,7 +52,7 @@
             mockPipelineService.save.and.returnValue(mockSavePromise);
 
             //when
-            var controller = new co.controllers.PipelineCreateController(scope, mockPipelineService, mockFormValidationErrorHelper, mockLocation);
+            var controller = new ns.controllers.PipelineCreateController(scope, mockPipelineService, mockFormValidationErrorHelper, mockLocation);
 
             controller._create();
 
@@ -91,7 +91,7 @@
             mockPipelineService.save.and.returnValue(mockSavePromise);
 
             //when
-            var controller = new co.controllers.PipelineCreateController(scope, mockPipelineService, mockFormValidationErrorHelper, mockLocation);
+            var controller = new ns.controllers.PipelineCreateController(scope, mockPipelineService, mockFormValidationErrorHelper, mockLocation);
 
             controller._create();
 

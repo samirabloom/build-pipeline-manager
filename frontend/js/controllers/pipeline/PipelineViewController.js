@@ -1,4 +1,4 @@
-(function (co)
+(function (ns)
 {
     'use strict';
     
@@ -37,6 +37,6 @@
 
     };
 
-    co.controllers.PipelineViewController = PipelineViewController;
+    ns.controllers.PipelineViewController = PipelineViewController;
 
-})(co);
+})(ns);

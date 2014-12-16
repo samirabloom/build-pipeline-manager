@@ -1,4 +1,4 @@
-(function (co) {
+(function (ns) {
     'use strict';
 
     function PipelineCreateController($scope, pipelineService, formValidationErrorHelper, $location) {
@@ -35,7 +35,9 @@
 
         _initialize: function () {
             this.$scope.pipeline = {
-                stages: []
+                stages: [{
+                    name: ""
+                }]
             };
 
             this.$scope.errors = {};
@@ -46,6 +48,6 @@
 
     };
 
-    co.controllers.PipelineCreateController = PipelineCreateController;
+    ns.controllers.PipelineCreateController = PipelineCreateController;
 
-})(co);
+})(ns);

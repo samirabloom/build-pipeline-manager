@@ -8,7 +8,7 @@
         it('should not set errors property in scope when status code is not 400', function ()
         {
             //given
-            var formValidationErrorHelper = co.factories.FormValidationErrorHelperFactory();
+            var formValidationErrorHelper = ns.factories.FormValidationErrorHelperFactory();
 
             //and
             var scope = {};
@@ -37,7 +37,7 @@
         it('should set errors property in scope when status code is 400', function ()
         {
             //given
-            var formValidationErrorHelper = co.factories.FormValidationErrorHelperFactory();
+            var formValidationErrorHelper = ns.factories.FormValidationErrorHelperFactory();
 
             //and
             var scope = {};

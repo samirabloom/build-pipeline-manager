@@ -1,4 +1,4 @@
-(function(co){
+(function(ns){
 
 	'use strict';
 
@@ -33,6 +33,6 @@
 
 	};
 
-	co.builders.SpecificFieldBuilder = SpecificFieldBuilder;
+	ns.builders.SpecificFieldBuilder = SpecificFieldBuilder;
 
-})(co);
+})(ns);

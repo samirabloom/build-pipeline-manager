@@ -1,4 +1,4 @@
-(function (co)
+(function (ns)
 {
     'use strict';
 
@@ -38,10 +38,10 @@
         }
     };
 
-    co.factories.HttpInterceptorFactory = function($q) {
+    ns.factories.HttpInterceptorFactory = function($q) {
         return new HttpInterceptor($q);
     };*/
-    co.factories.HttpInterceptorFactory = function ($q)
+    ns.factories.HttpInterceptorFactory = function ($q)
     {
         return {
             'responseError' : function(rejection)
@@ -72,5 +72,5 @@
         };
     };
 
-})(co);
+})(ns);
 

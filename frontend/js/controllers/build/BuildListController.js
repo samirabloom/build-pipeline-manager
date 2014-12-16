@@ -1,13 +1,7 @@
-(function (co)
+(function (ns)
 {
     'use strict';
 
-    /**
-     * Handles functionality to list the accoutn systems
-     *
-     * @param $scope
-     * @constructor
-     */
     function BuildListController($scope, buildService)
     {
         this.$scope = $scope;
@@ -35,6 +29,6 @@
         }
     };
 
-    co.controllers.BuildListController = BuildListController;
+    ns.controllers.BuildListController = BuildListController;
 
-})(co);
+})(ns);

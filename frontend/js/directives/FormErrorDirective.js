@@ -1,4 +1,4 @@
-(function(co) {
+(function(ns) {
     'use strict';
 
 	function FormErrorDirectiveFactory() {
@@ -21,9 +21,9 @@
 		};
 	}
 
-	co.directives.FormErrorDirectiveFactory = FormErrorDirectiveFactory;
+	ns.directives.FormErrorDirectiveFactory = FormErrorDirectiveFactory;
 
-})(co);
+})(ns);
 
 
 

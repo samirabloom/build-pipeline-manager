@@ -1,4 +1,4 @@
-(function(co){
+(function(ns){
 
 	'use strict';
 
@@ -27,11 +27,11 @@
 
 	};
 
-	co.builders.ListItemBuilder = ListItemBuilder;
+	ns.builders.ListItemBuilder = ListItemBuilder;
 
 	/*
 
-	var ListItemBuilder = co.builders.ListItemBuilder;
+	var ListItemBuilder = ns.builders.ListItemBuilder;
     console.log([
             new ListItemBuilder().withKey('GBP').withValue('Pound').build(),
             new ListItemBuilder().withKey('EUR').withValue('Euro').build(),
@@ -40,4 +40,4 @@
 
 	*/
 
-})(co);
+})(ns);
