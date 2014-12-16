@@ -31,6 +31,7 @@ class BuildRestDeleteAPIIntTest extends Specification {
     void 'should delete build'() {
         given:
             String body = "{" +
+                    "pipelineId : \"3d922b33-e2d5-4ccb-ade4-26b94377e4dc\", " +
                     "number: 1, " +
                     "status: \"PASSED\", " +
                     "message: \"build completed\", " +

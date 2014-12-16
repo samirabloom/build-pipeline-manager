@@ -8,11 +8,11 @@
     describe('list builds', function ()
     {
         var ptor = protractor.getInstance();
-        var buildsList;
+        var builds;
 
         beforeEach(function ()
         {
-            buildsList = {
+            builds = {
                 'builds' : [
                     {'name': 'CHOMP-CASINO', 'id': '1'},
                     {'name': 'GOWIN-CASINO', 'id': '2'},
@@ -22,7 +22,7 @@
                 ]
             };
 
-            mockServerClient.mockSimpleResponse('/buildManager/build', buildsList, 200);
+            mockServerClient.mockSimpleResponse('/buildManager/build', builds, 200);
         });
 
         it('should display list', function ()
@@ -33,7 +33,7 @@
                 // debugger;
             });
 
-            element.all(by.id('buildsListLink')).click();
+            element.all(by.id('buildsLink')).click();
 
             //then
             expect(element.all(by.css('h1')).first().getText()).toMatch("Builds");
@@ -50,8 +50,8 @@
                         //and
                         expect(columns.length).toBe(3);
 
-                        expect(columns[0].getText()).toEqual(buildsList[i].id);
-                        expect(columns[1].getText()).toEqual(buildsList[i].name);
+                        expect(columns[0].getText()).toEqual(builds[i].id);
+                        expect(columns[1].getText()).toEqual(builds[i].name);
 
                         columns[2].all(by.css('.buildItem__input')).then(function (links)
                         {
@@ -59,13 +59,13 @@
                             expect(links.length).toBe(3);
 
                             expect(links[0].getText()).toEqual('Slots Games');
-                            expect(links[0].getAttribute('href')).toEqual(ptor.baseUrl + 'console/slots/gameconfiguration/list?buildIdFilter=' + buildsList[i].id + '&csrfToken=${csrfToken}');
+                            expect(links[0].getAttribute('href')).toEqual(ptor.baseUrl + 'console/slots/gameconfiguration/list?buildIdFilter=' + builds[i].id + '&csrfToken=${csrfToken}');
 
                             expect(links[1].getText()).toEqual('View');
-                            expect(links[1].getAttribute('href')).toEqual('#/build/view/' + buildsList[i].id);
+                            expect(links[1].getAttribute('href')).toEqual('#/build/view/' + builds[i].id);
 
                             expect(links[2].getText()).toEqual('Edit');
-                            expect(links[2].getAttribute('href')).toEqual('#/build/edit/' + buildsList[i].id);
+                            expect(links[2].getAttribute('href')).toEqual('#/build/edit/' + builds[i].id);
 
                         });
                         

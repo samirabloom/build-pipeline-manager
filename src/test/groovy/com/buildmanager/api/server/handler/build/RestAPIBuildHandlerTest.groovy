@@ -26,6 +26,7 @@ class RestAPIBuildHandlerTest extends Specification {
             List<Build> buildList = Arrays.asList(
                     new Build()
                             .setId(UUID.fromString("3d922b33-e2d5-4ccb-ade4-26b94377e4dc"))
+                            .setPipelineId(UUID.fromString("3d922b33-e2d5-4ccb-ade4-26b94377e4dc"))
                             .setNumber(1)
                             .setStage("BUILD")
                             .setStatus(BuildStatus.IN_PROGRESS)
@@ -33,6 +34,7 @@ class RestAPIBuildHandlerTest extends Specification {
                             .setUpdatedDate(new DateTime("2014-12-14T18:52:01.720Z")),
                     new Build()
                             .setId(UUID.fromString("11ae191c-a0af-435c-a7f7-d5fda247ea47"))
+                            .setPipelineId(UUID.fromString("3d922b33-e2d5-4ccb-ade4-26b94377e4dc"))
                             .setNumber(2)
                             .setStage("AUTO_QA")
                             .setStatus(BuildStatus.PASSED)
@@ -41,6 +43,7 @@ class RestAPIBuildHandlerTest extends Specification {
             );
             String buildListJson = "[ {\n" +
                     "  \"id\" : \"3d922b33-e2d5-4ccb-ade4-26b94377e4dc\",\n" +
+                    "  \"pipelineId\" : \"3d922b33-e2d5-4ccb-ade4-26b94377e4dc\",\n" +
                     "  \"number\" : 1,\n" +
                     "  \"status\" : \"IN_PROGRESS\",\n" +
                     "  \"stage\" : \"BUILD\",\n" +
@@ -48,6 +51,7 @@ class RestAPIBuildHandlerTest extends Specification {
                     "  \"updatedDate\" : \"2014-12-14T18:52:01.720Z\"\n" +
                     "}, {\n" +
                     "  \"id\" : \"11ae191c-a0af-435c-a7f7-d5fda247ea47\",\n" +
+                    "  \"pipelineId\" : \"3d922b33-e2d5-4ccb-ade4-26b94377e4dc\",\n" +
                     "  \"number\" : 2,\n" +
                     "  \"status\" : \"PASSED\",\n" +
                     "  \"stage\" : \"AUTO_QA\",\n" +
@@ -78,6 +82,7 @@ class RestAPIBuildHandlerTest extends Specification {
         and:
             Build build = new Build()
                     .setId(UUID.fromString("3d922b33-e2d5-4ccb-ade4-26b94377e4dc"))
+                    .setPipelineId(UUID.fromString("3d922b33-e2d5-4ccb-ade4-26b94377e4dc"))
                     .setNumber(1)
                     .setStage("BUILD")
                     .setStatus(BuildStatus.IN_PROGRESS)
@@ -85,6 +90,7 @@ class RestAPIBuildHandlerTest extends Specification {
                     .setUpdatedDate(new DateTime("2014-12-14T18:52:02.007Z"));
             String buildJson = "{\n" +
                     "  \"id\" : \"3d922b33-e2d5-4ccb-ade4-26b94377e4dc\",\n" +
+                    "  \"pipelineId\" : \"3d922b33-e2d5-4ccb-ade4-26b94377e4dc\",\n" +
                     "  \"number\" : 1,\n" +
                     "  \"status\" : \"IN_PROGRESS\",\n" +
                     "  \"stage\" : \"BUILD\",\n" +
@@ -120,28 +126,31 @@ class RestAPIBuildHandlerTest extends Specification {
         and:
             Build build = new Build()
                     .setId(UUID.fromString("3d922b33-e2d5-4ccb-ade4-26b94377e4dc"))
+                    .setPipelineId(UUID.fromString("3d922b33-e2d5-4ccb-ade4-26b94377e4dc"))
                     .setNumber(1)
                     .setStage("BUILD")
                     .setStatus(BuildStatus.IN_PROGRESS)
                     .setCreatedDate(new DateTime("2014-12-14T18:52:02.043Z"))
-                    .setUpdatedDate(new DateTime("2014-12-14T18:52:02.043Z"));
+                    .setUpdatedDate(new DateTime("2014-12-14T18:52:02.043Z"))
             String buildRequestBody = "{\n" +
+                    "  \"pipelineId\" : \"3d922b33-e2d5-4ccb-ade4-26b94377e4dc\",\n" +
                     "  \"number\" : 1,\n" +
                     "  \"status\" : \"IN_PROGRESS\",\n" +
                     "  \"message\" : \"build in progress\",\n" +
                     "  \"stage\" : \"BUILD\",\n" +
                     "  \"createdDate\" : \"2014-12-14T18:52:02.043Z\",\n" +
                     "  \"updatedDate\" : \"2014-12-14T18:52:02.043Z\"\n" +
-                    "}";
+                    "}"
             String buildResponseBody = "{\n" +
                     "  \"id\" : \"3d922b33-e2d5-4ccb-ade4-26b94377e4dc\",\n" +
+                    "  \"pipelineId\" : \"3d922b33-e2d5-4ccb-ade4-26b94377e4dc\",\n" +
                     "  \"number\" : 1,\n" +
                     "  \"status\" : \"IN_PROGRESS\",\n" +
                     "  \"message\" : \"build in progress\",\n" +
                     "  \"stage\" : \"BUILD\",\n" +
                     "  \"createdDate\" : \"2014-12-14T18:52:02.043Z\",\n" +
                     "  \"updatedDate\" : \"2014-12-14T18:52:02.043Z\"\n" +
-                    "}";
+                    "}"
 
         and:
             HttpRequest httpRequest = new DefaultFullHttpRequest(HttpVersion.HTTP_1_1, HttpMethod.POST, "/api/build", Unpooled.wrappedBuffer(buildRequestBody.getBytes(Charsets.UTF_8)))

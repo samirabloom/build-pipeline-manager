@@ -28,6 +28,7 @@ class BuildRestUpdateAPIIntTest extends Specification {
     void 'should update build'() {
         given:
             String body = "{" +
+                    "pipelineId : \"3d922b33-e2d5-4ccb-ade4-26b94377e4dc\", " +
                     "number: 1, " +
                     "status: \"IN_PROGRESS\", " +
                     "message: \"build in-progress\", " +

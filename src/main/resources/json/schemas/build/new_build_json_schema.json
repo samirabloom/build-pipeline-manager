@@ -1,14 +1,8 @@
 {
     "type": "object",
     "properties": {
-        "message": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 50
-        },
-        "status": {
-            "type": "string",
-            "enum": [ "IN_PROGRESS" , "PASSED", "FAILED" ]
+        "pipelineId": {
+            "type": "string"
         },
         "number": {
             "type": "integer"
@@ -16,6 +10,15 @@
         "stage": {
             "type": "string",
             "enum": [ "BUILD", "DEVELOP", "AUTO_QA", "MANUAL_QA", "UAT", "PROD" ]
+        },
+        "status": {
+            "type": "string",
+            "enum": [ "IN_PROGRESS" , "PASSED", "FAILED" ]
+        },
+        "message": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 50
         },
         "createdDate": {
             "type": "string",
@@ -26,6 +29,6 @@
             "pattern": "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z"
         }
     },
-    "additionalProperties" : false,
-    "required": ["message", "status", "number", "stage"]
+    "additionalProperties": false,
+    "required": ["pipelineId", "number", "stage", "status", "message"]
 }

@@ -29,6 +29,7 @@ class BuildRestAddAPIIntTest extends Specification {
     void 'should add new build'() {
         given:
             String body = "{" +
+                    "pipelineId : \"3d922b33-e2d5-4ccb-ade4-26b94377e4dc\", " +
                     "number: 1, " +
                     "status: \"IN_PROGRESS\", " +
                     "message: \"build in-progress\", " +
@@ -44,6 +45,7 @@ class BuildRestAddAPIIntTest extends Specification {
             response.status == HttpResponseStatus.ACCEPTED.code()
             Map build = new JsonSlurper().parseText(response.body) as Map
             build.id
+            build.pipelineId == "3d922b33-e2d5-4ccb-ade4-26b94377e4dc"
             build.number == 1
             build.status == "IN_PROGRESS"
             build.message == "build in-progress"
@@ -52,9 +54,10 @@ class BuildRestAddAPIIntTest extends Specification {
             build.updatedDate == "2014-12-14T18:52:02.043Z"
     }
 
-    void 'should validate when new build is added'() {
+    void 'should validate build number'() {
         given:
             String body = "{" +
+                    "pipelineId : \"3d922b33-e2d5-4ccb-ade4-26b94377e4dc\", " +
                     "number: \"a\", " +
                     "status: \"IN_PROGRESS\", " +
                     "message: \"build in-progress\", " +
@@ -73,7 +76,8 @@ class BuildRestAddAPIIntTest extends Specification {
     void 'should validate build status'() {
         given:
             String body = "{" +
-                    "number: \"a\", " +
+                    "pipelineId : \"3d922b33-e2d5-4ccb-ade4-26b94377e4dc\", " +
+                    "number: 1, " +
                     "status: \"NOT VALID\", " +
                     "message: \"build in-progress\", " +
                     "stage: \"BUILD\"" +
@@ -83,7 +87,6 @@ class BuildRestAddAPIIntTest extends Specification {
         then:
             response.status == HttpResponseStatus.BAD_REQUEST.code()
             response.body == "[" +
-                    "{\"path\":\"number\",\"type\":\"type\",\"message\":\"please enter a valid number\"}," +
                     "{\"path\":\"status\",\"type\":\"enum\",\"message\":\"please enter a status from [\\\"IN_PROGRESS\\\" , \\\"PASSED\\\", \\\"FAILED\\\"]\"}" +
                     "]";
     }
@@ -92,6 +95,7 @@ class BuildRestAddAPIIntTest extends Specification {
     void 'should validate build message length'() {
         given:
             String body = "{" +
+                    "pipelineId : \"3d922b33-e2d5-4ccb-ade4-26b94377e4dc\", " +
                     "number: 1 , " +
                     "status: \"IN_PROGRESS\", " +
                     "message: \"build in-progress and this is hopefully longer than I wanted to be\", " +
@@ -109,6 +113,7 @@ class BuildRestAddAPIIntTest extends Specification {
     void 'should validate build stage'() {
         given:
             String body = "{" +
+                    "pipelineId : \"3d922b33-e2d5-4ccb-ade4-26b94377e4dc\", " +
                     "number: 1, " +
                     "status: \"IN_PROGRESS\", " +
                     "message: \"build in-progress\", " +
@@ -135,13 +140,14 @@ class BuildRestAddAPIIntTest extends Specification {
         then:
             response.status == HttpResponseStatus.BAD_REQUEST.code()
             response.body == "[" +
-                    "{\"type\":\"required\",\"message\":\"please enter all required fields [\\\"message\\\",\\\"number\\\",\\\"stage\\\",\\\"status\\\"]\"}" +
+                    "{\"type\":\"required\",\"message\":\"please enter all required fields [\\\"message\\\",\\\"number\\\",\\\"pipelineId\\\",\\\"stage\\\",\\\"status\\\"]\"}" +
                     "]";
     }
 
     void 'should validate adding new build with 2 in valid properties'() {
         given:
             String body = "{" +
+                    "pipelineId : \"3d922b33-e2d5-4ccb-ade4-26b94377e4dc\", " +
                     "number: \"a\", " +
                     "status: \"IN VALID\", " +
                     "message: \"build in-progress\", " +

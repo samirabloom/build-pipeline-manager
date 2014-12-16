@@ -45,7 +45,7 @@
 
             //then
             expect(mockBuildService.loadAll).toHaveBeenCalled();
-            expect(scope.buildsList).toBe(accountSystemsListResponse);
+            expect(scope.builds).toBe(accountSystemsListResponse);
         });
     });
 })();

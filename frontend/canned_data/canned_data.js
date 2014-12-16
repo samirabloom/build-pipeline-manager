@@ -1,8 +1,9 @@
 (function (module) {
     "use strict";
 
-    var viewBuildResponse = {
+    var buildOne = {
         "id": "8f0666b2-df97-42f5-a13e-9deac7dd590e",
+        "pipelineId": "8f0666b2-df97-42f5-a13e-9deac7dd590e",
         "number": 1,
         "status": "PASSED",
         "stage": "BUILD",
@@ -11,8 +12,9 @@
         "updatedDate": "2014-12-14T18:52:02.043Z"
     };
 
-    var editBuildResponse = {
-        "id": "8f0666b2-df97-42f5-a13e-9deac7dd590e",
+    var buildTwo = {
+        "id": "ffffffff-ffff-42f5-a13e-9deac7dd590e",
+        "pipelineId": "ffffffff-ffff-42f5-a13e-9deac7dd590e",
         "number": 3,
         "status": "IN_PROGRESS",
         "stage": "AUTO_QA",
@@ -21,9 +23,34 @@
         "updatedDate": "2014-12-14T18:52:02.043Z"
     };
 
-    var viewPipelineResponse = {
+    var pipelineOne = {
         "id": "8f0666b2-df97-42f5-a13e-9deac7dd590e",
-        "name": "test pipeline",
+        "name": "pipeline one",
+        "stages": [
+            {
+                "name": "BUILD"
+            },
+            {
+                "name": "DEVELOPMENT"
+            },
+            {
+                "name": "AUTO_QA"
+            },
+            {
+                "name": "MANUAL_QA"
+            },
+            {
+                "name": "UAT"
+            },
+            {
+                "name": "PRODUCTION"
+            }
+        ]
+    };
+
+    var pipelineTwo = {
+        "id": "ffffffff-ffff-42f5-a13e-9deac7dd590e",
+        "name": "pipeline two",
         "stages": [
             {
                 "name": "BUILD"
@@ -49,21 +76,21 @@
 
     module.exports = {
         build: {
-            view: viewBuildResponse,
-            edit: editBuildResponse,
+            view: buildOne,
+            edit: buildTwo,
             list: [
-                viewBuildResponse,
-                editBuildResponse,
-                viewBuildResponse,
-                editBuildResponse
+                buildOne,
+                buildTwo,
+                buildOne,
+                buildTwo
             ]
         },
         pipeline: {
-            view: viewPipelineResponse,
-            edit: viewPipelineResponse,
+            view: pipelineOne,
+            edit: pipelineOne,
             list: [
-                viewPipelineResponse,
-                viewPipelineResponse
+                pipelineOne,
+                pipelineTwo
             ]
         }
     };

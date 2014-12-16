@@ -30,12 +30,14 @@ class BuildRestGetAPIIntTest extends Specification {
     void 'should return all builds'() {
         given:
             String buildOne = "{" +
+                    "pipelineId : \"3d922b33-e2d5-4ccb-ade4-26b94377e4dc\", " +
                     "number: 1, " +
                     "status: \"PASSED\", " +
                     "message: \"build completed\", " +
                     "stage: \"BUILD\"" +
                     "}"
             String buildTwo = "{" +
+                    "pipelineId : \"3d922b33-e2d5-4ccb-ade4-26b94377e4dc\", " +
                     "number: 2, " +
                     "status: \"FAILED\", " +
                     "message: \"build failed\", " +
@@ -74,6 +76,7 @@ class BuildRestGetAPIIntTest extends Specification {
     void 'should return a build'() {
         given:
             String body = "{" +
+                    "pipelineId : \"3d922b33-e2d5-4ccb-ade4-26b94377e4dc\", " +
                     "number: 1, " +
                     "status: \"PASSED\", " +
                     "message: \"build completed\", " +

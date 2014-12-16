@@ -9,6 +9,7 @@ import java.util.UUID;
  */
 public class Build extends Entity<Build> {
     private UUID id;
+    private UUID pipelineId;
     private Integer number;
     private BuildStatus status;
     private String message;
@@ -22,6 +23,15 @@ public class Build extends Entity<Build> {
 
     public Build setId(UUID id) {
         this.id = id;
+        return this;
+    }
+
+    public UUID getPipelineId() {
+        return pipelineId;
+    }
+
+    public Build setPipelineId(UUID pipelineId) {
+        this.pipelineId = pipelineId;
         return this;
     }
 
