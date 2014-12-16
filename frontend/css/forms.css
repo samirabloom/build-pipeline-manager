@@ -13,7 +13,32 @@
 .pure-form input[type="tel"]:focus:read-only,
 .pure-form input[type="color"]:focus:read-only,
 .pure-form select:focus:read-only,
-.pure-form textarea:focus:read-only
-{
+.pure-form textarea:focus:read-only {
     border-color: #ccc;
+}
+
+.pure-form .pure-control-group select {
+    font-size: 1em;
+}
+
+.pure-form .pure-control-group select {
+    font-size: 1em;
+}
+
+.pure-control-group.listFilter select {
+    -webkit-appearance: menulist-button;
+    -webkit-box-shadow: rgb(230, 230, 230) 0px 1px 3px 0px inset;
+    -webkit-font-smoothing: antialiased;
+    font-size: 1em;
+}
+
+.pure-control-group.listFilter label {
+    font-size: 1.2em;
+    padding: 1em 10px 1em 0;
+}
+
+.pure-skin-dark .pure-control-group.listFilter label {
+    font-size: 1.2em;
+    padding: 1em 10px 1em 0;
+    color: #d6d6d6;
 }

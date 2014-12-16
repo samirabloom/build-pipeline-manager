@@ -1,107 +1,164 @@
-(function ()
-{
+(function () {
     'use strict';
 
-    describe('BuildCreateController', function ()
-    {
+    describe('BuildCreateController', function () {
 
-        var ListItemBuilder = ns.builders.ListItemBuilder;
-
-        var mockBuildService;
-        var mockLocation;
         var mockFormValidationErrorHelper;
 
-        beforeEach(function()
-        {
-
-            mockBuildService = {
-                save: jasmine.createSpy('save')
-            };
-
-            //and
-            mockLocation = {
-                path : jasmine.createSpy('path')
-            };
+        beforeEach(function () {
 
             //and
             mockFormValidationErrorHelper = {
-                handleValidationErrors : jasmine.createSpy('handleValidationErrors')
+                handleValidationErrors: jasmine.createSpy('handleValidationErrors')
             };
 
         });
-    
 
-        it('should redirect to list page on create when success', function ()
-        {
-            //given
-            var scope = {
-                build : 'build'
+        it('should initialize list of pipelines', function () {
+            // given
+            var scope = {};
+
+            var pipelinesResponse = [
+                {}
+            ];
+
+            //and - mock $location
+            var mockLocation = { };
+
+            // and - mock pipeline service
+            var mockPipelineService = {
+                loadAll: jasmine.createSpy('loadAll')
+            };
+            mockPipelineService.loadAll.and.returnValue({
+                then: function (callback) {
+                    return callback(pipelinesResponse);
+                }
+            });
+
+            // and - mock build service
+            var mockBuildService = { };
+            var mockFormValidationErrorHelper = {};
+
+            // when
+            var controller = new ns.controllers.BuildCreateController(scope, mockLocation, mockPipelineService, mockBuildService, mockFormValidationErrorHelper);
+
+            // then
+            expect(controller.$location).toBe(mockLocation);
+            expect(controller.services.pipelineService).toBe(mockPipelineService);
+            expect(controller.services.buildService).toBe(mockBuildService);
+            expect(controller.services.formValidationErrorHelper).toBe(mockFormValidationErrorHelper);
+
+            // then - pipelines loaded
+            expect(mockPipelineService.loadAll).toHaveBeenCalled();
+            expect(scope.pipelines).toBe(pipelinesResponse);
+        });
+
+        it('should redirect to list page on create when success', function () {
+            // given
+            var scope = { };
+            var pipelinesResponse = [
+                {}
+            ];
+
+            // and - mock $location
+            var mockLocation = {
+                path: jasmine.createSpy('path')
             };
 
-            //and
-            var mockSavePromise = {
-                then: function (callback)
-                    {
-                        callback();
-                        return {
-                            catch : function(){}
-                        };
-                    }
+            // and - mock pipeline service
+            var mockPipelineService = {
+                loadAll: jasmine.createSpy('loadAll')
+            };
+            mockPipelineService.loadAll.and.returnValue({
+                then: function (callback) {
+                    return callback([
+                        {}
+                    ]);
+                }
+            });
+
+            // and - mock build service
+            var mockBuildService = {
+                save: jasmine.createSpy('save')
+            };
+            mockBuildService.save.and.returnValue({
+                then: function (callback) {
+                    callback();
+                    return {
+                        catch : function(){}
+                    };
+                }
+            });
+
+            // and - form validation helper
+            var mockFormValidationErrorHelper = {
+                handleValidationErrors: jasmine.createSpy('handleValidationErrors')
             };
 
-            mockBuildService.save.and.returnValue(mockSavePromise);
+            // when
+            var controller = new ns.controllers.BuildCreateController(scope, mockLocation, mockPipelineService, mockBuildService, mockFormValidationErrorHelper);
 
-            //when
-            var controller = new ns.controllers.BuildCreateController(scope, mockBuildService, mockFormValidationErrorHelper, mockLocation);
-
+            // when
             controller._create();
 
-            //then
+            // then
             expect(mockBuildService.save).toHaveBeenCalledWith(scope.build);
-
-            //and
             expect(mockLocation.path).toHaveBeenCalledWith('/build/list');
-
-            //and
             expect(mockFormValidationErrorHelper.handleValidationErrors).not.toHaveBeenCalled();
 
         });
 
-        it('should update errors when validation error', function ()
-        {
-            //given
-            var scope = {
-                build : 'build'
-            };
+        it('should update errors when validation error', function () {
+            // given
+            var scope = { };
 
             var testError = 'testError';
 
-            //and
-            var mockSavePromise = {
-                then: function (callback)
-                    {
-                        return {
-                            catch : function(callback){
-                                return callback(testError);
-                            }
-                        };
-                    }
+            // and - mock $location
+            var mockLocation = {
+                path: jasmine.createSpy('path')
             };
 
-            mockBuildService.save.and.returnValue(mockSavePromise);
+            // and - mock pipeline service
+            var mockPipelineService = {
+                loadAll: jasmine.createSpy('loadAll')
+            };
+            mockPipelineService.loadAll.and.returnValue({
+                then: function (callback) {
+                    return callback([
+                        {}
+                    ]);
+                }
+            });
 
-            //when
-            var controller = new ns.controllers.BuildCreateController(scope, mockBuildService, mockFormValidationErrorHelper, mockLocation);
+            // and - mock build service
+            var mockBuildService = {
+                save: jasmine.createSpy('save')
+            };
+            mockBuildService.save.and.returnValue({
+                then: function (callback) {
+                    return {
+                        catch: function (callback) {
+                            return callback(testError);
+                        }
+                    };
+                }
+            });
+
+            // and - form validation helper
+            var mockFormValidationErrorHelper = {
+                handleValidationErrors: jasmine.createSpy('handleValidationErrors')
+            };
+
+
+            // when
+            var controller = new ns.controllers.BuildCreateController(scope, mockLocation, mockPipelineService, mockBuildService, mockFormValidationErrorHelper);
 
             controller._create();
 
-            //then
+            // then
             expect(mockBuildService.save).toHaveBeenCalledWith(scope.build);
-
-            //and
             expect(mockLocation.path).not.toHaveBeenCalledWith('/build/list');
-
-            //and
             expect(mockFormValidationErrorHelper.handleValidationErrors).toHaveBeenCalledWith(testError, scope);
 
         });

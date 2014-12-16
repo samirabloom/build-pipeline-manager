@@ -11,35 +11,49 @@
 
 	<!-- test utility libraries -->
 	<script type="text/javascript" src="../../js/lib/angular/angular-mocks.js"></script>
-	<!--script type="text/javascript" src="test-utils.js"></script-->
 
-	<!-- include source files here... -->
-	<script type="text/javascript" src="../../js/init.js"></script>
-	<script type="text/javascript" src="../../js/config.js"></script>
+	<!-- builders -->
 	<script type="text/javascript" src="builders/ListItemBuilder.js"></script>
 	<script type="text/javascript" src="builders/SpecificFieldBuilder.js"></script>
 
-	<!-- Factories -->
-	<script type="text/javascript" src="../../js/factories/HttpInterceptorFactory.js"></script>
-	<script type="text/javascript" src="../../js/services/FormValidationErrorHelper.js"></script>
+	<!-- include system under test here... -->
 
-	<!-- Services -->
-	<script type="text/javascript" src="../../js/services/build/BuildService.js"></script>
-	<script type="text/javascript" src="../../js/services/pipeline/PipelineService.js"></script>
+	<!-- create namespace -->
+	<script src="../../js/init.js"></script>
 
-	<!-- Controllers -->
-	<script type="text/javascript" src="../../js/controllers/build/BuildListController.js"></script>
-	<script type="text/javascript" src="../../js/controllers/build/BuildCreateController.js"></script>
-	<script type="text/javascript" src="../../js/controllers/build/BuildEditController.js"></script>
-	<script type="text/javascript" src="../../js/controllers/build/BuildViewController.js"></script>
-	<script type="text/javascript" src="../../js/controllers/pipeline/PipelineListController.js"></script>
-	<script type="text/javascript" src="../../js/controllers/pipeline/PipelineCreateController.js"></script>
-	<script type="text/javascript" src="../../js/controllers/pipeline/PipelineEditController.js"></script>
-	<script type="text/javascript" src="../../js/controllers/pipeline/PipelineViewController.js"></script>
+	<!-- environment configuration -->
+	<script src="../../js/config.js"></script>
 
-	<!-- Directives -->
-	<script type="text/javascript" src="../../js/directives/CheckBoxGroupDirective.js"></script>
-	<script type="text/javascript" src="../../js/directives/FormErrorDirective.js"></script>
+	<!-- http interceptor -->
+	<script src="../../js/factories/HttpInterceptorFactory.js"></script>
+
+	<!-- general controllers -->
+	<script src="../../js/controllers/MenuController.js"></script>
+
+	<!-- build service -->
+	<script src="../../js/services/build/BuildService.js"></script>
+	<!-- build controllers -->
+	<script src="../../js/controllers/build/BuildListController.js"></script>
+	<script src="../../js/controllers/build/BuildCreateController.js"></script>
+	<script src="../../js/controllers/build/BuildEditController.js"></script>
+	<script src="../../js/controllers/build/BuildViewController.js"></script>
+
+	<!-- pipeline service -->
+	<script src="../../js/services/pipeline/PipelineService.js"></script>
+	<!-- pipeline controllers -->
+	<script src="../../js/controllers/pipeline/PipelineListController.js"></script>
+	<script src="../../js/controllers/pipeline/PipelineCreateController.js"></script>
+	<script src="../../js/controllers/pipeline/PipelineEditController.js"></script>
+	<script src="../../js/controllers/pipeline/PipelineViewController.js"></script>
+
+	<!-- directives & helpers -->
+	<script src="../../js/directives/CheckBoxGroupDirective.js"></script>
+	<script src="../../js/directives/SortableDirective.js"></script>
+	<script src="../../js/directives/FormErrorDirective.js"></script>
+	<script src="../../js/services/FormValidationErrorHelper.js"></script>
+
+	<!-- filters -->
+	<script src="../../js/filters/TitleCaseFilter.js"></script>
 
 	<!-- include spec files here... -->
 

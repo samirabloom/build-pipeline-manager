@@ -2,10 +2,11 @@
 {
     'use strict';
     
-    function BuildViewController($scope, buildService, $routeParams)
+    function BuildViewController($scope, $routeParams, pipelineService, buildService)
     {
         this.$scope = $scope;
         this.services = {} || this.services;
+        this.services.pipelineService = pipelineService;
         this.services.buildService = buildService;
 
         this.buildId = $routeParams.buildId;
@@ -13,7 +14,7 @@
         this._initialize();
     }
 
-    BuildViewController['$inject'] = ['$scope', 'buildService', '$routeParams'];
+    BuildViewController['$inject'] = ['$scope', '$routeParams', 'pipelineService', 'buildService'];
 
     BuildViewController.prototype = {
 
@@ -25,14 +26,14 @@
 
             var self = this;
 
-            this.services.buildService.load(this.buildId)
-                .then(
-                    function(data) 
-                    {
-                        self.$scope.build = data;
-                    }
-                );
-
+            this.services.pipelineService.loadAll()
+                .then(function (data) {
+                    self.$scope.pipelines = data;
+                    self.services.buildService.load(self.buildId)
+                        .then(function (data) {
+                            self.$scope.build = data;
+                        });
+                });
         }
 
     };

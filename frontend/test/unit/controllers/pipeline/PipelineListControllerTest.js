@@ -22,7 +22,7 @@
             //given
             var scope = {};
 
-            var accountSystemsListResponse = [
+            var buildsResponse = [
                 {'testData': 'testData1'},
                 {'testData': 'testData2'}
             ];
@@ -33,7 +33,7 @@
 
             var mockPromise = {
                 then: function (callback) {
-                    return callback(accountSystemsListResponse);
+                    return callback(buildsResponse);
                 }
             };
 
@@ -45,7 +45,7 @@
 
             //then
             expect(mockPipelineService.loadAll).toHaveBeenCalled();
-            expect(scope.pipelinesList).toBe(accountSystemsListResponse);
+            expect(scope.pipelinesList).toBe(buildsResponse);
         });
     });
 })();

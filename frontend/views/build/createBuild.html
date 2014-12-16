@@ -15,6 +15,14 @@
             <form-error data-field-name="number"/>
         </div>
 
+	    <div class="pure-control-group">
+		    <label for="pipeline">Pipeline</label>
+		    <select id="pipeline" name="pipeline" class="createBuild__input createBuild__input--pipeline" data-ng-model="build.pipelineId">
+			    <option value="">-- Please select --</option>
+			    <option data-ng-repeat="pipeline in pipelines" value="{{pipeline.id}}">{{pipeline.name}}</option>
+		    </select>
+	    </div>
+
         <fieldset>
             <ng-include src="'views/build/buildForm.html'"></ng-include>
         </fieldset>

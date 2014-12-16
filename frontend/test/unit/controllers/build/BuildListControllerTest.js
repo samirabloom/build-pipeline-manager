@@ -1,51 +1,53 @@
-/*global loadJson:true,tv4:true */
 (function () {
     'use strict';
 
-
     describe('BuildListController', function () {
 
-         /*it('should work', function()
-         {
-         var objects = [
-         {}
-         ];
-
-         var schema = loadJson("schema/list-response.json");
-         var result = tv4.validateResult(objects, schema);
-         console.log(result);
-
-         expect(result.valid).toBe(false);
-         });*/
-
-        it('on successCallback should update scope with given data', function () {
-            //given
+        it('should initialize list of pipelines and list of builds', function () {
+            // given
             var scope = {};
 
-            var accountSystemsListResponse = [
-                {'testData': 'testData1'},
-                {'testData': 'testData2'}
+            var buildsResponse = [
+                {}
+            ];
+            var pipelinesResponse = [
+                {}
             ];
 
+            // and - mock build service
             var mockBuildService = {
                 loadAll: jasmine.createSpy('loadAll')
             };
-
-            var mockPromise = {
+            mockBuildService.loadAll.and.returnValue({
                 then: function (callback) {
-                    return callback(accountSystemsListResponse);
+                    return callback(buildsResponse);
                 }
+            });
+
+            // and - mock pipeline service
+            var mockPipelineService = {
+                loadAll: jasmine.createSpy('loadAll')
             };
+            mockPipelineService.loadAll.and.returnValue({
+                then: function (callback) {
+                    return callback(pipelinesResponse);
+                }
+            });
 
-            //and
-            mockBuildService.loadAll.and.returnValue(mockPromise);
+            // when
+            var controller = new ns.controllers.BuildListController(scope, mockPipelineService, mockBuildService);
 
-            //when
-            new ns.controllers.BuildListController(scope, mockBuildService);
+            // then
+            expect(controller.services.pipelineService).toBe(mockPipelineService);
+            expect(controller.services.buildService).toBe(mockBuildService);
 
-            //then
+            // and
+            expect(mockPipelineService.loadAll).toHaveBeenCalled();
+            expect(scope.pipelines).toBe(pipelinesResponse);
+
+            // and
             expect(mockBuildService.loadAll).toHaveBeenCalled();
-            expect(scope.builds).toBe(accountSystemsListResponse);
+            expect(scope.builds).toBe(buildsResponse);
         });
     });
 })();

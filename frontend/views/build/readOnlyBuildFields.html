@@ -7,3 +7,11 @@
     <label for="number">Number</label>
     <input type="text" id="number" name="number" class="createBuild__input createBuild__input--number" data-ng-model="build.number" disabled>
 </div>
+
+<div class="pure-control-group">
+	<label for="pipeline">Pipeline</label>
+	<select id="pipeline" name="pipeline" class="createBuild__input createBuild__input--pipeline" data-ng-model="build.pipelineId" disabled>
+		<option value="">-- Please select --</option>
+		<option data-ng-repeat="pipeline in pipelines" value="{{pipeline.id}}">{{pipeline.name}}</option>
+	</select>
+</div>
