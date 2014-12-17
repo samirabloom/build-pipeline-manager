@@ -25,86 +25,78 @@
 
         it('on loadAll should call $http.get', function ()
         {
-            //given
+            // given
             mockHttp.get.and.returnValue(mockPromise);
             
-            //and
+            // and
             var expectedResult = {"key": "value"};
             mockPromise.then.and.returnValue(expectedResult);
 
-            //when
+            // when
             var returnedResult = buildService.loadAll();
 
-            //then
+            // then
             expect(mockHttp.get).toHaveBeenCalledWith(Config.webServer + '/build');
-
-            //and
             expect(expectedResult).toEqual(returnedResult);
         });
 
         it('on load should call $http.get', function ()
         {
-            //given
+            // given
             mockHttp.get.and.returnValue(mockPromise);
 
-            //and
+            // and
             var expectedResult = {"key": "value"};
             mockPromise.then.and.returnValue(expectedResult);
 
-            //and
+            // and
             var buildId = 'ACCOUNT-SYSTEM-ID';
 
-            //when
+            // when
             var returnedResult = buildService.load(buildId);
 
-            //then
+            // then
             expect(mockHttp.get).toHaveBeenCalledWith(Config.webServer + '/build/' + buildId);
-
-            //and
             expect(expectedResult).toEqual(returnedResult);
         });
 
         it('on save should call $http.post', function ()
         {
-            //given
+            // given
             mockHttp.post.and.returnValue(mockPromise);
             
-            //and
+            // and
             var expectedResult = {"key": "value"};
             mockPromise.then.and.returnValue(expectedResult);
 
-            //and
+            // and
             var buildToSave = {};
 
-            //when
+            // when
             var returnedResult = buildService.save(buildToSave);
 
-            //then
+            // then
             expect(mockHttp.post).toHaveBeenCalledWith(Config.webServer + '/build', buildToSave);
-
-            //and
             expect(expectedResult).toEqual(returnedResult);
         });
 
         it('on update should call $http.put', function ()
         {
-            //given
+            // given
             mockHttp.put.and.returnValue(mockPromise);
             
-            //and
+            // and
             var expectedResult = {"key": "value"};
             mockPromise.then.and.returnValue(expectedResult);
 
-            //and
+            // and
             var buildToUpdate = { id: "build_id"};
 
-            //when
+            // when
             var returnedResult = buildService.update(buildToUpdate);
 
-            //then
+            // then
             expect(mockHttp.put).toHaveBeenCalledWith(Config.webServer + '/build/build_id', buildToUpdate);
-
-            //and
             expect(expectedResult).toEqual(returnedResult);
         });
     });

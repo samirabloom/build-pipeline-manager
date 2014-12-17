@@ -13,7 +13,7 @@
                 </thead>
 
                 <tbody class="pipelineList__content">
-                    <tr class="pipelineItem" data-ng-repeat="pipeline in pipelinesList | orderBy:'name'">
+                    <tr class="pipelineItem" data-ng-repeat="pipeline in pipelines | orderBy:'name'">
                         <td class="pipelineItem__cell pipelineItem__cell--id">{{pipeline.id}}</td>
                         <td class="pipelineItem__cell pipelineItem__cell--name">{{pipeline.name}}</td>
                         <td class="pipelineItem__cell pipelineItem__cell--actions">

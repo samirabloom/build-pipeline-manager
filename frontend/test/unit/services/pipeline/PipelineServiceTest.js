@@ -26,86 +26,78 @@
 
         it('on loadAll should call $http.get', function ()
         {
-            //given
+            // given
             mockHttp.get.and.returnValue(mockPromise);
             
-            //and
+            // and
             var expectedResult = {"key": "value"};
             mockPromise.then.and.returnValue(expectedResult);
 
-            //when
+            // when
             var returnedResult = testPipelineServiceTest.loadAll();
 
-            //then
+            // then
             expect(mockHttp.get).toHaveBeenCalledWith(Config.webServer + '/pipeline');
-
-            //and
             expect(expectedResult).toEqual(returnedResult);
         });
 
         it('on load should call $http.get', function ()
         {
-            //given
+            // given
             mockHttp.get.and.returnValue(mockPromise);
 
-            //and
+            // and
             var expectedResult = {"key": "value"};
             mockPromise.then.and.returnValue(expectedResult);
 
-            //and
+            // and
             var pipelineId = 'ACCOUNT-SYSTEM-ID';
 
-            //when
+            // when
             var returnedResult = testPipelineServiceTest.load(pipelineId);
 
-            //then
+            // then
             expect(mockHttp.get).toHaveBeenCalledWith(Config.webServer + '/pipeline/' + pipelineId);
-
-            //and
             expect(expectedResult).toEqual(returnedResult);
         });
 
         it('on save should call $http.post', function ()
         {
-            //given
+            // given
             mockHttp.post.and.returnValue(mockPromise);
             
-            //and
+            // and
             var expectedResult = {"key": "value"};
             mockPromise.then.and.returnValue(expectedResult);
 
-            //and
+            // and
             var pipelineToSave = {};
 
-            //when
+            // when
             var returnedResult = testPipelineServiceTest.save(pipelineToSave);
 
-            //then
+            // then
             expect(mockHttp.post).toHaveBeenCalledWith(Config.webServer + '/pipeline', pipelineToSave);
-
-            //and
             expect(expectedResult).toEqual(returnedResult);
         });
 
         it('on update should call $http.put', function ()
         {
-            //given
+            // given
             mockHttp.put.and.returnValue(mockPromise);
             
-            //and
+            // and
             var expectedResult = {"key": "value"};
             mockPromise.then.and.returnValue(expectedResult);
 
-            //and
+            // and
             var pipelineToUpdate = { id: "pipeline_id" };
 
-            //when
+            // when
             var returnedResult = testPipelineServiceTest.update(pipelineToUpdate);
 
-            //then
+            // then
             expect(mockHttp.put).toHaveBeenCalledWith(Config.webServer + '/pipeline/pipeline_id', pipelineToUpdate);
-
-            //and
             expect(expectedResult).toEqual(returnedResult);
         });
     });

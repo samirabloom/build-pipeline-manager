@@ -47,7 +47,6 @@
     app.controller('PipelineViewController', ns.controllers.PipelineViewController);
 
     // directives
-    app.directive('checkBoxGroup', ns.directives.CheckBoxGroupDirectiveFactory);
     app.directive('sortable', ns.directives.SortableDirectiveFactory);
     app.directive('formError', ns.directives.FormErrorDirectiveFactory);
 

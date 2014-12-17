@@ -1,7 +1,7 @@
 (function (ns) {
     'use strict';
 
-    function PipelineCreateController($scope, pipelineService, formValidationErrorHelper, $location) {
+    function PipelineCreateController($scope, $location, pipelineService, formValidationErrorHelper) {
         this.$scope = $scope;
         this.$location = $location;
         this.services = {} || this.services;

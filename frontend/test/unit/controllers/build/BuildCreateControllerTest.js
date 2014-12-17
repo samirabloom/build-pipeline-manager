@@ -3,17 +3,6 @@
 
     describe('BuildCreateController', function () {
 
-        var mockFormValidationErrorHelper;
-
-        beforeEach(function () {
-
-            //and
-            mockFormValidationErrorHelper = {
-                handleValidationErrors: jasmine.createSpy('handleValidationErrors')
-            };
-
-        });
-
         it('should initialize list of pipelines', function () {
             // given
             var scope = {};
@@ -37,6 +26,8 @@
 
             // and - mock build service
             var mockBuildService = { };
+
+            // and - mock form validation helper
             var mockFormValidationErrorHelper = {};
 
             // when
@@ -55,10 +46,9 @@
 
         it('should redirect to list page on create when success', function () {
             // given
-            var scope = { };
-            var pipelinesResponse = [
-                {}
-            ];
+            var scope = {
+                build: {}
+            };
 
             // and - mock $location
             var mockLocation = {
@@ -90,12 +80,12 @@
                 }
             });
 
-            // and - form validation helper
+            // and - mock form validation helper
             var mockFormValidationErrorHelper = {
                 handleValidationErrors: jasmine.createSpy('handleValidationErrors')
             };
 
-            // when
+            // and - the controller
             var controller = new ns.controllers.BuildCreateController(scope, mockLocation, mockPipelineService, mockBuildService, mockFormValidationErrorHelper);
 
             // when
@@ -110,7 +100,9 @@
 
         it('should update errors when validation error', function () {
             // given
-            var scope = { };
+            var scope = {
+                build: {}
+            };
 
             var testError = 'testError';
 
@@ -145,22 +137,21 @@
                 }
             });
 
-            // and - form validation helper
+            // and - mock form validation helper
             var mockFormValidationErrorHelper = {
                 handleValidationErrors: jasmine.createSpy('handleValidationErrors')
             };
 
-
-            // when
+            // and - the controller
             var controller = new ns.controllers.BuildCreateController(scope, mockLocation, mockPipelineService, mockBuildService, mockFormValidationErrorHelper);
 
+            // when
             controller._create();
 
             // then
             expect(mockBuildService.save).toHaveBeenCalledWith(scope.build);
             expect(mockLocation.path).not.toHaveBeenCalledWith('/build/list');
             expect(mockFormValidationErrorHelper.handleValidationErrors).toHaveBeenCalledWith(testError, scope);
-
         });
 
     });

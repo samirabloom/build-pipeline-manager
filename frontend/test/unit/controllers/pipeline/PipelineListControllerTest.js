@@ -1,51 +1,35 @@
-/*global loadJson:true,tv4:true */
 (function () {
     'use strict';
 
-
     describe('PipelineListController', function () {
 
-         /*it('should work', function()
-         {
-         var objects = [
-         {}
-         ];
-
-         var schema = loadJson("schema/list-response.json");
-         var result = tv4.validateResult(objects, schema);
-         console.log(result);
-
-         expect(result.valid).toBe(false);
-         });*/
-
-        it('on successCallback should update scope with given data', function () {
-            //given
+        it('should initialize list of pipelines', function () {
+            // given
             var scope = {};
 
-            var buildsResponse = [
-                {'testData': 'testData1'},
-                {'testData': 'testData2'}
+            var pipelinesResponse = [
+                {}
             ];
 
+            // and - mock pipeline service
             var mockPipelineService = {
                 loadAll: jasmine.createSpy('loadAll')
             };
-
-            var mockPromise = {
+            mockPipelineService.loadAll.and.returnValue({
                 then: function (callback) {
-                    return callback(buildsResponse);
+                    return callback(pipelinesResponse);
                 }
-            };
+            });
 
-            //and
-            mockPipelineService.loadAll.and.returnValue(mockPromise);
+            // when
+            var controller = new ns.controllers.PipelineListController(scope, mockPipelineService);
 
-            //when
-            new ns.controllers.PipelineListController(scope, mockPipelineService);
+            // then
+            expect(controller.services.pipelineService).toBe(mockPipelineService);
 
-            //then
+            // and
             expect(mockPipelineService.loadAll).toHaveBeenCalled();
-            expect(scope.pipelinesList).toBe(buildsResponse);
+            expect(scope.pipelines).toBe(pipelinesResponse);
         });
     });
 })();

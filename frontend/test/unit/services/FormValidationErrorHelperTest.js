@@ -7,13 +7,13 @@
 
         it('should not set errors property in scope when status code is not 400', function ()
         {
-            //given
+            // given
             var formValidationErrorHelper = ns.factories.FormValidationErrorHelperFactory();
 
-            //and
+            // and
             var scope = {};
 
-            //and
+            // and
             var error = {
                 status : 500,
                 data : {
@@ -23,26 +23,26 @@
                 }
             };
 
-            //and
+            // and
             var expectedScope = {};
 
-            //when
+            // when
             formValidationErrorHelper.handleValidationErrors(error, scope);
 
-            //then
+            // then
             expect(scope).toEqual(expectedScope);
         });
 
 
         it('should set errors property in scope when status code is 400', function ()
         {
-            //given
+            // given
             var formValidationErrorHelper = ns.factories.FormValidationErrorHelperFactory();
 
-            //and
+            // and
             var scope = {};
 
-            //and
+            // and
             var error = {
                 status : 400,
                 data : {
@@ -52,10 +52,10 @@
                 }
             };
 
-            //when
+            // when
             formValidationErrorHelper.handleValidationErrors(error, scope);
 
-            //then
+            // then
             expect(scope.errors).toEqual(error.data.error.fields);
         });
 

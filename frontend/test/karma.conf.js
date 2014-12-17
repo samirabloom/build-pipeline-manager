@@ -22,7 +22,6 @@ module.exports = function (config) {
 
 //            { pattern: 'json/**/*.json', included: false, served: true },
 
-            'test/unit/helpers/JsonHelpers.js',
             { pattern: 'test/unit/**/*.js' }
         ],
 

@@ -5,47 +5,37 @@
     describe('PipelineViewController', function ()
     {
 
-        var ListItemPipelineer = ns.builders.ListItemPipelineer;
-
-        var pipeline = {
-            name : 'name'
-        };
-
-        var routeParams = {
-            pipelineId : 'pipelineId'
-        };
-
-        var mockPipelineService;
-
-        beforeEach(function()
-        {
-
-            mockPipelineService = {
-                load: jasmine.createSpy('load')
-            };
-
-            //and
-            var mockFindPromise = {
-                then: function (callback)
-                    {
-                        return callback(pipeline);
-                    }
-            };
-
-            mockPipelineService.load.and.returnValue(mockFindPromise);
-        });
-
-        it('on successCallback should update scope with given data', function ()
-        {
-            //given
+        it('should initialize pipeline', function () {
+            // given
             var scope = {};
 
-            //when
-            new ns.controllers.PipelineViewController(scope, mockPipelineService, routeParams);
+            var pipelineResponse = {};
 
-            //then
+            // and - mock route parameters
+            var mockRouteParams = {
+                pipelineId: "pipelineId"
+            };
+
+            // and - mock pipeline service
+            var mockPipelineService = {
+                load: jasmine.createSpy('load')
+            };
+            mockPipelineService.load.and.returnValue({
+                then: function (callback) {
+                    return callback(pipelineResponse);
+                }
+            });
+
+            // when
+            var controller = new ns.controllers.PipelineViewController(scope, mockRouteParams, mockPipelineService);
+
+            // then
+            expect(controller.services.pipelineService).toBe(mockPipelineService);
+            expect(controller.pipelineId).toBe(mockRouteParams.pipelineId);
+
+            // and
             expect(mockPipelineService.load).toHaveBeenCalled();
-            expect(scope.pipeline).toBe(pipeline);
+            expect(scope.pipeline).toBe(pipelineResponse);
         });
 
     });

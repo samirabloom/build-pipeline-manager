@@ -16,7 +16,7 @@
                 {}
             ];
 
-            // and - mock mockRouteParams
+            // and - mock route parameters
             var mockRouteParams = {
                 buildId: "buildId"
             };

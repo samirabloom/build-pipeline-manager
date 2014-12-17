@@ -2,7 +2,7 @@
 {
     'use strict';
     
-    function PipelineEditController($scope, pipelineService, $routeParams, formValidationErrorHelper, $location)
+    function PipelineEditController($scope, $location, $routeParams, pipelineService, formValidationErrorHelper)
     {
         this.$scope = $scope;
         this.$location = $location;

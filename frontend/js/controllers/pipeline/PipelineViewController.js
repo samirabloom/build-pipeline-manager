@@ -2,7 +2,7 @@
 {
     'use strict';
     
-    function PipelineViewController($scope, pipelineService, $routeParams)
+    function PipelineViewController($scope, $routeParams, pipelineService)
     {
         this.$scope = $scope;
         this.services = {} || this.services;

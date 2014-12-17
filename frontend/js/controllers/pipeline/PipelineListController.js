@@ -23,7 +23,7 @@
                 .then(
                     function (data) 
                     {
-                        self.$scope.pipelinesList = data;
+                        self.$scope.pipelines = data;
                     }
                 );
         }

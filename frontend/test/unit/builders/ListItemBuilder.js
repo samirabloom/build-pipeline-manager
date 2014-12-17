@@ -29,15 +29,4 @@
 
 	ns.builders.ListItemBuilder = ListItemBuilder;
 
-	/*
-
-	var ListItemBuilder = ns.builders.ListItemBuilder;
-    console.log([
-            new ListItemBuilder().withKey('GBP').withValue('Pound').build(),
-            new ListItemBuilder().withKey('EUR').withValue('Euro').build(),
-            new ListItemBuilder().withKey('USD').withValue('Dollar').build()
-    ]);
-
-	*/
-
 })(ns);

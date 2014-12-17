@@ -3,17 +3,6 @@
 
     describe('BuildEditController', function () {
 
-        var mockFormValidationErrorHelper;
-
-        beforeEach(function () {
-
-            //and
-            mockFormValidationErrorHelper = {
-                handleValidationErrors: jasmine.createSpy('handleValidationErrors')
-            };
-
-        });
-
         it('should initialize list of pipelines', function () {
             // given
             var scope = {};
@@ -27,7 +16,7 @@
             // and - mock $location
             var mockLocation = { };
 
-            // and - mock mockRouteParams
+            // and - mock route parameters
             var mockRouteParams = {
                 buildId: "buildId"
             };
@@ -52,6 +41,7 @@
                 }
             });
 
+            // and - mock form validation helper
             var mockFormValidationErrorHelper = {};
 
             // when
@@ -75,7 +65,9 @@
 
         it('should redirect to list page on create when success', function () {
             // given
-            var scope = {};
+            var scope = {
+                build: {}
+            };
 
             var buildResponse = {};
 
@@ -84,7 +76,7 @@
                 path: jasmine.createSpy('path')
             };
 
-            // and - mock mockRouteParams
+            // and - mock route parameters
             var mockRouteParams = {
                 buildId: "buildId"
             };
@@ -115,8 +107,7 @@
                 then: function (callback) {
                     callback();
                     return {
-                        catch: function () {
-                        }
+                        catch : function(){}
                     };
                 }
             });
@@ -126,7 +117,7 @@
                 handleValidationErrors: jasmine.createSpy('handleValidationErrors')
             };
 
-            // when
+            // and - the controller
             var controller = new ns.controllers.BuildEditController(scope, mockLocation, mockRouteParams, mockPipelineService, mockBuildService, mockFormValidationErrorHelper);
 
             // when
@@ -136,12 +127,13 @@
             expect(mockBuildService.update).toHaveBeenCalledWith(scope.build);
             expect(mockLocation.path).toHaveBeenCalledWith('/build/list');
             expect(mockFormValidationErrorHelper.handleValidationErrors).not.toHaveBeenCalled();
-
         });
 
         it('should update errors when validation error', function () {
             // given
-            var scope = { };
+            var scope = {
+                build: {}
+            };
 
             var buildResponse = { };
 
@@ -152,7 +144,7 @@
                 path: jasmine.createSpy('path')
             };
 
-            // and - mock mockRouteParams
+            // and - mock route parameters
             var mockRouteParams = {
                 buildId: "buildId"
             };
@@ -194,17 +186,16 @@
                 handleValidationErrors: jasmine.createSpy('handleValidationErrors')
             };
 
-
-            // when
+            // and - the controller
             var controller = new ns.controllers.BuildEditController(scope, mockLocation, mockRouteParams, mockPipelineService, mockBuildService, mockFormValidationErrorHelper);
 
+            // when
             controller._update();
 
             // then
             expect(mockBuildService.update).toHaveBeenCalledWith(scope.build);
             expect(mockLocation.path).not.toHaveBeenCalledWith('/build/list');
             expect(mockFormValidationErrorHelper.handleValidationErrors).toHaveBeenCalledWith(testError, scope);
-
         });
 
     });
