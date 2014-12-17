@@ -15,7 +15,7 @@
         this._initialize();
     }
 
-    PipelineEditController['$inject'] = ['$scope', 'pipelineService', '$routeParams', 'formValidationErrorHelper', '$location'];
+    PipelineEditController['$inject'] = ['$scope', '$location', '$routeParams', 'pipelineService', 'formValidationErrorHelper'];
 
     PipelineEditController.prototype = {
 

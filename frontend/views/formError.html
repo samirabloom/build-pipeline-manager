@@ -1,4 +1,1 @@
-<span class="form-error error-message" ng-repeat="fieldError in fieldErrors track by $index">
-    <svg viewBox="0 0 8 8"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/icon/open-iconic.svg#x"></use></svg>
-    {{fieldError}}
-</span>
+<span class="pure-alert pure-alert-error {{fieldName}}" ng-repeat="fieldError in fieldErrors">{{fieldError.message}}</span>

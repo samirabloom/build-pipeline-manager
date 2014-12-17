@@ -15,7 +15,14 @@
             var self = this;
             return this.$http
                 .get(Config.webServer + '/pipeline')
-                .then(self._onSuccessHandler);
+                .then(function(result) {
+                    var pipelines = {};
+                    for (var i = 0, len = result.data.length; i < len; i++) {
+                        var pipeline = result.data[i];
+                        pipelines[pipeline.id] = pipeline;
+                    }
+                    return pipelines;
+                });
         },
 
         load : function(pipelineId) {

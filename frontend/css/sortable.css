@@ -5,12 +5,12 @@
 
 .sortable li {
     list-style: none;
-    width: 50%;
+
     min-width: 485px;
     margin-right: 4%;
 }
 
-.sortable li div {
+.sortable li .sorted {
     margin: 5px 5px 5px 7em;
     padding: 5px 5px 5px 0;
     border: 1px solid #CCC;
@@ -21,6 +21,7 @@
 .ui-state-highlight {
     height: 2.5em;
     line-height: 2.5em;
+    width: 50%;
 }
 
 .pure-skin-dark .ui-state-highlight {
@@ -29,14 +30,14 @@
     background: rgba(108, 82, 11, 0.17);
 }
 
-.pure-skin-dark .sortable li div {
+.pure-skin-dark .sortable li .sorted {
     border: 0 none;
     border-radius: 2px;
     background: #665338;
     display: inline-block;
 }
 
-.sortable li.disabled div {
+.sortable li.disabled .sorted {
     margin: 5px 5px 5px 7em;
     padding: 5px 5px 5px 0;
     border: 0 none #fff;
@@ -44,15 +45,15 @@
     display: inline-block;
 }
 
-.pure-skin-dark .sortable li.disabled div label span {
+.pure-skin-dark .sortable li.disabled .sorted label span {
     background: #000;
 }
 
-.pure-skin-dark .sortable li.disabled div {
+.pure-skin-dark .sortable li.disabled .sorted {
     background: #000;
 }
 
-.sortable li.disabled div label span {
+.sortable li.disabled .sorted label span {
     background: #fff;
 }
 
@@ -63,10 +64,6 @@
     width: 2em;
 }
 
-.sortable li span {
+.sortable li .handle {
     float: right;
-}
-
-.sortable li {
-
 }

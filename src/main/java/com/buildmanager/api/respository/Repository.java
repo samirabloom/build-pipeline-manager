@@ -36,6 +36,16 @@ public abstract class Repository<T extends Entity> {
                 .closeOnJvmShutdown()
                 .make();
         this.map = db.getTreeMap("entity");
+
+        Runtime.getRuntime().addShutdownHook(new Thread(
+                new Runnable() {
+                    public void run() {
+                        if (!db.isClosed()) {
+                            db.close();
+                        }
+                    }
+                }
+        ));
     }
 
     public void save(T entity) {

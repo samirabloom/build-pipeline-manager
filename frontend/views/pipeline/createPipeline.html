@@ -4,10 +4,10 @@
 
     <form name="createPipeline" method="post" data-ng-submit="create()" class="pipelineConfiguration pure-form pure-form-aligned">
     	<input type="hidden" name="csrfToken" value="${csrfToken}">
-        
-        <div class="pure-control-group">
-            <form-error data-field-name="createPipelineDTO"></form-error>
-        </div>
+
+	    <div class="pure-control-group">
+		    <form-error data-field-name="root"/>
+	    </div>
 
         <fieldset>
             <ng-include src="'views/pipeline/pipelineForm.html'"></ng-include>

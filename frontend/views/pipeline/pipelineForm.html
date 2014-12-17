@@ -1,5 +1,5 @@
 <div class="pure-control-group">
-	<label for="name">Name</label> <input type="text" id="name" name="name" value="" class="createPipeline__input createPipeline__input--name" data-ng-model="pipeline.name" data-ng-readonly="readonly">
+	<label for="name">Name</label> <input type="text" id="name" name="name" value="" class="createPipeline__input createPipeline__input--name" data-ng-required="true" data-ng-model="pipeline.name" data-ng-readonly="readonly">
 	<form-error data-field-name="name"/>
 </div>
 
@@ -7,10 +7,11 @@
 	<legend>Stages</legend>
 	<ul class="pure-control-group sortable list" data-sortable="" data-list="pipeline.stages">
 		<li data-ng-repeat="stage in pipeline.stages" data-ng-class="{disabled: readonly}">
-			<div>
-				<label for="stage.{{$index}}.name"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span></label> <input type="text" id="stage.{{$index}}.name" name="stage.{{$index}}.name" value="" class="createPipeline__input createPipeline__input--stage-name" data-ng-model="stage.name" data-ng-readonly="readonly">
-				<form-error data-field-name="stage.name"/>
+			<div class="sorted">
+				<label for="stage.{{$index}}.name"><span class="handle ui-icon ui-icon-arrowthick-2-n-s"></span></label>
+				<input type="text" id="stage.{{$index}}.name" name="stage.{{$index}}.name" value="" class="createPipeline__input createPipeline__input--stage-name" data-ng-required="true" data-ng-model="stage.name" data-ng-readonly="readonly">
 			</div>
+			<form-error data-field-name="stages.{{$index}}.name"/>
 		</li>
 	</ul>
 	<div class="createPipeline__controls" data-ng-show="!readonly">

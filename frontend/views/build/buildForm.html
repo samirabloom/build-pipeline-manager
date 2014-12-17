@@ -1,17 +1,23 @@
 <div class="pure-control-group">
-    <label for="status">Status</label>
-    <input type="text" id="status" name="status" value="" class="createBuild__input createBuild__input--status"  data-ng-model="build.status" data-ng-readonly="readonly">
-    <form-error data-field-name="status"/>
+	<label for="stage">Stage</label>
+	<select id="stage" name="stage" class="createBuild__input createBuild__input--stage"
+	        data-ng-required="true" data-ng-model="build.stage">
+		<option value="">-- Please select --</option>
+		<option data-ng-repeat="stage in (pipelines && build.pipelineId && pipelines[build.pipelineId].stages)" value="{{stage.name}}">{{stage.name}}</option>
+	</select>
+	<form-error data-field-name="stage"/>
 </div>
 
 <div class="pure-control-group">
-    <label for="stage">Stage</label>
-    <input type="text" id="stage" name="stage" value="" class="createBuild__input createBuild__input--stage"  data-ng-model="build.stage" data-ng-readonly="readonly">
-    <form-error data-field-name="stage"/>
+	<label for="status">Status</label>
+	<input type="text" id="status" name="status" value="" class="createBuild__input createBuild__input--status"
+	       data-ng-required="true" data-ng-model="build.status" data-ng-readonly="readonly">
+	<form-error data-field-name="status"/>
 </div>
 
 <div class="pure-control-group">
     <label for="message">Message</label>
-    <input type="text" id="message" name="message" value="" class="createBuild__input createBuild__input--message"  data-ng-model="build.message" data-ng-readonly="readonly">
+    <input type="text" id="message" name="message" value="" class="createBuild__input createBuild__input--message"
+           data-ng-required="true" data-ng-model="build.message" data-ng-readonly="readonly">
     <form-error data-field-name="message"/>
 </div>

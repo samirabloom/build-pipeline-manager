@@ -103,6 +103,9 @@ class PipelineRestAddAPIIntTest extends Specification {
                     "   }," +
                     "   {" +
                     "      name: \"DEVELOPMENT\"" +
+                    "   }," +
+                    "   {" +
+                    "      name: 45" +
                     "   }" +
                     "]" +
                     "}"
@@ -112,7 +115,8 @@ class PipelineRestAddAPIIntTest extends Specification {
         then:
             response.status == HttpResponseStatus.BAD_REQUEST.code()
             response.body == "[" +
-                    "{\"path\":\"stages.name\",\"type\":\"type\",\"message\":\"please enter a valid stage name\"}" +
+                    "{\"path\":\"stages.0.name\",\"type\":\"type\",\"message\":\"please enter a valid stage name\"}," +
+                    "{\"path\":\"stages.2.name\",\"type\":\"type\",\"message\":\"please enter a valid stage name\"}" +
                     "]";
     }
 
@@ -127,7 +131,7 @@ class PipelineRestAddAPIIntTest extends Specification {
         then:
             response.status == HttpResponseStatus.BAD_REQUEST.code()
             response.body == "[" +
-                    "{\"path\":\"name\",\"type\":\"minLength\",\"message\":\"please enter a name between 1 and 50 characters\"}," +
+                    "{\"path\":\"name\",\"type\":\"minLength\",\"message\":\"please enter a name more then 1 characters\"}," +
                     "{\"path\":\"stages\",\"type\":\"minItems\",\"message\":\"please enter at least one stage for the pipeline\"}" +
                     "]";
     }

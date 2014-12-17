@@ -121,7 +121,7 @@
             var controller = new ns.controllers.BuildEditController(scope, mockLocation, mockRouteParams, mockPipelineService, mockBuildService, mockFormValidationErrorHelper);
 
             // when
-            controller._update();
+            controller._update(scope.build);
 
             // then
             expect(mockBuildService.update).toHaveBeenCalledWith(scope.build);
@@ -190,7 +190,7 @@
             var controller = new ns.controllers.BuildEditController(scope, mockLocation, mockRouteParams, mockPipelineService, mockBuildService, mockFormValidationErrorHelper);
 
             // when
-            controller._update();
+            controller._update(scope.build);
 
             // then
             expect(mockBuildService.update).toHaveBeenCalledWith(scope.build);

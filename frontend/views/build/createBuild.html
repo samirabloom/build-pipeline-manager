@@ -2,25 +2,28 @@
 
     <h1 class="heading-page">Create Build</h1>
 
-    <form name="createBuild" method="post" data-ng-submit="create()" class="buildConfiguration pure-form pure-form-aligned">
+    <form name="createBuild" method="post" data-ng-submit="create(build)" class="buildConfiguration pure-form pure-form-aligned">
     	<input type="hidden" name="csrfToken" value="${csrfToken}">
         
         <div class="pure-control-group">
-            <form-error data-field-name="createBuildDTO"></form-error>
+            <form-error data-field-name="root"/>
         </div>
 
     	<div class="pure-control-group">
             <label for="number">Number</label>
-    		<input type="text" id="number" name="number" value="" class="createBuild__input createBuild__input--number" data-ng-model="build.number" >
+    		<input type="number" id="number" name="number" value="" class="createBuild__input createBuild__input--number"
+		           data-ng-required="true" data-ng-model="build.number">
             <form-error data-field-name="number"/>
         </div>
 
 	    <div class="pure-control-group">
 		    <label for="pipeline">Pipeline</label>
-		    <select id="pipeline" name="pipeline" class="createBuild__input createBuild__input--pipeline" data-ng-model="build.pipelineId">
+		    <select id="pipeline" name="pipeline" class="createBuild__input createBuild__input--pipeline"
+		            data-ng-required="true" data-ng-model="build.pipelineId">
 			    <option value="">-- Please select --</option>
 			    <option data-ng-repeat="pipeline in pipelines" value="{{pipeline.id}}">{{pipeline.name}}</option>
 		    </select>
+		    <form-error data-field-name="pipelineId"/>
 	    </div>
 
         <fieldset>

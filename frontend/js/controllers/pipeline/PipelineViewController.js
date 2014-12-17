@@ -13,7 +13,7 @@
         this._initialize();
     }
 
-    PipelineViewController['$inject'] = ['$scope', 'pipelineService', '$routeParams'];
+    PipelineViewController['$inject'] = ['$scope', '$routeParams', 'pipelineService'];
 
     PipelineViewController.prototype = {
 

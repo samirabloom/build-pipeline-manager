@@ -45,13 +45,13 @@ public class JsonValidator {
         return errorMessages;
     }
 
-    private final List<String> integerValidations = Arrays.asList("minItems", "maxItems", "minLength", "maxLength");
+    private final List<String> integerValidations = Arrays.asList("minItems", "maxItems", "minLength", "maxLength", "minimum", "exclusiveMinimum", "maximum", "exclusiveMaximum");
     private final List<String> listValidations = Arrays.asList("required", "additionalProperties", "enum");
 
     private BindingError getMessage(ProcessingMessage processingMessage) {
-        String path = processingMessage.asJson().get("instance").get("pointer").asText().replaceFirst("/", "").replaceAll("/", ".").replaceAll("\\d\\.", "");
+        String path = processingMessage.asJson().get("instance").get("pointer").asText().replaceFirst("/", "").replaceAll("/", ".");
         String type = processingMessage.asJson().get("keyword").asText();
-        String message = messageBundle.getMessage("err." + path + (Strings.isNullOrEmpty(path) ? "" : ".") + type);
+        String message = messageBundle.getMessage("err." + path.replaceAll("\\d\\.", "") + (Strings.isNullOrEmpty(path.replaceAll("\\d\\.", "")) ? "" : ".") + type);
         if (listValidations.contains(type)) {
             message = String.format(message, processingMessage.asJson().get(type.replaceAll("additionalProperties", "unwanted")));
         }

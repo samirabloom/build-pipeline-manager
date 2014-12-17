@@ -5,7 +5,6 @@ import com.buildmanager.api.build.RestClient
 import com.buildmanager.api.server.BuildManager
 import groovy.json.JsonSlurper
 import io.netty.handler.codec.http.HttpResponseStatus
-import org.joda.time.DateTime
 import spock.lang.Specification
 
 /**
@@ -87,7 +86,7 @@ class BuildRestAddAPIIntTest extends Specification {
         then:
             response.status == HttpResponseStatus.BAD_REQUEST.code()
             response.body == "[" +
-                    "{\"path\":\"status\",\"type\":\"enum\",\"message\":\"please enter a status from [\\\"IN_PROGRESS\\\" , \\\"PASSED\\\", \\\"FAILED\\\"]\"}" +
+                    "{\"path\":\"status\",\"type\":\"enum\",\"message\":\"please enter a status from [\\\"IN_PROGRESS\\\",\\\"PASSED\\\",\\\"FAILED\\\"]\"}" +
                     "]";
     }
 
@@ -106,25 +105,40 @@ class BuildRestAddAPIIntTest extends Specification {
         then:
             response.status == HttpResponseStatus.BAD_REQUEST.code()
             response.body == "[" +
-                    "{\"path\":\"message\",\"type\":\"maxLength\",\"message\":\"please enter a message between 1 and 50 characters\"}" +
+                    "{\"path\":\"message\",\"type\":\"maxLength\",\"message\":\"please enter a message less then 50 characters\"}" +
                     "]";
     }
 
     void 'should validate build stage'() {
         given:
-            String body = "{" +
-                    "pipelineId : \"3d922b33-e2d5-4ccb-ade4-26b94377e4dc\", " +
+            String pipelineBody = "{" +
+                    "name: \"build manager\", " +
+                    "stages: [" +
+                    "   {" +
+                    "      name: \"BUILD\"" +
+                    "   }," +
+                    "   {" +
+                    "      name: \"DEVELOPMENT\"" +
+                    "   }" +
+                    "]" +
+                    "}"
+            ClientResponse pipelineResponse = client.sendRequest("POST", "/api/pipeline", pipelineBody)
+            Map pipeline = new JsonSlurper().parseText(pipelineResponse.body) as Map
+
+        and:
+            String buildBody = "{" +
+                    "pipelineId : \"" + pipeline.id + "\", " +
                     "number: 1, " +
                     "status: \"IN_PROGRESS\", " +
                     "message: \"build in-progress\", " +
-                    "stage: \"IN VALID\"" +
+                    "stage: \"AUTO_QA\"" +
                     "}"
         when:
-            ClientResponse response = client.sendRequest("POST", "/api/build", body)
+            ClientResponse buildResponse = client.sendRequest("POST", "/api/build", buildBody)
         then:
-            response.status == HttpResponseStatus.BAD_REQUEST.code()
-            response.body == "[" +
-                    "{\"path\":\"stage\",\"type\":\"enum\",\"message\":\"please enter a stage from [\\\"BUILD\\\", \\\"DEVELOP\\\", \\\"AUTO_QA\\\", \\\"MANUAL_QA\\\", \\\"UAT\\\", \\\"PROD\\\"]\"}" +
+            buildResponse.status == HttpResponseStatus.BAD_REQUEST.code()
+            buildResponse.body == "[" +
+                    "{\"path\":\"stage\",\"type\":\"enum\",\"message\":\"please enter a stage from [BUILD, DEVELOPMENT]\"}" +
                     "]";
     }
 
@@ -159,8 +173,7 @@ class BuildRestAddAPIIntTest extends Specification {
             response.status == HttpResponseStatus.BAD_REQUEST.code()
             response.body == "[" +
                     "{\"path\":\"number\",\"type\":\"type\",\"message\":\"please enter a valid number\"}," +
-                    "{\"path\":\"stage\",\"type\":\"enum\",\"message\":\"please enter a stage from [\\\"BUILD\\\", \\\"DEVELOP\\\", \\\"AUTO_QA\\\", \\\"MANUAL_QA\\\", \\\"UAT\\\", \\\"PROD\\\"]\"}," +
-                    "{\"path\":\"status\",\"type\":\"enum\",\"message\":\"please enter a status from [\\\"IN_PROGRESS\\\" , \\\"PASSED\\\", \\\"FAILED\\\"]\"}" +
+                    "{\"path\":\"status\",\"type\":\"enum\",\"message\":\"please enter a status from [\\\"IN_PROGRESS\\\",\\\"PASSED\\\",\\\"FAILED\\\"]\"}" +
                     "]";
     }
 

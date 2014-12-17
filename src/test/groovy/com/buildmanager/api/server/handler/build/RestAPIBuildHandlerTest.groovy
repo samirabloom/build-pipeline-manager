@@ -1,10 +1,10 @@
 package com.buildmanager.api.server.handler.build
 
-import com.buildmanager.api.uuid.UUIDFactory
 import com.buildmanager.api.domain.Build
 import com.buildmanager.api.domain.BuildStatus
 import com.buildmanager.api.respository.BuildRepository
-import com.buildmanager.api.server.handler.build.RestAPIBuildHandler
+import com.buildmanager.api.respository.PipelineRepository
+import com.buildmanager.api.uuid.UUIDFactory
 import com.google.common.base.Charsets
 import io.netty.buffer.Unpooled
 import io.netty.channel.embedded.EmbeddedChannel
@@ -19,8 +19,12 @@ class RestAPIBuildHandlerTest extends Specification {
 
     void 'should return list of builds'() {
         given:
-            BuildRepository buildRepository = Mock(BuildRepository)
-            EmbeddedChannel embeddedChannel = new EmbeddedChannel(new RestAPIBuildHandler(buildRepository))
+            RestAPIBuildHandler buildHandler = new RestAPIBuildHandler()
+            buildHandler.buildRepository = Mock(BuildRepository)
+            buildHandler.pipelineRepository = Mock(PipelineRepository)
+
+        and:
+            EmbeddedChannel embeddedChannel = new EmbeddedChannel(buildHandler)
 
         and:
             List<Build> buildList = Arrays.asList(
@@ -67,7 +71,7 @@ class RestAPIBuildHandlerTest extends Specification {
             DefaultFullHttpResponse response = embeddedChannel.readOutbound() as DefaultFullHttpResponse
 
         then:
-            1 * buildRepository.loadAll() >> buildList
+            1 * buildHandler.buildRepository.loadAll() >> buildList
             0 * _
 
         and:
@@ -76,8 +80,12 @@ class RestAPIBuildHandlerTest extends Specification {
 
     void 'should return single build'() {
         given:
-            BuildRepository buildRepository = Mock(BuildRepository)
-            EmbeddedChannel embeddedChannel = new EmbeddedChannel(new RestAPIBuildHandler(buildRepository))
+            RestAPIBuildHandler buildHandler = new RestAPIBuildHandler()
+            buildHandler.buildRepository = Mock(BuildRepository)
+            buildHandler.pipelineRepository = Mock(PipelineRepository)
+
+        and:
+            EmbeddedChannel embeddedChannel = new EmbeddedChannel(buildHandler)
 
         and:
             Build build = new Build()
@@ -106,7 +114,7 @@ class RestAPIBuildHandlerTest extends Specification {
             DefaultFullHttpResponse response = embeddedChannel.readOutbound() as DefaultFullHttpResponse
 
         then:
-            1 * buildRepository.load(UUID.fromString("3d922b33-e2d5-4ccb-ade4-26b94377e4dc")) >> build
+            1 * buildHandler.buildRepository.load(UUID.fromString("3d922b33-e2d5-4ccb-ade4-26b94377e4dc")) >> build
             0 * _
 
         and:
@@ -115,10 +123,10 @@ class RestAPIBuildHandlerTest extends Specification {
 
     void 'should return save build'() {
         given:
-            BuildRepository buildRepository = Mock(BuildRepository)
-            RestAPIBuildHandler buildHandler = new RestAPIBuildHandler(buildRepository)
-            UUIDFactory uuidFactory = Mock(UUIDFactory)
-            buildHandler.uuidFactory = uuidFactory
+            RestAPIBuildHandler buildHandler = new RestAPIBuildHandler()
+            buildHandler.buildRepository = Mock(BuildRepository)
+            buildHandler.pipelineRepository = Mock(PipelineRepository)
+            buildHandler.uuidFactory = Mock(UUIDFactory)
 
         and:
             EmbeddedChannel embeddedChannel = new EmbeddedChannel(buildHandler)
@@ -133,7 +141,7 @@ class RestAPIBuildHandlerTest extends Specification {
                     .setCreatedDate(new DateTime("2014-12-14T18:52:02.043Z"))
                     .setUpdatedDate(new DateTime("2014-12-14T18:52:02.043Z"))
             String buildRequestBody = "{\n" +
-                    "  \"pipelineId\" : \"3d922b33-e2d5-4ccb-ade4-26b94377e4dc\",\n" +
+                    "  \"pipelineId\" : \"ffff2b33-e2d5-4ccb-ade4-26b94377e4dc\",\n" +
                     "  \"number\" : 1,\n" +
                     "  \"status\" : \"IN_PROGRESS\",\n" +
                     "  \"message\" : \"build in progress\",\n" +
@@ -143,7 +151,7 @@ class RestAPIBuildHandlerTest extends Specification {
                     "}"
             String buildResponseBody = "{\n" +
                     "  \"id\" : \"3d922b33-e2d5-4ccb-ade4-26b94377e4dc\",\n" +
-                    "  \"pipelineId\" : \"3d922b33-e2d5-4ccb-ade4-26b94377e4dc\",\n" +
+                    "  \"pipelineId\" : \"ffff2b33-e2d5-4ccb-ade4-26b94377e4dc\",\n" +
                     "  \"number\" : 1,\n" +
                     "  \"status\" : \"IN_PROGRESS\",\n" +
                     "  \"message\" : \"build in progress\",\n" +
@@ -160,8 +168,9 @@ class RestAPIBuildHandlerTest extends Specification {
             DefaultFullHttpResponse response = embeddedChannel.readOutbound() as DefaultFullHttpResponse
 
         then:
-            1 * uuidFactory.generateUUID() >> UUID.fromString("3d922b33-e2d5-4ccb-ade4-26b94377e4dc")
-            1 * buildRepository.save(build)
+            1 * buildHandler.pipelineRepository.load(UUID.fromString("ffff2b33-e2d5-4ccb-ade4-26b94377e4dc"))
+            1 * buildHandler.uuidFactory.generateUUID() >> UUID.fromString("3d922b33-e2d5-4ccb-ade4-26b94377e4dc")
+            1 * buildHandler.buildRepository.save(build)
             0 * _
 
         and:

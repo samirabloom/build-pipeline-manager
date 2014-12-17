@@ -8,7 +8,9 @@
             var scope = {};
 
             var pipelinesResponse = [
-                {}
+                {
+                    id: "269b29da-e4aa-4e33-a225-7b9a04a48f57"
+                }
             ];
 
             //and - mock $location
@@ -62,7 +64,9 @@
             mockPipelineService.loadAll.and.returnValue({
                 then: function (callback) {
                     return callback([
-                        {}
+                        {
+                            id: "269b29da-e4aa-4e33-a225-7b9a04a48f57"
+                        }
                     ]);
                 }
             });
@@ -89,7 +93,7 @@
             var controller = new ns.controllers.BuildCreateController(scope, mockLocation, mockPipelineService, mockBuildService, mockFormValidationErrorHelper);
 
             // when
-            controller._create();
+            controller._create(scope.build);
 
             // then
             expect(mockBuildService.save).toHaveBeenCalledWith(scope.build);
@@ -118,7 +122,9 @@
             mockPipelineService.loadAll.and.returnValue({
                 then: function (callback) {
                     return callback([
-                        {}
+                        {
+                            id: "269b29da-e4aa-4e33-a225-7b9a04a48f57"
+                        }
                     ]);
                 }
             });
@@ -146,7 +152,7 @@
             var controller = new ns.controllers.BuildCreateController(scope, mockLocation, mockPipelineService, mockBuildService, mockFormValidationErrorHelper);
 
             // when
-            controller._create();
+            controller._create(scope.build);
 
             // then
             expect(mockBuildService.save).toHaveBeenCalledWith(scope.build);

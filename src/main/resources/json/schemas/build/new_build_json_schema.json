@@ -8,8 +8,7 @@
             "type": "integer"
         },
         "stage": {
-            "type": "string",
-            "enum": [ "BUILD", "DEVELOP", "AUTO_QA", "MANUAL_QA", "UAT", "PROD" ]
+            "type": "string"
         },
         "status": {
             "type": "string",

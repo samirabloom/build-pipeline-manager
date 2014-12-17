@@ -57,4 +57,13 @@ public class Pipeline extends Entity<Pipeline> {
             return -1;
         }
     }
+
+    public boolean containsStage(String stageName) {
+        for (Stage stage : stages) {
+            if (stage.getName().equals(stageName)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

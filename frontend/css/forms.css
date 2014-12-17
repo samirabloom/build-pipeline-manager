@@ -13,12 +13,10 @@
 .pure-form input[type="tel"]:focus:read-only,
 .pure-form input[type="color"]:focus:read-only,
 .pure-form select:focus:read-only,
-.pure-form textarea:focus:read-only {
-    border-color: #ccc;
-}
-
+.pure-form textarea:focus:read-only,
 .pure-form .pure-control-group select {
-    font-size: 1em;
+    border-color: #ccc;
+    line-height: 2em;
 }
 
 .pure-form .pure-control-group select {

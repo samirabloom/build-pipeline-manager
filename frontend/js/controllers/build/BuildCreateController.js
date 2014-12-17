@@ -16,10 +16,10 @@
 
     BuildCreateController.prototype = {
 
-        _create: function () {
+        _create: function (build) {
             var self = this;
 
-            this.services.buildService.save(this.$scope.build)
+            this.services.buildService.save(build)
                 .then(function (result) {
                     self.$location.path('/build/list');
                 })

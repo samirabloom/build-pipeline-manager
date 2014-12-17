@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class PipelineRepository extends Repository<Pipeline> {
 
-    protected PipelineRepository() {
+    public PipelineRepository() {
         super(Pipeline.class);
     }
 }

@@ -18,10 +18,10 @@
 
     BuildEditController.prototype = {
 
-        _update: function () {
+        _update: function (build) {
             var self = this;
 
-            this.services.buildService.update(this.$scope.build)
+            this.services.buildService.update(build)
                 .then(function (result) {
                     self.$location.path('/build/list');
                 })

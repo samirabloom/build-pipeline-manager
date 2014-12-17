@@ -2,45 +2,6 @@
 {
     'use strict';
 
-    /*function HttpInterceptor($q)
-    {
-        this.$q = $q;
-    }
-
-    HttpInterceptor['$inject'] = ['$q'];
-
-    HttpInterceptor.prototype =
-    {
-        responseError : function (rejection)
-        {
-            // do something on error
-            switch (rejection.status)
-            {
-                case 0:
-                    console.error('Error 0: Ooops... something went wrong with our system');
-                    break;
-                case 400:
-                    //do something with rejection.data and the appropriate validationErrorHandler
-                    console.error('Error 400: validation error');
-                    break;
-                case 401:
-                    //redirect to the login page??
-                    console.error('Error 401: Unauthorized error');
-                    break;
-                case 500:
-                    //redirect to the login page??
-                    console.error('Error 500: Something went wrong');
-                    break;
-                default:
-                    console.error('Unknown error: Something went wrong');
-            }
-            return this.$q.reject(rejection);
-        }
-    };
-
-    ns.factories.HttpInterceptorFactory = function($q) {
-        return new HttpInterceptor($q);
-    };*/
     ns.factories.HttpInterceptorFactory = function ($q)
     {
         return {
@@ -50,22 +11,22 @@
                 switch (rejection.status)
                 {
                     case 0:
-                        console.error('Error 0: Ooops... something went wrong with our system');
+                        console.log('Error 0: Ooops... something went wrong with our system');
                         break;
                     case 400:
-                        //do something with rejection.data and the appropriate validationErrorHandler
-                        console.error('Error 400: validation error');
+                        // do something with rejection.data and the appropriate validationErrorHandler
+                        console.log('Error 400: validation error');
                         break;
                     case 401:
-                        //redirect to the login page??
-                        console.error('Error 401: Unauthorized error');
+                        // redirect to the login page??
+                        console.log('Error 401: Unauthorized error');
                         break;
                     case 500:
-                        //redirect to the login page??
-                        console.error('Error 500: Something went wrong');
+                        // redirect to the login page??
+                        console.log('Error 500: Something went wrong');
                         break;
                     default:
-                        console.error('Unknown error: Something went wrong');
+                        console.log('Unknown error: Something went wrong');
                 }
                 return $q.reject(rejection);
             }

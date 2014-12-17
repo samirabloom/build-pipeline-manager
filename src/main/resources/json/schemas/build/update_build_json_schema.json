@@ -1,18 +1,17 @@
 {
     "type": "object",
     "properties": {
-        "message": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 50
+        "stage": {
+            "type": "string"
         },
         "status": {
             "type": "string",
             "enum": [ "IN_PROGRESS" , "PASSED", "FAILED" ]
         },
-        "stage": {
+        "message": {
             "type": "string",
-            "enum": [ "BUILD", "DEVELOP", "AUTO_QA", "MANUAL_QA", "UAT", "PROD" ]
+            "minLength": 1,
+            "maxLength": 50
         },
         "updatedDate": {
             "type": "string",

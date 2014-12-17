@@ -1,0 +1,47 @@
+.pure-alert {
+    display: inline-block;
+    margin-left: 1em;
+    padding: 0.5em;
+    margin: 0.5em;
+    background: #ccc;
+    border-radius: 1px;
+    font-size: .9em;
+    white-space: nowrap;
+}
+
+.pure-alert.root {
+    margin-left: 11em;
+    margin-bottom: 1.5em;
+    margin-top: 0.75em;
+}
+
+.pure-alert {
+    background-color: rgb(209, 235, 238);
+    color: rgb(102, 131, 145);
+}
+
+.pure-alert-error {
+    background-color: #D13C38;
+    color: #fff;
+}
+
+.pure-skin-dark .pure-alert-error {
+    background-color: rgba(104, 3, 0, 1);
+    color: #E6E6E6;
+}
+
+.pure-alert-warning {
+    background-color: rgb(250, 191, 103);
+    color: rgb(151, 96, 13);
+}
+
+.pure-alert-success {
+    background-color: rgb(83, 180, 79);
+    color: #fff;
+}
+
+@media (max-width: 935px) {
+    .pure-alert.root {
+        margin-left: 1%;
+    }
+}

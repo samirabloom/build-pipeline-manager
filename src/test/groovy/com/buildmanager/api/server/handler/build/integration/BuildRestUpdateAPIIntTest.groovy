@@ -5,6 +5,7 @@ import com.buildmanager.api.build.RestClient
 import com.buildmanager.api.server.BuildManager
 import groovy.json.JsonSlurper
 import io.netty.handler.codec.http.HttpResponseStatus
+import spock.lang.Ignore
 import spock.lang.Specification
 
 /**
@@ -109,7 +110,7 @@ class BuildRestUpdateAPIIntTest extends Specification {
         then:
             response.status == HttpResponseStatus.BAD_REQUEST.code()
             response.body == "[" +
-                    "{\"path\":\"status\",\"type\":\"enum\",\"message\":\"please enter a status from [\\\"IN_PROGRESS\\\" , \\\"PASSED\\\", \\\"FAILED\\\"]\"}" +
+                    "{\"path\":\"status\",\"type\":\"enum\",\"message\":\"please enter a status from [\\\"IN_PROGRESS\\\",\\\"PASSED\\\",\\\"FAILED\\\"]\"}" +
                     "]";
     }
 
@@ -126,23 +127,52 @@ class BuildRestUpdateAPIIntTest extends Specification {
         then:
             response.status == HttpResponseStatus.BAD_REQUEST.code()
             response.body == "[" +
-                    "{\"path\":\"message\",\"type\":\"maxLength\",\"message\":\"please enter a message between 1 and 50 characters\"}" +
+                    "{\"path\":\"message\",\"type\":\"maxLength\",\"message\":\"please enter a message less then 50 characters\"}" +
                     "]";
     }
 
+    @Ignore
     void 'should validate build stage'() {
         given:
-            String body = "{" +
+            String pipelineBody = "{" +
+                    "name: \"build manager\", " +
+                    "stages: [" +
+                    "   {" +
+                    "      name: \"BUILD\"" +
+                    "   }," +
+                    "   {" +
+                    "      name: \"DEVELOPMENT\"" +
+                    "   }" +
+                    "]" +
+                    "}"
+            ClientResponse pipelineResponse = client.sendRequest("POST", "/api/pipeline", pipelineBody)
+            Map pipeline = new JsonSlurper().parseText(pipelineResponse.body) as Map
+
+        and:
+            String buildBody = "{" +
+                    "pipelineId : \"" + pipeline.id + "\", " +
+                    "number: 1, " +
                     "status: \"IN_PROGRESS\", " +
                     "message: \"build in-progress\", " +
-                    "stage: \"IN VALID\"" +
+                    "stage: \"BUILD\"" +
+                    "}"
+            ClientResponse saveResponse = client.sendRequest("POST", "/api/build", buildBody)
+            Map savedBuild = new JsonSlurper().parseText(saveResponse.body) as Map
+            UUID uuid = UUID.fromString(savedBuild.id)
+
+        and:
+            String buildUpdateBody = "{" +
+                    "status: \"IN_PROGRESS\", " +
+                    "message: \"build in-progress\", " +
+                    "stage: \"AUTO_QA\"" +
                     "}"
         when:
-            ClientResponse response = client.sendRequest("PUT", "/api/build", body)
+            ClientResponse buildResponse = client.sendRequest("PUT", "/api/build/" + uuid, buildUpdateBody)
+
         then:
-            response.status == HttpResponseStatus.BAD_REQUEST.code()
-            response.body == "[" +
-                    "{\"path\":\"stage\",\"type\":\"enum\",\"message\":\"please enter a stage from [\\\"BUILD\\\", \\\"DEVELOP\\\", \\\"AUTO_QA\\\", \\\"MANUAL_QA\\\", \\\"UAT\\\", \\\"PROD\\\"]\"}" +
+            buildResponse.status == HttpResponseStatus.BAD_REQUEST.code()
+            buildResponse.body == "[" +
+                    "{\"path\":\"stage\",\"type\":\"enum\",\"message\":\"please enter a stage from [BUILD, DEVELOPMENT]\"}" +
                     "]";
     }
 

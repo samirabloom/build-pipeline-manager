@@ -20,7 +20,7 @@
             spyOn(httpInterceptorSpy, 'responseError').and.callThrough();
 
             consoleSpy = console;
-            spyOn(consoleSpy, 'error');
+            spyOn(consoleSpy, 'log');
         });
 
         afterEach(function ()
@@ -40,7 +40,7 @@
 
             // then
             expect(httpInterceptorSpy.responseError).toHaveBeenCalled();
-            expect(consoleSpy.error).toHaveBeenCalledWith('Error 0: Ooops... something went wrong with our system');
+            expect(consoleSpy.log).toHaveBeenCalledWith('Error 0: Ooops... something went wrong with our system');
 
         });
 
@@ -55,7 +55,7 @@
 
             // then
             expect(httpInterceptorSpy.responseError).toHaveBeenCalled();
-            expect(consoleSpy.error).toHaveBeenCalledWith('Error 400: validation error');
+            expect(consoleSpy.log).toHaveBeenCalledWith('Error 400: validation error');
         });
 
         it('on request with 401 response code should get unauthorized error', function ()
@@ -69,7 +69,7 @@
 
             // then
             expect(httpInterceptorSpy.responseError).toHaveBeenCalled();
-            expect(consoleSpy.error).toHaveBeenCalledWith('Error 401: Unauthorized error');
+            expect(consoleSpy.log).toHaveBeenCalledWith('Error 401: Unauthorized error');
 
         });
 
@@ -84,7 +84,7 @@
 
             // then
             expect(httpInterceptorSpy.responseError).toHaveBeenCalled();
-            expect(consoleSpy.error).toHaveBeenCalledWith('Error 500: Something went wrong');
+            expect(consoleSpy.log).toHaveBeenCalledWith('Error 500: Something went wrong');
 
         });
 
@@ -99,7 +99,7 @@
 
             // then
             expect(httpInterceptorSpy.responseError).toHaveBeenCalled();
-            expect(consoleSpy.error).toHaveBeenCalledWith('Unknown error: Something went wrong');
+            expect(consoleSpy.log).toHaveBeenCalledWith('Unknown error: Something went wrong');
 
         });
 
