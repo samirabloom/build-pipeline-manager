@@ -60,3 +60,7 @@ temp
 .node-xmlhttprequest*
 test_out
 console/node_modules/
+
+# vagrant #
+###########
+.vagrant

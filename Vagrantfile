@@ -14,7 +14,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define "couchbase" do |couchbase|
     couchbase.vm.hostname = "gamecouch"
     couchbase.vm.network "private_network", ip: "192.168.50.70"
-    couchbase.vm.provision :shell, :path => "bootstrap_game_couch.sh"
+    couchbase.vm.provision :shell, :path => "bootstrap_couchbase.sh"
     couchbase.vm.provider :virtualbox do |vb|
       vb.memory = 2048
     end
